@@ -1,7 +1,17 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
-
 #include <SparkFun_LTE_Shield_Arduino_Library.h>
+
+HardwareSerial lteSerial(2);
+LTE_Shield lte;
+
+#define SerialMonitor Serial
+#define LTEShieldSerial lteSerial
+
+#include "AT_commands.h"
+#include "mqtt.h"
+
+
 
 struct connection_info_t
 {
@@ -11,24 +21,23 @@ struct connection_info_t
   const int Port = 1883;
 } connection_info;
 
-const char AT[] = "AT";
+
 
 // We need to pass a Serial or SoftwareSerial object to the LTE Shield
 // library. Below creates a SoftwareSerial object on the standard LTE
 // Shield RX/TX pins:
 // Note: if you're using an Arduino board with a dedicated hardware
 // serial port, comment out the line below. (Also see note in setup)
-HardwareSerial lteSerial(2);
+
 
 // Create a LTE_Shield object to be used throughout the sketch:
-LTE_Shield lte;
+
 
 // To support multiple architectures, serial ports are abstracted here.
 // By default, they'll support AVR's like the Arduino Uno and Redboard
 // For example, on a SAMD21 board SerialMonitor can be changed to SerialUSB
 // and LTEShieldSerial can be set to Serial1 (hardware serial port on 0/1)
-#define SerialMonitor Serial
-#define LTEShieldSerial lteSerial
+
 #define POWERPIN 33
 
 // Network operator can be set to either:
@@ -60,11 +69,9 @@ void printInfo(void);
 void printOperators(struct operator_stats *ops, int operatorsAvailable);
 void serialWait();
 void sendHologramMessage(String message);
-void setMQTT();
-int publishMessage(const char * topic, const char * message, int QoS, int retain);
-void loginMQTT();
-void willconfigMQTT();
-void willmsgMQTT();
+/*
+
+*/
 
 void setup()
 {
@@ -209,10 +216,19 @@ void setup()
   char topic[] = "test/";
   char msg[] = "NB-IoT_checkin";
   printInfo();
-  setMQTT();
+
+  // Set broker hostname and port
+  setMQTT(connection_info.HostName, connection_info.Port);
+  // Set Last Will topic
   willconfigMQTT();
+  // Set Last Will message
   willmsgMQTT();
+  // Enable MQTT keepalive
+  setMQTTping(600);
+  enableMQTTkeepalive();
+  // Login to MQTT broker
   loginMQTT();
+  // Publish message to MQTT broker
   publishMessage(topic, msg, (int)0, (int)0);
   
   
@@ -238,295 +254,7 @@ void loop()
   }
 #endif
 }
-int publishMessage(const char * topic, const char * message, int QoS, int retain)
-{
-  char * command = NULL;
-  const char AT[] = "AT";
-  const char LTE_SHIELD_SEND_MQTT[] = "+UMQTTC=2";
-  const char LTE_SHIELD_SEND_OK[] = "+UMQTTC:2,1\nOK";
-  unsigned long LTE_SHIELD_SEND_TIMEOUT = 60000;
-  char c;
-  char ret[128];
-  int destIndex = 0;
-  int index = 0;
 
-
-  SerialMonitor.printf("Allocating memory for command\n");
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SEND_MQTT) + strlen(message) + strlen(topic) + 8);
-  if (command != NULL)
-  {
-    SerialMonitor.printf("Memory allocated\n");
-  }
-  else
-  {
-    SerialMonitor.printf("Memory allocation failed\n");
-    return -1;
-  }
-  SerialMonitor.printf("Building command\n");
-  sprintf(command, "%s%s,%d,%d,%s,%s", AT, LTE_SHIELD_SEND_MQTT, QoS, retain, topic, message);
-  
-  SerialMonitor.printf("Command built....Sending\n");
-  // Empty the serial buffer
-  while (LTEShieldSerial.available())
-  {
-    LTEShieldSerial.read();
-  } 
-  LTEShieldSerial.print(command);
-  LTEShieldSerial.print("\r");
-
-  SerialMonitor.printf("Command sent....Waiting for response\n");
-  unsigned long timeIn = millis();
-  while (millis() - timeIn < LTE_SHIELD_SEND_TIMEOUT)
-  {
-    if (LTEShieldSerial.available())
-    {
-      c = (char)LTEShieldSerial.read();
-      Serial.print(c);
-      ret[destIndex++] = c;
-      
-      if (c == LTE_SHIELD_SEND_OK[index])
-      {
-        index++;
-        if (index == strlen(LTE_SHIELD_SEND_OK))
-        {
-          SerialMonitor.println("Message sent");
-          break;
-        }
-      }
-      else
-      {
-        index = 0;
-      }
-      
-    }
-  }
-  ret[destIndex] = '\0';
-  Serial.println(ret);
-  free(command);
-  return 0;
-}
-void loginMQTT()
-{
-  const char LTE_SHIELD_LOGIN[] = "AT+UMQTTC=1";
-  const char LTE_SHIELD_LOGIN_OK[] = "+UUMQTTC: 1,0";
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 60000;
-  char c;
-  char ret[128];
-  int destIndex = 0;
-  int index = 0;
-
-  // Empty the serial buffer
-  while (LTEShieldSerial.available())
-  {
-    char c = LTEShieldSerial.read();
-    SerialMonitor.print(c);
-  }
-  SerialMonitor.printf("Sending login command: %s\n", LTE_SHIELD_LOGIN);
-  // Send login command
-  LTEShieldSerial.print(LTE_SHIELD_LOGIN);
-  LTEShieldSerial.print("\r");
-
-  Serial.println("Reading response");
-  unsigned long timeIn = millis();
-  while (millis() - timeIn < LTE_SHIELD_IP_CONNECT_TIMEOUT)
-  {
-    if (LTEShieldSerial.available())
-    {
-      c = (char)LTEShieldSerial.read();
-      //Serial.print(c);
-      ret[destIndex++] = c;
-      
-      if (c == LTE_SHIELD_LOGIN_OK[index])
-      {
-        index++;
-        if (index == strlen(LTE_SHIELD_LOGIN_OK))
-        {
-          Serial.println("MQTT login successful");
-          break;
-        }
-      }
-      else
-      {
-        index = 0;
-      }
-      
-    }
-  }
-  ret[destIndex] = '\0';
-  Serial.println(ret);
-}
-void willconfigMQTT()
-{
-  char *command;
-  const char *LTE_SHIELD_WILL_TOPIC_MQTT = "AT+UMQTTWTOPIC=0,0,\"test/will\"";
-  const char * LTE_SHIELD_TOPIC_OK = "+UMQTTWTOPIC: 1";
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
-  char c;
-  char ret[128];
-  int destIndex = 0;
-  int index = 0;
-  char willtopic[] = "test/will";
-
-  //command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_TOPIC_MQTT) + strlen(willtopic) +5);
-  //sprintf(command, "%s%s%d,%d,\"%s\"", AT, LTE_SHIELD_WILL_TOPIC_MQTT, 0, 0, willtopic);
-
-  // Empty the serial buffer
-  while (LTEShieldSerial.available())
-  {
-    char c = LTEShieldSerial.read();
-    //SerialMonitor.print(c);
-  }
-  SerialMonitor.printf("Sending will topic command: %s\n", LTE_SHIELD_WILL_TOPIC_MQTT);
-  LTEShieldSerial.print(LTE_SHIELD_WILL_TOPIC_MQTT);
-  LTEShieldSerial.print("\r");
-
-  Serial.println("Reading response");
-  unsigned long timeIn = millis();
-  while (millis() - timeIn < LTE_SHIELD_IP_CONNECT_TIMEOUT)
-  {
-    if (LTEShieldSerial.available())
-    {
-      c = (char)LTEShieldSerial.read();
-      //Serial.print(c);
-      ret[destIndex++] = c;
-      
-      if (c == LTE_SHIELD_TOPIC_OK[index])
-      {
-        index++;
-        if (index == strlen(LTE_SHIELD_TOPIC_OK))
-        {
-          Serial.println("MQTT will topic successful");
-          break;
-        }
-      }
-      else
-      {
-        index = 0;
-      }
-      
-    }
-  }
-  ret[destIndex] = '\0';
-  Serial.println(ret);
-  
-  delay(1000);
-  //free(command);
-  
-  return;
-}
-void willmsgMQTT()
-{
-  char* command1;
-  const char *LTE_SHIELD_WILL_MESSAGE_MQTT = "AT+UMQTTWMSG=\"NB_disconnected\"";
-  const char * LTE_SHIELD_MESSAGE_OK = "+UMQTTWMSG: 1";
-  char ret[128];
-  char c;
-  int destIndex = 0;
-  int index = 0;
-  char willmessage[] = "NB_disconnected";
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
-
-  //command1 = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_MESSAGE_MQTT) + strlen(willmessage) +5);
-  //sprintf(command1, "%s%s\"%s\"", AT, LTE_SHIELD_WILL_MESSAGE_MQTT, willmessage);
-
-  // Empty the serial buffer
-  while (LTEShieldSerial.available())
-  {
-    char c = LTEShieldSerial.read();
-    //SerialMonitor.print(c);
-  }
-  SerialMonitor.printf("Sending will message command: %s\n", LTE_SHIELD_WILL_MESSAGE_MQTT);
-  LTEShieldSerial.print(LTE_SHIELD_WILL_MESSAGE_MQTT);
-  LTEShieldSerial.print("\r");
-
-  Serial.println("Reading response");
-  unsigned long timeIn = millis();
-  while (millis() - timeIn < LTE_SHIELD_IP_CONNECT_TIMEOUT)
-  {
-    if (LTEShieldSerial.available())
-    {
-      c = (char)LTEShieldSerial.read();
-      //Serial.print(c);
-      ret[destIndex++] = c;
-      
-      if (c == LTE_SHIELD_MESSAGE_OK[index])
-      {
-        index++;
-        if (index == strlen(LTE_SHIELD_MESSAGE_OK))
-        {
-          Serial.println("MQTT will message successful");
-          break;
-        }
-      }
-      else
-      {
-        index = 0;
-      }
-      
-    }
-  }
-  ret[destIndex] = '\0';
-  Serial.println(ret);
-  delay(1000);
-  
-  //SerialMonitor.printf("Freeing command\n");
-  //free(command1);
-  //SerialMonitor.printf("Command freed\n");
-}
-void setMQTT()
-{
-  char *command;
-  const char *LTE_SHIELD_CONNECT_MQTT = "+UMQTT";
-  const char LTE_SHIELD_RESPONSE_OK[] = "+UMQTT: 2,1";
-  const char LTE_SHIELD_LOGIN_OK[] = "+UMQTTC: 1,1";
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
-  char c;
-  char ret[128];
-  int destIndex = 0;
-  int index = 0;
-
-  command = (char *)malloc(sizeof(char) * (strlen(LTE_SHIELD_CONNECT_MQTT) + strlen(connection_info.HostName) + 15));
-  size_t err;
-
-  // Emtpy the buffer before sending the command
-  while (LTEShieldSerial.available())
-  {
-    LTEShieldSerial.read();
-  }
-  // Create the command
-  sprintf(command, "AT%s=%d,\"%s\",%d", LTE_SHIELD_CONNECT_MQTT, 2, connection_info.HostName, connection_info.Port);
-  // Send the command
-  SerialMonitor.println("Setting MQTT hostname & port");
-  LTEShieldSerial.print(command);
-  LTEShieldSerial.print("\r");
-  unsigned long timeIn = millis();
-  Serial.println("Reading response");
-  while (millis() - timeIn < LTE_SHIELD_IP_CONNECT_TIMEOUT)
-  {
-    if (LTEShieldSerial.available())
-    {
-      c = (char)LTEShieldSerial.read();
-      //Serial.print(c);
-      ret[destIndex++] = c;
-      if (c == LTE_SHIELD_RESPONSE_OK[index])
-      {
-        index++;
-        if (index == strlen(LTE_SHIELD_RESPONSE_OK))
-        {
-          Serial.println("MQTT hostname set");
-          break;
-        }
-      }
-      else
-      {
-        index = 0;
-      }
-    }
-  }
-  ret[destIndex] = '\0';
-  Serial.println(ret);
-  free(command);
-}
 void sendHologramMessage(String message)
 {
   int socket = -1;
