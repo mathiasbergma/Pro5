@@ -224,7 +224,7 @@ void setup()
   // Set Last Will message
   willmsgMQTT();
   // Enable MQTT keepalive
-  setMQTTping(600);
+  setMQTTping(360);
   enableMQTTkeepalive();
   // Login to MQTT broker
   loginMQTT();

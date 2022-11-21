@@ -222,8 +222,8 @@ void willmsgMQTT()
     char c = LTEShieldSerial.read();
     //SerialMonitor.print(c);
   }
-  SerialMonitor.printf("Sending will message command: %s\n", LTE_SHIELD_WILL_MESSAGE_MQTT);
-  LTEShieldSerial.print(LTE_SHIELD_WILL_MESSAGE_MQTT);
+  SerialMonitor.printf("Sending will message command: %s\n", command);
+  LTEShieldSerial.print(command);
   LTEShieldSerial.print("\r");
 
   if (getResponse(LTE_SHIELD_MESSAGE_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
