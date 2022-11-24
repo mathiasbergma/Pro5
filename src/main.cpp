@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <SparkFun_LTE_Shield_Arduino_Library.h>
+#include "certs.h"
 
 HardwareSerial lteSerial(2);
 LTE_Shield lte;
@@ -9,13 +10,16 @@ LTE_Shield lte;
 #define LTEShieldSerial lteSerial
 
 #include "AT_commands.h"
-#include "mqtt.h"
+#include "NB_R410M.h"
 
 
 
 struct connection_info_t
 {
   const char *HostName = "bergma.westeurope.cloudapp.azure.com";
+  const char *identity = "subscriber";
+  const char *username = "NBIoTLS.azure-devices.net/subscriber/?api-version=2021-04-12";
+  const char *topic = "devices/subscriber/messages/events/";
   const char *SharedAccessKeyName = "iothubowner";
   const char *SharedAccessKey = "iQJQVxmSHgOYmmq1lSHP9Uwpj0Hh+JHJcl0IpllDQLw=";
   const int Port = 1883;
@@ -52,7 +56,7 @@ const String MOBILE_NETWORK_STRINGS[] = {"Default", "SIM_ICCD", "AT&T", "VERIZON
 
 // APN -- Access Point Name. Gateway between GPRS MNO
 // and another computer network. E.g. "hologram
-const String APN = "lpwa.telia.iot";
+const char APN[] = "lpwa.telia.iot";
 
 const char HOLOGRAM_URL[] = "cloudsocket.hologram.io";
 const unsigned int HOLOGRAM_PORT = 9999;
@@ -94,11 +98,50 @@ void setup()
   digitalWrite(POWERPIN, LOW);
   delay(100);
   pinMode(POWERPIN, INPUT); // Return to high-impedance, rely on SARA module internal pull-up
+
+  LTEShieldSerial.begin(9600);
+/*
+  while (1)
+  {
+    if (LTEShieldSerial.available())
+    {
+      SerialMonitor.write((char)LTEShieldSerial.read());
+    }
+    if (SerialMonitor.available())
+    {
+      LTEShieldSerial.write((char)SerialMonitor.read());
+    }
+  }
+  */
+  // Initialize the LTE Shield and enable AT interface and Timezone update
+  initModule();
+
+  // Set the operator APN
+  setAPN(APN);
+
+  // Get status of network aquisition
+  getNetwork();
+
+  
+
+
+  
+  /*
+  transmitCommand("AT+CGATT?");
+  if (getResponse("+CGATT: 1", 5000))
+  {
+    SerialMonitor.printf("Module is attached to network\n");
+  }
+  */
+  //delay(2000);
+  
+  
   
   // Call lte.begin and pass it your Serial/SoftwareSerial object to
   // communicate with the LTE Shield.
   // Note: If you're using an Arduino with a dedicated hardware serial
   // port, you may instead slide "Serial" into this begin call.
+  /*
   if (lte.begin(LTEShieldSerial, 9600))
   {
     SerialMonitor.println(F("LTE Shield connected!\r\n"));
@@ -109,6 +152,7 @@ void setup()
     while (1)
       ;
   }
+  
   //LTEShieldSerial.print("AT+COPS=0,0");
   //LTEShieldSerial.print("\r");
   if (lte.getOperator(&currentOperator) != LTE_SHIELD_SUCCESS)
@@ -120,6 +164,12 @@ void setup()
   // First check to see if we're already connected to an operator:
   if (lte.getOperator(&currentOperator) == LTE_SHIELD_SUCCESS)
   {
+    transmitCommand("AT+CGATT?");
+    if (getResponse("+CGATT: 1", 5000))
+    {
+      SerialMonitor.printf("Module is attached to network\n");
+    }
+
     SerialMonitor.print(F("Already connected to: "));
     SerialMonitor.println(currentOperator);
     // If already connected provide the option to type y to connect to new operator
@@ -211,12 +261,18 @@ void setup()
         ;
     }
   }
-
+*/
   // At the very end print connection information
   char topic[] = "test/";
   char msg[] = "NB-IoT_checkin";
-  printInfo();
+  //printInfo();
 
+  // Import CA certificate
+  setCertMQTT(CA, 0, "CA");
+  // Import client certificate
+  setCertMQTT(CERT, 1, "CERT");
+  // import client private key
+  setCertMQTT(KEY, 2, "KEY");
   // Set broker hostname and port
   setMQTT(connection_info.HostName, connection_info.Port);
   // Set Last Will topic
@@ -224,7 +280,7 @@ void setup()
   // Set Last Will message
   willmsgMQTT();
   // Enable MQTT keepalive
-  setMQTTping(360);
+  setMQTTping(60);
   enableMQTTkeepalive();
   // Login to MQTT broker
   loginMQTT();
