@@ -23,11 +23,14 @@ const char * LTE_SHIELD_MESSAGE_OK = "+UMQTTWMSG: 1";
 const char *LTE_SHIELD_CONNECT_MQTT = "+UMQTT";
 const char LTE_SHIELD_RESPONSE_OK[] = "+UMQTT: 2,1";
 
-const char LTE_SHIELD_IMPORT_CERT[] = "+USECMNG=0,";
+const char LTE_SHIELD_IMPORT_CERT[] = "+USECMNG=0,"; // 0 is the import command
 const char LTE_SHIELD_IMPORT_CERT_READY[] = ">";
 const char LTE_SHIELD_IMPORT_CERT_OK[] = "+USECMNG: 0,";
 
 const char LTE_SHIELD_SET_APN[] = "+CGDCONT=1,\"IP\",";
+
+const char SARA_MQTT_SECURE[] = "+UMQTT=11,1,"; // 11 is the secure command
+const char SARA_MQTT_SECURE_SET_RESPONSE[] = "+UMQTT: 11,1";
 
 
 

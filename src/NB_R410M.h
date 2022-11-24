@@ -1,23 +1,56 @@
+/*
+Library for uBlox SARA R410M LTE Cat M1/NB1 module
+Created by:  Bergma (Made 2022/11 )
+Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.
+
+Steps to use this library:
+1. Call initModule() to initialize the module and enable AT interface and Timezone update
+2. Call setAPN() to set the operator APN
+3. Call getNetwork() to get status of network aquisition
+4. Call printInfo() to print connection information (TODO)
+5. Call setCertMQTT() to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+6. Call setSSL() to enable SSL/TLS
+7. Call setMQTT() to set broker hostname and port
+8. Call willconfigMQTT() to set Last Will topic
+9. Call willmsgMQTT() to set Last Will message
+10. Call setMQTTtimeout() to set MQTT timeout
+11. Call setMQTTping() to set MQTT keepalive interval
+12. Call enableMQTTkeepalive() to enable MQTT keepalive
+13. Call loginMQTT() to login to MQTT broker
+14. Call publishMessage() to publish message to MQTT broker
+
+*/
+
+*/
+
+
+*/
+
+
+
 #include <Arduino.h>
 #include "AT_commands.h"
 #include <HardwareSerial.h>
 
-extern HardwareSerial lteSerial;
+HardwareSerial lteSerial(2);
 
 #define SerialMonitor Serial
 #define LTEShieldSerial lteSerial
-
-void setMQTT(const char *host, int port);
+/*
+int setMQTT(const char *host, int port);
 int publishMessage(const char *topic, const char *message, int QoS, int retain);
-void loginMQTT();
-void willconfigMQTT();
-void willmsgMQTT();
+int loginMQTT();
+int willconfigMQTT(const char * topic);
+int willmsgMQTT(const char * message);
 int getResponse(const char *response, int timeout);
-void enableMQTTkeepalive();
-void setMQTTping(int timeout);
-void setCertMQTT(const char *cert, int type, const char *name);
+int enableMQTTkeepalive();
+int setMQTTping(int timeout);
+int setCertMQTT(const char *cert, int type, const char *name);
 void transmitCommand(const char *command);
-
+void initModule();
+void getNetwork();
+int setAPN(const char *apn);
+*/
 /**
  * @brief Empties the serial buffer and transmits the command
  * @param command The string command to be transmitted
@@ -78,6 +111,8 @@ int getResponse(const char *response, int timeout)
 
 void initModule()
 {
+  LTEShieldSerial.begin(9600);
+
   SerialMonitor.printf("Transmitting AT\n");
   while (!getResponse("OK", 500))
   {
@@ -105,6 +140,34 @@ void initModule()
   else
   {
     SerialMonitor.println("Automatic time zone update not enabled");
+  }
+}
+/**
+ * @brief Enables SSL/TLS for mqtt connection
+ * @param profile SSL profile number
+ * @return 1 if successful, 0 if not
+ */
+int enableSSL(int profile)
+{
+  char *command = NULL;
+  command = (char *)malloc(strlen(AT) + strlen(SARA_MQTT_SECURE) + 5);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
+
+  sprintf(command, "%s%s%d", AT, SARA_MQTT_SECURE, profile);
+  transmitCommand(command);
+  if (getResponse(SARA_MQTT_SECURE_SET_RESPONSE, 5000))
+  {
+    SerialMonitor.println("SSL enabled");
+    return 1;
+  }
+  else
+  {
+    SerialMonitor.println("SSL not enabled");
+    return 0;
   }
 }
 
@@ -235,9 +298,11 @@ void getNetwork()
 /**
  * @brief Sets APN on LTE module
  * @param apn The APN to be set
+ * @return 1 if successful, 0 if not
  */
-void setAPN(const char *apn)
+int setAPN(const char *apn)
 {
+  int result = 0;
   char *command;
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SET_APN) + strlen(apn) + 5);
   sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_SET_APN, apn);
@@ -245,12 +310,14 @@ void setAPN(const char *apn)
   if (getResponse("OK", 1000))
   {
     Serial.println("APN set");
+    result = 1;
   }
   else
   {
     Serial.println("APN not set");
   }
   free(command);
+  return result;
 }
 
 /**
@@ -258,9 +325,11 @@ void setAPN(const char *apn)
  * @param cert Certificate data. Can be CA, client certificate or client key
  * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
  * @param name Certificate name. Can be any name, but must be unique
+ * @return 1 if successful, 0 if not
  */
-void setCertMQTT(const char *cert, int type, const char *name)
+int setCertMQTT(const char *cert, int type, const char *name)
 {
+  int result = 0;
   char *command;
   char *response;
   response = (char *)malloc(strlen(LTE_SHIELD_IMPORT_CERT_OK) + 5);
@@ -284,27 +353,30 @@ void setCertMQTT(const char *cert, int type, const char *name)
     if (getResponse(response, 10000))
     {
       SerialMonitor.println("Certificate imported");
+      result = 1;
     }
     else
     {
       SerialMonitor.println("Certificate import failed");
     }
-
-    free(response);
   }
   else
   {
-    SerialMonitor.println("Failed to import certificate");
+    SerialMonitor.println("Failed to import certificate - not ready");
   }
   free(command);
+  free(response);
+  return result;
 }
 
 /**
  * @brief Sets the MQTT ping interval
  * @param timeout Timeout in seconds
+ * @return 1 if successful, 0 if not
  */
-void setMQTTping(int timeout)
+int setMQTTping(int timeout)
 {
+  int result = 0;
   char *command;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_TIMEOUT) + 5);
@@ -317,19 +389,23 @@ void setMQTTping(int timeout)
   if (getResponse(LTE_SHIELD_TIMEOUT_SET_RESPONSE, 10000))
   {
     SerialMonitor.println("MQTT ping timeout set to " + String(timeout));
+    result = 1;
   }
   else
   {
     SerialMonitor.println("Error setting MQTT ping timeout");
   }
   free(command);
+  return result;
 }
 
 /**
  * @brief Enables MQTT keepalive
+ * @return 1 if successful, 0 if not
  */
-void enableMQTTkeepalive()
+int enableMQTTkeepalive()
 {
+  int result = 0;
   char *command;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_PING) + 5);
@@ -342,11 +418,14 @@ void enableMQTTkeepalive()
   if (getResponse(LTE_SHIELD_PING_OK, 10000))
   {
     SerialMonitor.println("MQTT keepalive enabled");
+    result = 1;
   }
   else
   {
     SerialMonitor.println("Error enabling MQTT keepalive");
   }
+  free(command);
+  return result;
 }
 
 /**
@@ -355,20 +434,18 @@ void enableMQTTkeepalive()
  * @param message The message to publish
  * @param qos The QoS level to publish at
  * @param retain Whether to retain the message
+ * @return 1 if successful, 0 if not, -1 if memory allocation failed
  */
 int publishMessage(const char *topic, const char *message, int QoS, int retain)
 {
+  int result = 0;
   char *command = NULL;
 
   unsigned long LTE_SHIELD_SEND_TIMEOUT = 60000;
 
   // SerialMonitor.printf("Allocating memory for command\n");
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SEND_MQTT) + strlen(message) + strlen(topic) + 8);
-  if (command != NULL)
-  {
-    // SerialMonitor.printf("Memory allocated\n");
-  }
-  else
+  if (command == NULL)
   {
     SerialMonitor.printf("Memory allocation failed\n");
     return -1;
@@ -385,6 +462,7 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
   if (getResponse(LTE_SHIELD_SEND_OK, LTE_SHIELD_SEND_TIMEOUT))
   {
     SerialMonitor.println("Message sent");
+    result = 1;
   }
   else
   {
@@ -392,14 +470,16 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
   }
 
   free(command);
-  return 0;
+  return result;
 }
 
 /**
  * @brief Login to the MQTT broker
+ * @return 1 if successful, 0 if not
  */
-void loginMQTT()
+int loginMQTT()
 {
+  int result = 0;
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 60000;
 
   SerialMonitor.printf("Sending login command: %s\n", LTE_SHIELD_LOGIN);
@@ -409,24 +489,28 @@ void loginMQTT()
   if (getResponse(LTE_SHIELD_LOGIN_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
   {
     SerialMonitor.println("MQTT login successful");
+    result = 1;
   }
   else
   {
     SerialMonitor.println("Error logging in to MQTT");
   }
+  return result;
 }
 
 /**
  * @brief Configures MQTT Will topic
+ * @param topic The topic to publish to
+ * @return 1 if successful, 0 if not
  */
-void willconfigMQTT()
+int willconfigMQTT(const char * topic)
 {
+  int result = 0;
   char *command;
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
-  char willtopic[] = "test/will";
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_TOPIC_MQTT) + strlen(willtopic) + 10);
-  sprintf(command, "%s%s%d,%d,\"%s\"", AT, LTE_SHIELD_WILL_TOPIC_MQTT, 0, 0, willtopic);
+  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_TOPIC_MQTT) + strlen(topic) + 10);
+  sprintf(command, "%s%s%d,%d,\"%s\"", AT, LTE_SHIELD_WILL_TOPIC_MQTT, 0, 0, topic);
 
   SerialMonitor.printf("Sending will topic command: %s\n", command);
   // Empties buffer and transmits the command
@@ -435,30 +519,32 @@ void willconfigMQTT()
   if (getResponse(LTE_SHIELD_TOPIC_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
   {
     Serial.println("Will topic set");
+    result = 1;
   }
   else
   {
     Serial.println("Will topic not set");
   }
 
-  delay(1000);
   free(command);
 
-  return;
+  return result;
 }
 
 /**
  * @brief Configures MQTT Will message
+ * @param message The message to publish
+ * @return 1 if successful, 0 if not
  */
-void willmsgMQTT()
+int willmsgMQTT(const char *message)
 {
+  int result = 0;
   char *command;
 
-  char willmessage[] = "NB_disconnected";
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_MESSAGE_MQTT) + strlen(willmessage) + 10);
-  sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_WILL_MESSAGE_MQTT, willmessage);
+  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_MESSAGE_MQTT) + strlen(message) + 10);
+  sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_WILL_MESSAGE_MQTT, message);
 
   SerialMonitor.printf("Sending will message command: %s\n", command);
   // Empties buffer and transmits the command
@@ -467,21 +553,25 @@ void willmsgMQTT()
   if (getResponse(LTE_SHIELD_MESSAGE_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
   {
     Serial.println("Will message set");
+    result = 1;
   }
   else
   {
     Serial.println("Will message not set");
   }
   free(command);
+  return result;
 }
 
 /**
  * @brief Configures MQTT broker hostname and port
  * @param hostname The hostname of the MQTT broker
  * @param port The port of the MQTT broker
+ * @return 1 if successful, 0 if not
  */
-void setMQTT(const char *host, int port)
+int setMQTT(const char *host, int port)
 {
+  int result = 0;
   char *command;
 
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
@@ -501,6 +591,7 @@ void setMQTT(const char *host, int port)
   if (getResponse(LTE_SHIELD_RESPONSE_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
   {
     Serial.println("MQTT hostname & port set");
+    result = 1;
   }
   else
   {
@@ -508,4 +599,5 @@ void setMQTT(const char *host, int port)
   }
 
   free(command);
+  return result;
 }
