@@ -1,3 +1,7 @@
+/**
+ * @file NB_R410M.h
+ * 
+ */
 /*
 Library for uBlox SARA R410M LTE Cat M1/NB1 module
 Created by:  Bergma (Made 2022/11 )
@@ -20,12 +24,6 @@ Steps to use this library:
 14. Call publishMessage() to publish message to MQTT broker
 
 */
-
-*/
-
-
-*/
-
 
 
 #include <Arduino.h>
@@ -51,6 +49,7 @@ void initModule();
 void getNetwork();
 int setAPN(const char *apn);
 */
+
 /**
  * @brief Empties the serial buffer and transmits the command
  * @param command The string command to be transmitted

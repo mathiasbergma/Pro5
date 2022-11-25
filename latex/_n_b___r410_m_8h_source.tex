@@ -1,0 +1,539 @@
+\hypertarget{_n_b___r410_m_8h_source}{}\doxysection{NB\+\_\+\+R410\+M.\+h}
+\label{_n_b___r410_m_8h_source}\index{src/NB\_R410M.h@{src/NB\_R410M.h}}
+\mbox{\hyperlink{_n_b___r410_m_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{5 \textcolor{comment}{/*}}
+\DoxyCodeLine{6 \textcolor{comment}{Library for uBlox SARA R410M LTE Cat M1/NB1 module}}
+\DoxyCodeLine{7 \textcolor{comment}{Created by:  Bergma (Made 2022/11 )}}
+\DoxyCodeLine{8 \textcolor{comment}{Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{comment}{Steps to use this library:}}
+\DoxyCodeLine{11 \textcolor{comment}{1. Call initModule() to initialize the module and enable AT interface and Timezone update}}
+\DoxyCodeLine{12 \textcolor{comment}{2. Call setAPN() to set the operator APN}}
+\DoxyCodeLine{13 \textcolor{comment}{3. Call getNetwork() to get status of network aquisition}}
+\DoxyCodeLine{14 \textcolor{comment}{4. Call printInfo() to print connection information (TODO)}}
+\DoxyCodeLine{15 \textcolor{comment}{5. Call setCertMQTT() to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)}}
+\DoxyCodeLine{16 \textcolor{comment}{6. Call setSSL() to enable SSL/TLS}}
+\DoxyCodeLine{17 \textcolor{comment}{7. Call setMQTT() to set broker hostname and port}}
+\DoxyCodeLine{18 \textcolor{comment}{8. Call willconfigMQTT() to set Last Will topic}}
+\DoxyCodeLine{19 \textcolor{comment}{9. Call willmsgMQTT() to set Last Will message}}
+\DoxyCodeLine{20 \textcolor{comment}{10. Call setMQTTtimeout() to set MQTT timeout}}
+\DoxyCodeLine{21 \textcolor{comment}{11. Call setMQTTping() to set MQTT keepalive interval}}
+\DoxyCodeLine{22 \textcolor{comment}{12. Call enableMQTTkeepalive() to enable MQTT keepalive}}
+\DoxyCodeLine{23 \textcolor{comment}{13. Call loginMQTT() to login to MQTT broker}}
+\DoxyCodeLine{24 \textcolor{comment}{14. Call publishMessage() to publish message to MQTT broker}}
+\DoxyCodeLine{25 \textcolor{comment}{}}
+\DoxyCodeLine{26 \textcolor{comment}{*/}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include <Arduino.h>}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}AT\_commands.h"{}}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include <HardwareSerial.h>}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 HardwareSerial lteSerial(2);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define SerialMonitor Serial}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define LTEShieldSerial lteSerial}}
+\DoxyCodeLine{37 \textcolor{comment}{/*}}
+\DoxyCodeLine{38 \textcolor{comment}{int setMQTT(const char *host, int port);}}
+\DoxyCodeLine{39 \textcolor{comment}{int publishMessage(const char *topic, const char *message, int QoS, int retain);}}
+\DoxyCodeLine{40 \textcolor{comment}{int loginMQTT();}}
+\DoxyCodeLine{41 \textcolor{comment}{int willconfigMQTT(const char * topic);}}
+\DoxyCodeLine{42 \textcolor{comment}{int willmsgMQTT(const char * message);}}
+\DoxyCodeLine{43 \textcolor{comment}{int getResponse(const char *response, int timeout);}}
+\DoxyCodeLine{44 \textcolor{comment}{int enableMQTTkeepalive();}}
+\DoxyCodeLine{45 \textcolor{comment}{int setMQTTping(int timeout);}}
+\DoxyCodeLine{46 \textcolor{comment}{int setCertMQTT(const char *cert, int type, const char *name);}}
+\DoxyCodeLine{47 \textcolor{comment}{void transmitCommand(const char *command);}}
+\DoxyCodeLine{48 \textcolor{comment}{void initModule();}}
+\DoxyCodeLine{49 \textcolor{comment}{void getNetwork();}}
+\DoxyCodeLine{50 \textcolor{comment}{int setAPN(const char *apn);}}
+\DoxyCodeLine{51 \textcolor{comment}{*/}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{57 \textcolor{keywordtype}{void} \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *command)}
+\DoxyCodeLine{58 \{}
+\DoxyCodeLine{59   \textcolor{comment}{//SerialMonitor.printf("{}Command: \%s\(\backslash\)n"{}, command);}}
+\DoxyCodeLine{60   \textcolor{comment}{// Empty the serial buffer}}
+\DoxyCodeLine{61   \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
+\DoxyCodeLine{62   \{}
+\DoxyCodeLine{63     LTEShieldSerial.read();}
+\DoxyCodeLine{64   \}}
+\DoxyCodeLine{65   \textcolor{comment}{// Transmit the command}}
+\DoxyCodeLine{66   LTEShieldSerial.print(command);}
+\DoxyCodeLine{67   LTEShieldSerial.print(\textcolor{stringliteral}{"{}\(\backslash\)r"{}});}
+\DoxyCodeLine{68 \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{75 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *response, \textcolor{keywordtype}{int} timeout)}
+\DoxyCodeLine{76 \{}
+\DoxyCodeLine{77   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
+\DoxyCodeLine{78   \textcolor{keywordtype}{char} ret[128];}
+\DoxyCodeLine{79   \textcolor{keywordtype}{int} destIndex = 0;}
+\DoxyCodeLine{80   \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{81   \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{82   \textcolor{keywordtype}{int} size = strlen(response);}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84   \textcolor{keywordflow}{while} (millis() -\/ timeIn < timeout)}
+\DoxyCodeLine{85   \{}
+\DoxyCodeLine{86     \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
+\DoxyCodeLine{87     \{}
+\DoxyCodeLine{88       c = (char)LTEShieldSerial.read();}
+\DoxyCodeLine{89       \textcolor{comment}{//Serial.print(c);}}
+\DoxyCodeLine{90       ret[destIndex++] = c;}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92       \textcolor{keywordflow}{if} (c == response[index])}
+\DoxyCodeLine{93       \{}
+\DoxyCodeLine{94         index++;}
+\DoxyCodeLine{95         \textcolor{keywordflow}{if} (index == size)}
+\DoxyCodeLine{96         \{}
+\DoxyCodeLine{97           \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{98         \}}
+\DoxyCodeLine{99       \}}
+\DoxyCodeLine{100       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{101       \{}
+\DoxyCodeLine{102         index = 0;}
+\DoxyCodeLine{103       \}}
+\DoxyCodeLine{104     \}}
+\DoxyCodeLine{105   \}}
+\DoxyCodeLine{106   ret[destIndex] = \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{107   Serial.println(ret);}
+\DoxyCodeLine{108   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{109 \}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{keywordtype}{void} initModule()}
+\DoxyCodeLine{112 \{}
+\DoxyCodeLine{113   LTEShieldSerial.begin(9600);}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115   SerialMonitor.printf(\textcolor{stringliteral}{"{}Transmitting AT\(\backslash\)n"{}});}
+\DoxyCodeLine{116   \textcolor{keywordflow}{while} (!\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 500))}
+\DoxyCodeLine{117   \{}
+\DoxyCodeLine{118     SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{119     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT"{}}); \textcolor{comment}{// Send AT command to enable the interface}}
+\DoxyCodeLine{120   \}}
+\DoxyCodeLine{121   SerialMonitor.printf(\textcolor{stringliteral}{"{}Got OK\(\backslash\)n"{}});}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123   SerialMonitor.printf(\textcolor{stringliteral}{"{}Disabling echo\(\backslash\)n"{}});}
+\DoxyCodeLine{124   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}ATE0"{}}); \textcolor{comment}{// Disable echo}}
+\DoxyCodeLine{125   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 200))}
+\DoxyCodeLine{126   \{}
+\DoxyCodeLine{127     SerialMonitor.println(\textcolor{stringliteral}{"{}Echo disabled"{}});}
+\DoxyCodeLine{128   \}}
+\DoxyCodeLine{129   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{130   \{}
+\DoxyCodeLine{131     SerialMonitor.println(\textcolor{stringliteral}{"{}Echo not disabled"{}});}
+\DoxyCodeLine{132   \}}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT+CTZU=1"{}}); \textcolor{comment}{// Enable automatic time zone update}}
+\DoxyCodeLine{135   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 5000))}
+\DoxyCodeLine{136   \{}
+\DoxyCodeLine{137     SerialMonitor.println(\textcolor{stringliteral}{"{}Automatic time zone update enabled"{}});}
+\DoxyCodeLine{138   \}}
+\DoxyCodeLine{139   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{140   \{}
+\DoxyCodeLine{141     SerialMonitor.println(\textcolor{stringliteral}{"{}Automatic time zone update not enabled"{}});}
+\DoxyCodeLine{142   \}}
+\DoxyCodeLine{143 \}}
+\DoxyCodeLine{149 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enableSSL}}(\textcolor{keywordtype}{int} profile)}
+\DoxyCodeLine{150 \{}
+\DoxyCodeLine{151   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{152   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_MQTT\_SECURE) + 5);}
+\DoxyCodeLine{153   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{154   \{}
+\DoxyCodeLine{155     SerialMonitor.println(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{156     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{157   \}}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, SARA\_MQTT\_SECURE, profile);}
+\DoxyCodeLine{160   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{161   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MQTT\_SECURE\_SET\_RESPONSE, 5000))}
+\DoxyCodeLine{162   \{}
+\DoxyCodeLine{163     SerialMonitor.println(\textcolor{stringliteral}{"{}SSL enabled"{}});}
+\DoxyCodeLine{164     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{165   \}}
+\DoxyCodeLine{166   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{167   \{}
+\DoxyCodeLine{168     SerialMonitor.println(\textcolor{stringliteral}{"{}SSL not enabled"{}});}
+\DoxyCodeLine{169     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{170   \}}
+\DoxyCodeLine{171 \}}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{176 \textcolor{keywordtype}{void} \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{getNetwork}}()}
+\DoxyCodeLine{177 \{}
+\DoxyCodeLine{178   \textcolor{keywordtype}{int} retval;}
+\DoxyCodeLine{179   \textcolor{keywordtype}{int} last = 99;}
+\DoxyCodeLine{180   \textcolor{keywordflow}{while} (retval != 1)}
+\DoxyCodeLine{181   \{}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183     \textcolor{comment}{// Empty the serial buffer}}
+\DoxyCodeLine{184     \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
+\DoxyCodeLine{185     \{}
+\DoxyCodeLine{186       LTEShieldSerial.read();}
+\DoxyCodeLine{187     \}}
+\DoxyCodeLine{188     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT+CEREG?"{}});}
+\DoxyCodeLine{189     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
+\DoxyCodeLine{190     \textcolor{keywordtype}{char} ret[128];}
+\DoxyCodeLine{191     \textcolor{keywordtype}{int} destIndex = 0;}
+\DoxyCodeLine{192     \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{193     \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{194     \textcolor{keywordtype}{int} size = 12;}
+\DoxyCodeLine{195     retval = 4;}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197     \textcolor{keywordflow}{while} (millis() -\/ timeIn < 1000)}
+\DoxyCodeLine{198     \{}
+\DoxyCodeLine{199       \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
+\DoxyCodeLine{200       \{}
+\DoxyCodeLine{201         c = (char)LTEShieldSerial.read();}
+\DoxyCodeLine{202         \textcolor{comment}{//Serial.print(c);}}
+\DoxyCodeLine{203         ret[index++] = c;}
+\DoxyCodeLine{204         \textcolor{comment}{//SerialMonitor.printf("{}index: \%d\(\backslash\)n"{}, index);}}
+\DoxyCodeLine{205         \textcolor{keywordflow}{if} (index > size)}
+\DoxyCodeLine{206         \{}
+\DoxyCodeLine{207           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{208         \}}
+\DoxyCodeLine{209       \}}
+\DoxyCodeLine{210     \}}
+\DoxyCodeLine{211     ret[++index] = 0;}
+\DoxyCodeLine{212     \textcolor{comment}{//SerialMonitor.printf("{}ret: \%s\(\backslash\)n"{}, ret);}}
+\DoxyCodeLine{213     sscanf(ret, \textcolor{stringliteral}{"{} +CEREG: 0,\%d"{}}, \&retval);}
+\DoxyCodeLine{214     \textcolor{keywordflow}{switch} (retval)}
+\DoxyCodeLine{215     \{}
+\DoxyCodeLine{216     \textcolor{keywordflow}{case} 0:}
+\DoxyCodeLine{217       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{218       \{}
+\DoxyCodeLine{219         SerialMonitor.printf(\textcolor{stringliteral}{"{}Not registered, MT is not currently searching a new operator to register to\(\backslash\)n"{}});}
+\DoxyCodeLine{220         last = retval;}
+\DoxyCodeLine{221       \}}
+\DoxyCodeLine{222       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{223       \{}
+\DoxyCodeLine{224         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{225       \}}
+\DoxyCodeLine{226       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{227     \textcolor{keywordflow}{case} 1:}
+\DoxyCodeLine{228       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{229       \{}
+\DoxyCodeLine{230         SerialMonitor.printf(\textcolor{stringliteral}{"{}Registered, home network\(\backslash\)n"{}});}
+\DoxyCodeLine{231         last = retval;}
+\DoxyCodeLine{232       \}}
+\DoxyCodeLine{233       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{234       \{}
+\DoxyCodeLine{235         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{236       \}}
+\DoxyCodeLine{237       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{238     \textcolor{keywordflow}{case} 2:}
+\DoxyCodeLine{239       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{240       \{}
+\DoxyCodeLine{241         SerialMonitor.printf(\textcolor{stringliteral}{"{}Scanning for network\(\backslash\)n"{}});}
+\DoxyCodeLine{242         last = retval;}
+\DoxyCodeLine{243       \}}
+\DoxyCodeLine{244       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{245       \{}
+\DoxyCodeLine{246         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{247       \}}
+\DoxyCodeLine{248       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{249     \textcolor{keywordflow}{case} 3:}
+\DoxyCodeLine{250       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{251       \{}
+\DoxyCodeLine{252         SerialMonitor.printf(\textcolor{stringliteral}{"{}Registration denied\(\backslash\)n"{}});}
+\DoxyCodeLine{253         last = retval;}
+\DoxyCodeLine{254       \}}
+\DoxyCodeLine{255       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{256       \{}
+\DoxyCodeLine{257         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{258       \}}
+\DoxyCodeLine{259       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{260     \textcolor{keywordflow}{case} 4:}
+\DoxyCodeLine{261       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{262       \{}
+\DoxyCodeLine{263         SerialMonitor.printf(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
+\DoxyCodeLine{264         last = retval;}
+\DoxyCodeLine{265       \}}
+\DoxyCodeLine{266       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{267       \{}
+\DoxyCodeLine{268         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{269       \}}
+\DoxyCodeLine{270       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{271     \textcolor{keywordflow}{case} 5:}
+\DoxyCodeLine{272       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{273       \{}
+\DoxyCodeLine{274         SerialMonitor.printf(\textcolor{stringliteral}{"{}Registered, roaming\(\backslash\)n"{}});}
+\DoxyCodeLine{275         last = retval;}
+\DoxyCodeLine{276       \}}
+\DoxyCodeLine{277       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{278       \{}
+\DoxyCodeLine{279         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{280       \}}
+\DoxyCodeLine{281       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{282     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{283       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{284       \{}
+\DoxyCodeLine{285         SerialMonitor.printf(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
+\DoxyCodeLine{286         last = retval;}
+\DoxyCodeLine{287       \}}
+\DoxyCodeLine{288       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{289       \{}
+\DoxyCodeLine{290         SerialMonitor.printf(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{291       \}}
+\DoxyCodeLine{292       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{293     \}}
+\DoxyCodeLine{294   \}}
+\DoxyCodeLine{295 \}}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{302 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{setAPN}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *apn)}
+\DoxyCodeLine{303 \{}
+\DoxyCodeLine{304   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{305   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{306   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_SET\_APN) + strlen(apn) + 5);}
+\DoxyCodeLine{307   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, LTE\_SHIELD\_SET\_APN, apn);}
+\DoxyCodeLine{308   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{309   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 1000))}
+\DoxyCodeLine{310   \{}
+\DoxyCodeLine{311     Serial.println(\textcolor{stringliteral}{"{}APN set"{}});}
+\DoxyCodeLine{312     result = 1;}
+\DoxyCodeLine{313   \}}
+\DoxyCodeLine{314   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{315   \{}
+\DoxyCodeLine{316     Serial.println(\textcolor{stringliteral}{"{}APN not set"{}});}
+\DoxyCodeLine{317   \}}
+\DoxyCodeLine{318   free(command);}
+\DoxyCodeLine{319   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{320 \}}
+\DoxyCodeLine{321 }
+\DoxyCodeLine{329 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}{setCertMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *cert, \textcolor{keywordtype}{int} type, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *name)}
+\DoxyCodeLine{330 \{}
+\DoxyCodeLine{331   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{332   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{333   \textcolor{keywordtype}{char} *response;}
+\DoxyCodeLine{334   response = (\textcolor{keywordtype}{char} *)malloc(strlen(LTE\_SHIELD\_IMPORT\_CERT\_OK) + 5);}
+\DoxyCodeLine{335   command = (\textcolor{keywordtype}{char} *)malloc((strlen(AT) + strlen(LTE\_SHIELD\_IMPORT\_CERT) + strlen(cert) + strlen(name) + 15));}
+\DoxyCodeLine{336   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, AT, LTE\_SHIELD\_IMPORT\_CERT, type, name, strlen(cert));}
+\DoxyCodeLine{337   SerialMonitor.printf(\textcolor{stringliteral}{"{}Importing certificate: \%s\(\backslash\)n"{}}, name);}
+\DoxyCodeLine{338   \textcolor{comment}{//SerialMonitor.printf("{}Command: \%s\(\backslash\)n"{}, command);}}
+\DoxyCodeLine{339   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{340   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_IMPORT\_CERT\_READY, 10000))}
+\DoxyCodeLine{343   \{}
+\DoxyCodeLine{344     SerialMonitor.println(\textcolor{stringliteral}{"{}Ready to receive certificate:"{}});}
+\DoxyCodeLine{345     \textcolor{comment}{// SerialMonitor.printf("{}\%s\(\backslash\)n"{},cert);}}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{347     sprintf(response, \textcolor{stringliteral}{"{}\%s\%d"{}}, LTE\_SHIELD\_IMPORT\_CERT\_OK, type);}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349     \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{350     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(cert);}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352     \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(response, 10000))}
+\DoxyCodeLine{353     \{}
+\DoxyCodeLine{354       SerialMonitor.println(\textcolor{stringliteral}{"{}Certificate imported"{}});}
+\DoxyCodeLine{355       result = 1;}
+\DoxyCodeLine{356     \}}
+\DoxyCodeLine{357     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{358     \{}
+\DoxyCodeLine{359       SerialMonitor.println(\textcolor{stringliteral}{"{}Certificate import failed"{}});}
+\DoxyCodeLine{360     \}}
+\DoxyCodeLine{361   \}}
+\DoxyCodeLine{362   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{363   \{}
+\DoxyCodeLine{364     SerialMonitor.println(\textcolor{stringliteral}{"{}Failed to import certificate -\/ not ready"{}});}
+\DoxyCodeLine{365   \}}
+\DoxyCodeLine{366   free(command);}
+\DoxyCodeLine{367   free(response);}
+\DoxyCodeLine{368   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{369 \}}
+\DoxyCodeLine{370 }
+\DoxyCodeLine{376 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{setMQTTping}}(\textcolor{keywordtype}{int} timeout)}
+\DoxyCodeLine{377 \{}
+\DoxyCodeLine{378   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{379   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{381   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_TIMEOUT) + 5);}
+\DoxyCodeLine{382   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, LTE\_SHIELD\_TIMEOUT, timeout);}
+\DoxyCodeLine{383 }
+\DoxyCodeLine{384   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{385   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{386 }
+\DoxyCodeLine{387   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{388   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_TIMEOUT\_SET\_RESPONSE, 10000))}
+\DoxyCodeLine{389   \{}
+\DoxyCodeLine{390     SerialMonitor.println(\textcolor{stringliteral}{"{}MQTT ping timeout set to "{}} + String(timeout));}
+\DoxyCodeLine{391     result = 1;}
+\DoxyCodeLine{392   \}}
+\DoxyCodeLine{393   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{394   \{}
+\DoxyCodeLine{395     SerialMonitor.println(\textcolor{stringliteral}{"{}Error setting MQTT ping timeout"{}});}
+\DoxyCodeLine{396   \}}
+\DoxyCodeLine{397   free(command);}
+\DoxyCodeLine{398   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{399 \}}
+\DoxyCodeLine{400 }
+\DoxyCodeLine{405 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enableMQTTkeepalive}}()}
+\DoxyCodeLine{406 \{}
+\DoxyCodeLine{407   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{408   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_PING) + 5);}
+\DoxyCodeLine{411   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s"{}}, AT, LTE\_SHIELD\_PING);}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{413   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{414   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{415 }
+\DoxyCodeLine{416   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{417   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_PING\_OK, 10000))}
+\DoxyCodeLine{418   \{}
+\DoxyCodeLine{419     SerialMonitor.println(\textcolor{stringliteral}{"{}MQTT keepalive enabled"{}});}
+\DoxyCodeLine{420     result = 1;}
+\DoxyCodeLine{421   \}}
+\DoxyCodeLine{422   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{423   \{}
+\DoxyCodeLine{424     SerialMonitor.println(\textcolor{stringliteral}{"{}Error enabling MQTT keepalive"{}});}
+\DoxyCodeLine{425   \}}
+\DoxyCodeLine{426   free(command);}
+\DoxyCodeLine{427   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{428 \}}
+\DoxyCodeLine{429 }
+\DoxyCodeLine{438 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publishMessage}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *topic, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *message, \textcolor{keywordtype}{int} QoS, \textcolor{keywordtype}{int} retain)}
+\DoxyCodeLine{439 \{}
+\DoxyCodeLine{440   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{441   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{442 }
+\DoxyCodeLine{443   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} LTE\_SHIELD\_SEND\_TIMEOUT = 60000;}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445   \textcolor{comment}{// SerialMonitor.printf("{}Allocating memory for command\(\backslash\)n"{});}}
+\DoxyCodeLine{446   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_SEND\_MQTT) + strlen(message) + strlen(topic) + 8);}
+\DoxyCodeLine{447   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{448   \{}
+\DoxyCodeLine{449     SerialMonitor.printf(\textcolor{stringliteral}{"{}Memory allocation failed\(\backslash\)n"{}});}
+\DoxyCodeLine{450     \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{451   \}}
+\DoxyCodeLine{452   \textcolor{comment}{// SerialMonitor.printf("{}Building command\(\backslash\)n"{});}}
+\DoxyCodeLine{453   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s,\%d,\%d,\%s,\%s"{}}, AT, LTE\_SHIELD\_SEND\_MQTT, QoS, retain, topic, message);}
+\DoxyCodeLine{454 }
+\DoxyCodeLine{455   \textcolor{comment}{// SerialMonitor.printf("{}Command built....Sending\(\backslash\)n"{});}}
+\DoxyCodeLine{456 }
+\DoxyCodeLine{457   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{458   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{459 }
+\DoxyCodeLine{460   \textcolor{comment}{// SerialMonitor.printf("{}Command sent....Waiting for response\(\backslash\)n"{});}}
+\DoxyCodeLine{461   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_SEND\_OK, LTE\_SHIELD\_SEND\_TIMEOUT))}
+\DoxyCodeLine{462   \{}
+\DoxyCodeLine{463     SerialMonitor.println(\textcolor{stringliteral}{"{}Message sent"{}});}
+\DoxyCodeLine{464     result = 1;}
+\DoxyCodeLine{465   \}}
+\DoxyCodeLine{466   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{467   \{}
+\DoxyCodeLine{468     SerialMonitor.println(\textcolor{stringliteral}{"{}Error sending message"{}});}
+\DoxyCodeLine{469   \}}
+\DoxyCodeLine{470 }
+\DoxyCodeLine{471   free(command);}
+\DoxyCodeLine{472   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{473 \}}
+\DoxyCodeLine{474 }
+\DoxyCodeLine{479 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}{loginMQTT}}()}
+\DoxyCodeLine{480 \{}
+\DoxyCodeLine{481   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{482   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT = 60000;}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484   SerialMonitor.printf(\textcolor{stringliteral}{"{}Sending login command: \%s\(\backslash\)n"{}}, LTE\_SHIELD\_LOGIN);}
+\DoxyCodeLine{485   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{486   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(LTE\_SHIELD\_LOGIN);}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_LOGIN\_OK, LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{489   \{}
+\DoxyCodeLine{490     SerialMonitor.println(\textcolor{stringliteral}{"{}MQTT login successful"{}});}
+\DoxyCodeLine{491     result = 1;}
+\DoxyCodeLine{492   \}}
+\DoxyCodeLine{493   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{494   \{}
+\DoxyCodeLine{495     SerialMonitor.println(\textcolor{stringliteral}{"{}Error logging in to MQTT"{}});}
+\DoxyCodeLine{496   \}}
+\DoxyCodeLine{497   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{498 \}}
+\DoxyCodeLine{499 }
+\DoxyCodeLine{505 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}{willconfigMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} * topic)}
+\DoxyCodeLine{506 \{}
+\DoxyCodeLine{507   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{508   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{509   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{510 }
+\DoxyCodeLine{511   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_WILL\_TOPIC\_MQTT) + strlen(topic) + 10);}
+\DoxyCodeLine{512   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\%d,\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, LTE\_SHIELD\_WILL\_TOPIC\_MQTT, 0, 0, topic);}
+\DoxyCodeLine{513 }
+\DoxyCodeLine{514   SerialMonitor.printf(\textcolor{stringliteral}{"{}Sending will topic command: \%s\(\backslash\)n"{}}, command);}
+\DoxyCodeLine{515   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{516   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{517 }
+\DoxyCodeLine{518   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_TOPIC\_OK, LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{519   \{}
+\DoxyCodeLine{520     Serial.println(\textcolor{stringliteral}{"{}Will topic set"{}});}
+\DoxyCodeLine{521     result = 1;}
+\DoxyCodeLine{522   \}}
+\DoxyCodeLine{523   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{524   \{}
+\DoxyCodeLine{525     Serial.println(\textcolor{stringliteral}{"{}Will topic not set"{}});}
+\DoxyCodeLine{526   \}}
+\DoxyCodeLine{527 }
+\DoxyCodeLine{528   free(command);}
+\DoxyCodeLine{529 }
+\DoxyCodeLine{530   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{531 \}}
+\DoxyCodeLine{532 }
+\DoxyCodeLine{538 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsgMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *message)}
+\DoxyCodeLine{539 \{}
+\DoxyCodeLine{540   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{541   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{542 }
+\DoxyCodeLine{543   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(LTE\_SHIELD\_WILL\_MESSAGE\_MQTT) + strlen(message) + 10);}
+\DoxyCodeLine{546   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, LTE\_SHIELD\_WILL\_MESSAGE\_MQTT, message);}
+\DoxyCodeLine{547 }
+\DoxyCodeLine{548   SerialMonitor.printf(\textcolor{stringliteral}{"{}Sending will message command: \%s\(\backslash\)n"{}}, command);}
+\DoxyCodeLine{549   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{550   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_MESSAGE\_OK, LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{553   \{}
+\DoxyCodeLine{554     Serial.println(\textcolor{stringliteral}{"{}Will message set"{}});}
+\DoxyCodeLine{555     result = 1;}
+\DoxyCodeLine{556   \}}
+\DoxyCodeLine{557   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{558   \{}
+\DoxyCodeLine{559     Serial.println(\textcolor{stringliteral}{"{}Will message not set"{}});}
+\DoxyCodeLine{560   \}}
+\DoxyCodeLine{561   free(command);}
+\DoxyCodeLine{562   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{563 \}}
+\DoxyCodeLine{564 }
+\DoxyCodeLine{571 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{setMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *host, \textcolor{keywordtype}{int} port)}
+\DoxyCodeLine{572 \{}
+\DoxyCodeLine{573   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{574   \textcolor{keywordtype}{char} *command;}
+\DoxyCodeLine{575 }
+\DoxyCodeLine{576   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{577 }
+\DoxyCodeLine{578   command = (\textcolor{keywordtype}{char} *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}) * (strlen(LTE\_SHIELD\_CONNECT\_MQTT) + strlen(host) + 15));}
+\DoxyCodeLine{579   \textcolor{keywordtype}{size\_t} err;}
+\DoxyCodeLine{580 }
+\DoxyCodeLine{581   \textcolor{comment}{// Create the command}}
+\DoxyCodeLine{582   sprintf(command, \textcolor{stringliteral}{"{}AT\%s=\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, LTE\_SHIELD\_CONNECT\_MQTT, 2, host, port);}
+\DoxyCodeLine{583   \textcolor{comment}{// Send the command}}
+\DoxyCodeLine{584   SerialMonitor.println(\textcolor{stringliteral}{"{}Setting MQTT hostname \& port"{}});}
+\DoxyCodeLine{585 }
+\DoxyCodeLine{586   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{587   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{590   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(LTE\_SHIELD\_RESPONSE\_OK, LTE\_SHIELD\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{591   \{}
+\DoxyCodeLine{592     Serial.println(\textcolor{stringliteral}{"{}MQTT hostname \& port set"{}});}
+\DoxyCodeLine{593     result = 1;}
+\DoxyCodeLine{594   \}}
+\DoxyCodeLine{595   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{596   \{}
+\DoxyCodeLine{597     Serial.println(\textcolor{stringliteral}{"{}MQTT hostname \& port not set"{}});}
+\DoxyCodeLine{598   \}}
+\DoxyCodeLine{599 }
+\DoxyCodeLine{600   free(command);}
+\DoxyCodeLine{601   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{602 \}}
+
+\end{DoxyCode}

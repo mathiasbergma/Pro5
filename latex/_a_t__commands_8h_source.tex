@@ -1,0 +1,43 @@
+\hypertarget{_a_t__commands_8h_source}{}\doxysection{AT\+\_\+commands.\+h}
+\label{_a_t__commands_8h_source}\index{src/AT\_commands.h@{src/AT\_commands.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef AT\_COMMANDS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define AT\_COMMANDS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{keyword}{const} \textcolor{keywordtype}{char} AT[] = \textcolor{stringliteral}{"{}AT"{}};}
+\DoxyCodeLine{5 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_TIMEOUT[] = \textcolor{stringliteral}{"{}+UMQTT=10,"{}}; \textcolor{comment}{// 10 is the timeout command}}
+\DoxyCodeLine{6 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_TIMEOUT\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 10,1"{}};}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_PING[] = \textcolor{stringliteral}{"{}+UMQTTC=8,1"{}};}
+\DoxyCodeLine{9 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_PING\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 8,1"{}};}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SEND\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTC=2"{}};}
+\DoxyCodeLine{12 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SEND\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 2,1"{}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_LOGIN[] = \textcolor{stringliteral}{"{}AT+UMQTTC=1"{}};}
+\DoxyCodeLine{15 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_LOGIN\_OK[] = \textcolor{stringliteral}{"{}+UUMQTTC: 1,0"{}};}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{const} \textcolor{keywordtype}{char} *LTE\_SHIELD\_WILL\_TOPIC\_MQTT = \textcolor{stringliteral}{"{}+UMQTTWTOPIC="{}};}
+\DoxyCodeLine{18 \textcolor{keyword}{const} \textcolor{keywordtype}{char} * LTE\_SHIELD\_TOPIC\_OK = \textcolor{stringliteral}{"{}+UMQTTWTOPIC: 1"{}};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{const} \textcolor{keywordtype}{char} *LTE\_SHIELD\_WILL\_MESSAGE\_MQTT = \textcolor{stringliteral}{"{}+UMQTTWMSG="{}};}
+\DoxyCodeLine{21 \textcolor{keyword}{const} \textcolor{keywordtype}{char} * LTE\_SHIELD\_MESSAGE\_OK = \textcolor{stringliteral}{"{}+UMQTTWMSG: 1"{}};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{const} \textcolor{keywordtype}{char} *LTE\_SHIELD\_CONNECT\_MQTT = \textcolor{stringliteral}{"{}+UMQTT"{}};}
+\DoxyCodeLine{24 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_RESPONSE\_OK[] = \textcolor{stringliteral}{"{}+UMQTT: 2,1"{}};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT[] = \textcolor{stringliteral}{"{}+USECMNG=0,"{}}; \textcolor{comment}{// 0 is the import command}}
+\DoxyCodeLine{27 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT\_READY[] = \textcolor{stringliteral}{"{}>"{}};}
+\DoxyCodeLine{28 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT\_OK[] = \textcolor{stringliteral}{"{}+USECMNG: 0,"{}};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SET\_APN[] = \textcolor{stringliteral}{"{}+CGDCONT=1,\(\backslash\)"{}IP\(\backslash\)"{},"{}};}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE[] = \textcolor{stringliteral}{"{}+UMQTT=11,1,"{}}; \textcolor{comment}{// 11 is the secure command}}
+\DoxyCodeLine{33 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 11,1"{}};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//AT\_COMMANDS\_H}}
+
+\end{DoxyCode}

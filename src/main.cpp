@@ -1,16 +1,13 @@
 #include <Arduino.h>
-#include <HardwareSerial.h>
-#include <SparkFun_LTE_Shield_Arduino_Library.h>
 #include "certs.h"
-
-HardwareSerial lteSerial(2);
-LTE_Shield lte;
-
-#define SerialMonitor Serial
-#define LTEShieldSerial lteSerial
-
 #include "AT_commands.h"
 #include "NB_R410M.h"
+
+//LTE_Shield lte;
+
+#define SerialMonitor Serial
+
+
 
 
 
@@ -50,9 +47,9 @@ const struct connection_info_t
 // MNO_VERIZON -- Verizon
 // MNO_TELSTRA -- Telstra
 // MNO_TMO -- T-Mobile
-const mobile_network_operator_t MOBILE_NETWORK_OPERATOR = MNO_SW_DEFAULT;
-const String MOBILE_NETWORK_STRINGS[] = {"Default", "SIM_ICCD", "AT&T", "VERIZON",
-                                         "TELSTRA", "T-Mobile", "CT", "TeliaDK Telia"};
+//const mobile_network_operator_t MOBILE_NETWORK_OPERATOR = MNO_SW_DEFAULT;
+//const String MOBILE_NETWORK_STRINGS[] = {"Default", "SIM_ICCD", "AT&T", "VERIZON",
+//                                         "TELSTRA", "T-Mobile", "CT", "TeliaDK Telia"};
 
 // APN -- Access Point Name. Gateway between GPRS MNO
 // and another computer network. E.g. "hologram
@@ -62,24 +59,24 @@ const char APN[] = "lpwa.telia.iot";
 // this much bigger than ~5 on an Arduino Uno. To narrow the operator
 // list, set MOBILE_NETWORK_OPERATOR to AT&T, Verizeon etc. instead
 // of MNO_SW_DEFAULT.
-#define MAX_OPERATORS 5
+//#define MAX_OPERATORS 5
 
 #define DEBUG_PASSTHROUGH_ENABLED
 
-void printInfo(void);
-void printOperators(struct operator_stats *ops, int operatorsAvailable);
-void serialWait();
-void sendHologramMessage(String message);
+//void printInfo(void);
+//void printOperators(struct operator_stats *ops, int operatorsAvailable);
+//void serialWait();
+//void sendHologramMessage(String message);
 /*
 
 */
 
 void setup()
 {
-  int opsAvailable;
-  struct operator_stats ops[MAX_OPERATORS];
-  String currentOperator = "";
-  bool newConnection = true;
+  //int opsAvailable;
+  //struct operator_stats ops[MAX_OPERATORS];
+  //String currentOperator = "";
+  //bool newConnection = true;
 
   SerialMonitor.begin(9600);
   while (!SerialMonitor)
@@ -96,7 +93,6 @@ void setup()
   delay(100);
   pinMode(POWERPIN, INPUT); // Return to high-impedance, rely on SARA module internal pull-up
 
-  LTEShieldSerial.begin(9600);
 
   // Initialize the LTE Shield and enable AT interface and Timezone update
   initModule();
