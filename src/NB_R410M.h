@@ -1,29 +1,26 @@
 /**
- * @file NB_R410M.h
+ * @brief Library for uBlox SARA R410M LTE Cat M1/NB1 module
  * 
+ * @file NB_R410M.h
+ * @author Bergma
+ * @date 2022-11
+ * @details Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.
+ * @details Steps to use this library:
+ * @details 1. Call initModule() to initialize the module and enable AT interface and Timezone update
+ * @details 2. Call setAPN() to set the operator APN
+ * @details 3. Call getNetwork() to get status of network aquisition
+ * @details 4. Call printInfo() to print connection information (TODO)
+ * @details 5. Call setCertMQTT() to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+ * @details 6. Call setSSL() to enable SSL/TLS
+ * @details 7. Call setMQTT() to set broker hostname and port
+ * @details 8. Call willconfigMQTT() to set Last Will topic
+ * @details 9. Call willmsgMQTT() to set Last Will message
+ * @details 10. Call setMQTTtimeout() to set MQTT timeout
+ * @details 11. Call setMQTTping() to set MQTT keepalive interval
+ * @details 12. Call enableMQTTkeepalive() to enable MQTT keepalive
+ * @details 13. Call loginMQTT() to login to MQTT broker
+ * @details 14. Call publishMessage() to publish message to MQTT broker
  */
-/*
-Library for uBlox SARA R410M LTE Cat M1/NB1 module
-Created by:  Bergma (Made 2022/11 )
-Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.
-
-Steps to use this library:
-1. Call initModule() to initialize the module and enable AT interface and Timezone update
-2. Call setAPN() to set the operator APN
-3. Call getNetwork() to get status of network aquisition
-4. Call printInfo() to print connection information (TODO)
-5. Call setCertMQTT() to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
-6. Call setSSL() to enable SSL/TLS
-7. Call setMQTT() to set broker hostname and port
-8. Call willconfigMQTT() to set Last Will topic
-9. Call willmsgMQTT() to set Last Will message
-10. Call setMQTTtimeout() to set MQTT timeout
-11. Call setMQTTping() to set MQTT keepalive interval
-12. Call enableMQTTkeepalive() to enable MQTT keepalive
-13. Call loginMQTT() to login to MQTT broker
-14. Call publishMessage() to publish message to MQTT broker
-
-*/
 
 
 #include <Arduino.h>
@@ -302,8 +299,14 @@ void getNetwork()
 int setAPN(const char *apn)
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SET_APN) + strlen(apn) + 5);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
+
   sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_SET_APN, apn);
   transmitCommand(command);
   if (getResponse("OK", 1000))
@@ -329,10 +332,20 @@ int setAPN(const char *apn)
 int setCertMQTT(const char *cert, int type, const char *name)
 {
   int result = 0;
-  char *command;
-  char *response;
+  char *command = NULL;
+  char *response = NULL;
   response = (char *)malloc(strlen(LTE_SHIELD_IMPORT_CERT_OK) + 5);
+  if (response == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   command = (char *)malloc((strlen(AT) + strlen(LTE_SHIELD_IMPORT_CERT) + strlen(cert) + strlen(name) + 15));
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   sprintf(command, "%s%s%d,\"%s\",%d", AT, LTE_SHIELD_IMPORT_CERT, type, name, strlen(cert));
   SerialMonitor.printf("Importing certificate: %s\n", name);
   //SerialMonitor.printf("Command: %s\n", command);
@@ -376,9 +389,14 @@ int setCertMQTT(const char *cert, int type, const char *name)
 int setMQTTping(int timeout)
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_TIMEOUT) + 5);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   sprintf(command, "%s%s%d", AT, LTE_SHIELD_TIMEOUT, timeout);
 
   // Empties buffer and transmits the command
@@ -405,9 +423,14 @@ int setMQTTping(int timeout)
 int enableMQTTkeepalive()
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_PING) + 5);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   sprintf(command, "%s%s", AT, LTE_SHIELD_PING);
 
   // Empties buffer and transmits the command
@@ -505,10 +528,15 @@ int loginMQTT()
 int willconfigMQTT(const char * topic)
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_TOPIC_MQTT) + strlen(topic) + 10);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   sprintf(command, "%s%s%d,%d,\"%s\"", AT, LTE_SHIELD_WILL_TOPIC_MQTT, 0, 0, topic);
 
   SerialMonitor.printf("Sending will topic command: %s\n", command);
@@ -538,11 +566,16 @@ int willconfigMQTT(const char * topic)
 int willmsgMQTT(const char *message)
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
 
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
 
   command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_MESSAGE_MQTT) + strlen(message) + 10);
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
   sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_WILL_MESSAGE_MQTT, message);
 
   SerialMonitor.printf("Sending will message command: %s\n", command);
@@ -571,12 +604,16 @@ int willmsgMQTT(const char *message)
 int setMQTT(const char *host, int port)
 {
   int result = 0;
-  char *command;
+  char *command = NULL;
 
   unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
 
   command = (char *)malloc(sizeof(char) * (strlen(LTE_SHIELD_CONNECT_MQTT) + strlen(host) + 15));
-  size_t err;
+  if (command == NULL)
+  {
+    SerialMonitor.println("Malloc failed");
+    return 0;
+  }
 
   // Create the command
   sprintf(command, "AT%s=%d,\"%s\",%d", LTE_SHIELD_CONNECT_MQTT, 2, host, port);
