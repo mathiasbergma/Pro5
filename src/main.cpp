@@ -69,7 +69,17 @@ const char APN[] = "lpwa.telia.iot";
 //void sendHologramMessage(String message);
 /*
 
+// Import CA certificate
+  setCertMQTT(CA, 0, "CA");
+
+  // Import client certificate
+  setCertMQTT(CERT, 1, "CERT");
+
+  // import client private key
+  setCertMQTT(KEY, 2, "KEY");
+
 */
+char * IP = NULL;
 
 void setup()
 {
@@ -95,7 +105,12 @@ void setup()
 
 
   // Initialize the LTE Shield and enable AT interface and Timezone update
-  initModule();
+  if (!initModule(30000))
+  {
+    SerialMonitor.println(F("Failed to initialize the LTE Shield!"));
+    while (1)
+      ;
+  }
 
   // Set the operator APN
   setAPN(APN);
@@ -103,19 +118,16 @@ void setup()
   // Get status of network aquisition
   getNetwork();
 
-  // At the very end print connection information
-  char topic[] = "test/";
-  char msg[] = "NB-IoT_checkin";
-  //printInfo();
-
-  // Import CA certificate
-  setCertMQTT(CA, 0, "CA");
-
-  // Import client certificate
-  setCertMQTT(CERT, 1, "CERT");
-
-  // import client private key
-  setCertMQTT(KEY, 2, "KEY");
+  // Get IP address
+  IP = printInfo();
+  if (IP != NULL)
+  {
+    SerialMonitor.printf("IP: %s\n", IP);
+  }
+  else
+  {
+    SerialMonitor.printf("IP: NULL\n");
+  }
 
   // Set broker hostname and port
   setMQTT(connection_info.HostName, connection_info.Port);
@@ -133,8 +145,9 @@ void setup()
   // Login to MQTT broker
   loginMQTT();
 
+  char msg[] = "Hello World from NB_IoT module!";
   // Publish message to MQTT broker
-  publishMessage(topic, msg, 0, 0);
+  publishMessage(connection_info.topic, msg, 0, 0);
   
 }
 

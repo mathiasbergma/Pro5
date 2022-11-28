@@ -14,13 +14,13 @@ const char LTE_SHIELD_SEND_OK[] = "+UMQTTC: 2,1";
 const char LTE_SHIELD_LOGIN[] = "AT+UMQTTC=1";
 const char LTE_SHIELD_LOGIN_OK[] = "+UUMQTTC: 1,0";
 
-const char *LTE_SHIELD_WILL_TOPIC_MQTT = "+UMQTTWTOPIC=";
-const char * LTE_SHIELD_TOPIC_OK = "+UMQTTWTOPIC: 1";
+const char LTE_SHIELD_WILL_TOPIC_MQTT[] = "+UMQTTWTOPIC=";
+const char LTE_SHIELD_TOPIC_OK[] = "+UMQTTWTOPIC: 1";
 
-const char *LTE_SHIELD_WILL_MESSAGE_MQTT = "+UMQTTWMSG=";
-const char * LTE_SHIELD_MESSAGE_OK = "+UMQTTWMSG: 1";
+const char LTE_SHIELD_WILL_MESSAGE_MQTT[] = "+UMQTTWMSG=";
+const char LTE_SHIELD_MESSAGE_OK[] = "+UMQTTWMSG: 1";
 
-const char *LTE_SHIELD_CONNECT_MQTT = "+UMQTT";
+const char LTE_SHIELD_CONNECT_MQTT[] = "+UMQTT";
 const char LTE_SHIELD_RESPONSE_OK[] = "+UMQTT: 2,1";
 
 const char LTE_SHIELD_IMPORT_CERT[] = "+USECMNG=0,"; // 0 is the import command
@@ -28,6 +28,8 @@ const char LTE_SHIELD_IMPORT_CERT_READY[] = ">";
 const char LTE_SHIELD_IMPORT_CERT_OK[] = "+USECMNG: 0,";
 
 const char LTE_SHIELD_SET_APN[] = "+CGDCONT=1,\"IP\",";
+
+const char SARA_NETWORK_INFO_GET[] = "+CGDCONT?";
 
 const char SARA_MQTT_SECURE[] = "+UMQTT=11,1,"; // 11 is the secure command
 const char SARA_MQTT_SECURE_SET_RESPONSE[] = "+UMQTT: 11,1";

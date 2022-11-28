@@ -1,0 +1,389 @@
+\hypertarget{_n_b___r410_m_8h}{}\doxysection{src/\+NB\+\_\+\+R410M.h File Reference}
+\label{_n_b___r410_m_8h}\index{src/NB\_R410M.h@{src/NB\_R410M.h}}
+
+
+Library for u\+Blox SARA R410M LTE Cat M1/\+NB1 module.  
+
+
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}AT\+\_\+commands.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$Hardware\+Serial.\+h$>$}\newline
+Include dependency graph for NB\+\_\+\+R410\+M.\+h\+:
+% FIG 0
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a45e4ad506c0d98b75ab1201ee4598024}\label{_n_b___r410_m_8h_a45e4ad506c0d98b75ab1201ee4598024}} 
+\#define {\bfseries Serial\+Monitor}~Serial
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a9c6027629a363ce015cfa65357400f18}\label{_n_b___r410_m_8h_a9c6027629a363ce015cfa65357400f18}} 
+\#define {\bfseries LTEShield\+Serial}~lte\+Serial
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a6ee158a0ec346b92282bebb6c762259b}\label{_n_b___r410_m_8h_a6ee158a0ec346b92282bebb6c762259b}} 
+Hardware\+Serial {\bfseries lte\+Serial} (2)
+\item 
+void \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmit\+Command}} (const char $\ast$command)
+\begin{DoxyCompactList}\small\item\em Empties the serial buffer and transmits the command. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{get\+Response}} (const char $\ast$response, int timeout)
+\begin{DoxyCompactList}\small\item\em gets response from the LTE shield and compares it to the expected response \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}{init\+Module}} (int timeout)
+\begin{DoxyCompactList}\small\item\em Initializes the LTE Shield and enables AT interface and Timezone update. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enable\+SSL}} (int profile)
+\begin{DoxyCompactList}\small\item\em Enables SSL/\+TLS for mqtt connection. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}\label{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}} 
+void {\bfseries get\+Network} ()
+\begin{DoxyCompactList}\small\item\em Displays the network aquisition status. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{set\+APN}} (const char $\ast$apn)
+\begin{DoxyCompactList}\small\item\em Sets APN on LTE module. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{print\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Prints the IP address of the LTE module. The returned pointer must be freed by the caller. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}{set\+Cert\+MQTT}} (const char $\ast$cert, int type, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Transmit certificate data to the LTE shield. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{set\+MQTTping}} (int timeout)
+\begin{DoxyCompactList}\small\item\em Sets the MQTT ping interval. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enable\+MQTTkeepalive}} ()
+\begin{DoxyCompactList}\small\item\em Enables MQTT keepalive. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publish\+Message}} (const char $\ast$topic, const char $\ast$message, int QoS, int retain)
+\begin{DoxyCompactList}\small\item\em Publishes a message to the MQTT broker. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}{login\+MQTT}} ()
+\begin{DoxyCompactList}\small\item\em Login to the MQTT broker. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}{willconfig\+MQTT}} (const char $\ast$topic)
+\begin{DoxyCompactList}\small\item\em Configures MQTT Will topic. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsg\+MQTT}} (const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Configures MQTT Will message. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT}} (const char $\ast$host, int port)
+\begin{DoxyCompactList}\small\item\em Configures MQTT broker hostname and port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Library for u\+Blox SARA R410M LTE Cat M1/\+NB1 module. 
+
+\begin{DoxyAuthor}{Author}
+Bergma (Mike \& Anders) 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2022-\/11
+\end{DoxyDate}
+Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.
+
+Steps to use this library\+:
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}{init\+Module()}} to initialize the module and enable AT interface and Timezone update
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{set\+APN()}} to set the operator APN
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{get\+Network()}} to get status of network aquisition
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{print\+Info()}} to print connection information (TODO)
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}{set\+Cert\+MQTT()}} to import certificates (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enable\+SSL()}} to enable SSL/\+TLS
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT()}} to set broker hostname and port
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}{willconfig\+MQTT()}} to set Last Will topic
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsg\+MQTT()}} to set Last Will message
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call set\+MQTTtimeout() to set MQTT timeout
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{set\+MQTTping()}} to set MQTT keepalive interval
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enable\+MQTTkeepalive()}} to enable MQTT keepalive
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}{login\+MQTT()}} to login to MQTT broker
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publish\+Message()}} to publish message to MQTT broker 
+\end{DoxyEnumerate}
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}\label{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!enableMQTTkeepalive@{enableMQTTkeepalive}}
+\index{enableMQTTkeepalive@{enableMQTTkeepalive}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{enableMQTTkeepalive()}{enableMQTTkeepalive()}}
+{\footnotesize\ttfamily int enable\+MQTTkeepalive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Enables MQTT keepalive. 
+
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}\label{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!enableSSL@{enableSSL}}
+\index{enableSSL@{enableSSL}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{enableSSL()}{enableSSL()}}
+{\footnotesize\ttfamily int enable\+SSL (\begin{DoxyParamCaption}\item[{int}]{profile }\end{DoxyParamCaption})}
+
+
+
+Enables SSL/\+TLS for mqtt connection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em profile} & SSL profile number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}\label{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!getResponse@{getResponse}}
+\index{getResponse@{getResponse}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{getResponse()}{getResponse()}}
+{\footnotesize\ttfamily int get\+Response (\begin{DoxyParamCaption}\item[{const char $\ast$}]{response,  }\item[{int}]{timeout }\end{DoxyParamCaption})}
+
+
+
+gets response from the LTE shield and compares it to the expected response 
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & Expected response \\
+\hline
+{\em timeout} & Timeout in milliseconds \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}\label{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!initModule@{initModule}}
+\index{initModule@{initModule}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{initModule()}{initModule()}}
+{\footnotesize\ttfamily int init\+Module (\begin{DoxyParamCaption}\item[{int}]{timeout }\end{DoxyParamCaption})}
+
+
+
+Initializes the LTE Shield and enables AT interface and Timezone update. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & Timeout in milliseconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}\label{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!loginMQTT@{loginMQTT}}
+\index{loginMQTT@{loginMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{loginMQTT()}{loginMQTT()}}
+{\footnotesize\ttfamily int login\+MQTT (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Login to the MQTT broker. 
+
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}\label{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!printInfo@{printInfo}}
+\index{printInfo@{printInfo}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{printInfo()}{printInfo()}}
+{\footnotesize\ttfamily char $\ast$ print\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints the IP address of the LTE module. The returned pointer must be freed by the caller. 
+
+\begin{DoxyReturn}{Returns}
+char pointer to the IP address, NULL if not found or error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}\label{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!publishMessage@{publishMessage}}
+\index{publishMessage@{publishMessage}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{publishMessage()}{publishMessage()}}
+{\footnotesize\ttfamily int publish\+Message (\begin{DoxyParamCaption}\item[{const char $\ast$}]{topic,  }\item[{const char $\ast$}]{message,  }\item[{int}]{QoS,  }\item[{int}]{retain }\end{DoxyParamCaption})}
+
+
+
+Publishes a message to the MQTT broker. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em topic} & The topic to publish to \\
+\hline
+{\em message} & The message to publish \\
+\hline
+{\em qos} & The QoS level to publish at \\
+\hline
+{\em retain} & Whether to retain the message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not, -\/1 if memory allocation failed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}\label{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!setAPN@{setAPN}}
+\index{setAPN@{setAPN}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{setAPN()}{setAPN()}}
+{\footnotesize\ttfamily int set\+APN (\begin{DoxyParamCaption}\item[{const char $\ast$}]{apn }\end{DoxyParamCaption})}
+
+
+
+Sets APN on LTE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em apn} & The APN to be set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}\label{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!setCertMQTT@{setCertMQTT}}
+\index{setCertMQTT@{setCertMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{setCertMQTT()}{setCertMQTT()}}
+{\footnotesize\ttfamily int set\+Cert\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{cert,  }\item[{int}]{type,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+Transmit certificate data to the LTE shield. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cert} & Certificate data. Can be CA, client certificate or client key \\
+\hline
+{\em type} & Certificate type. 0 = CA, 1 = client certificate, 2 = client key \\
+\hline
+{\em name} & Certificate name. Can be any name, but must be unique \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}\label{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!setMQTT@{setMQTT}}
+\index{setMQTT@{setMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{setMQTT()}{setMQTT()}}
+{\footnotesize\ttfamily int set\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{host,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Configures MQTT broker hostname and port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hostname} & The hostname of the MQTT broker \\
+\hline
+{\em port} & The port of the MQTT broker \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}\label{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!setMQTTping@{setMQTTping}}
+\index{setMQTTping@{setMQTTping}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{setMQTTping()}{setMQTTping()}}
+{\footnotesize\ttfamily int set\+MQTTping (\begin{DoxyParamCaption}\item[{int}]{timeout }\end{DoxyParamCaption})}
+
+
+
+Sets the MQTT ping interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & Timeout in seconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}\label{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!transmitCommand@{transmitCommand}}
+\index{transmitCommand@{transmitCommand}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{transmitCommand()}{transmitCommand()}}
+{\footnotesize\ttfamily void transmit\+Command (\begin{DoxyParamCaption}\item[{const char $\ast$}]{command }\end{DoxyParamCaption})}
+
+
+
+Empties the serial buffer and transmits the command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The string command to be transmitted \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}\label{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!willconfigMQTT@{willconfigMQTT}}
+\index{willconfigMQTT@{willconfigMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{willconfigMQTT()}{willconfigMQTT()}}
+{\footnotesize\ttfamily int willconfig\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{topic }\end{DoxyParamCaption})}
+
+
+
+Configures MQTT Will topic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em topic} & The topic to publish to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}\label{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!willmsgMQTT@{willmsgMQTT}}
+\index{willmsgMQTT@{willmsgMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{willmsgMQTT()}{willmsgMQTT()}}
+{\footnotesize\ttfamily int willmsg\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{message }\end{DoxyParamCaption})}
+
+
+
+Configures MQTT Will message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to publish \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}

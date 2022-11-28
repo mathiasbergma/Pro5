@@ -5,10 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NB-IoT_LS: src/NB_R410M.h File Reference</title>
+<title>NB-IoT_Module: src/NB_R410M.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -21,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">NB-IoT_LS
+   <div id="projectname">NB-IoT_Module
    </div>
   </td>
  </tr>
@@ -46,6 +50,23 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_n_b___r410_m_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -67,11 +88,6 @@ $(function() {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
@@ -79,9 +95,17 @@ $(function() {
   <div class="headertitle"><div class="title">NB_R410M.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Library for uBlox SARA R410M LTE Cat M1/NB1 module.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
 <code>#include &quot;AT_commands.h&quot;</code><br />
 <code>#include &lt;HardwareSerial.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for NB_R410M.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="_n_b___r410_m_8h__incl.png" border="0" usemap="#asrc_2_n_b___r410_m_8h" alt=""/></div>
+</div>
 </div>
 <p><a href="_n_b___r410_m_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -105,9 +129,9 @@ HardwareSerial&#160;</td><td class="memItemRight" valign="bottom"><b>lteSerial</
 <tr class="memitem:a2540498d294eca76534a8015310df26d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a2540498d294eca76534a8015310df26d">getResponse</a> (const char *response, int timeout)</td></tr>
 <tr class="memdesc:a2540498d294eca76534a8015310df26d"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets response from the LTE shield and compares it to the expected response  <a href="_n_b___r410_m_8h.html#a2540498d294eca76534a8015310df26d">More...</a><br /></td></tr>
 <tr class="separator:a2540498d294eca76534a8015310df26d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eba64cf5908b426d4a6e880f99966d9"><td class="memItemLeft" align="right" valign="top"><a id="a4eba64cf5908b426d4a6e880f99966d9" name="a4eba64cf5908b426d4a6e880f99966d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>initModule</b> ()</td></tr>
-<tr class="separator:a4eba64cf5908b426d4a6e880f99966d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f862d5c7d16623b90ccf294c1cf055"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055">initModule</a> (int timeout)</td></tr>
+<tr class="memdesc:a66f862d5c7d16623b90ccf294c1cf055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the LTE Shield and enables AT interface and Timezone update.  <a href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055">More...</a><br /></td></tr>
+<tr class="separator:a66f862d5c7d16623b90ccf294c1cf055"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45ea19fd14a7f7c3d7803940c809dec8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8">enableSSL</a> (int profile)</td></tr>
 <tr class="memdesc:a45ea19fd14a7f7c3d7803940c809dec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables SSL/TLS for mqtt connection.  <a href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8">More...</a><br /></td></tr>
 <tr class="separator:a45ea19fd14a7f7c3d7803940c809dec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +142,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memitem:a155d2d05c4cd7202d2ccec3c482f5e90"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90">setAPN</a> (const char *apn)</td></tr>
 <tr class="memdesc:a155d2d05c4cd7202d2ccec3c482f5e90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets APN on LTE module.  <a href="_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90">More...</a><br /></td></tr>
 <tr class="separator:a155d2d05c4cd7202d2ccec3c482f5e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59fb44183e4857c7b1fa0db81abe59f2"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2">printInfo</a> ()</td></tr>
+<tr class="memdesc:a59fb44183e4857c7b1fa0db81abe59f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the IP address of the LTE module. The returned pointer must be freed by the caller.  <a href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2">More...</a><br /></td></tr>
+<tr class="separator:a59fb44183e4857c7b1fa0db81abe59f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8d8e04df5c4414751d4b1187175cdb3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3">setCertMQTT</a> (const char *cert, int type, const char *name)</td></tr>
 <tr class="memdesc:ab8d8e04df5c4414751d4b1187175cdb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit certificate data to the LTE shield.  <a href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3">More...</a><br /></td></tr>
 <tr class="separator:ab8d8e04df5c4414751d4b1187175cdb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +170,55 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memdesc:ac0f44c06684338d6571b119289066fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures MQTT broker hostname and port.  <a href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce">More...</a><br /></td></tr>
 <tr class="separator:ac0f44c06684338d6571b119289066fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Library for uBlox SARA R410M LTE Cat M1/NB1 module. </p>
+<dl class="section author"><dt>Author</dt><dd>Bergma (Mike &amp; Anders) </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2022-11</dd></dl>
+<p>Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.</p>
+<p >Steps to use this library:</p>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055" title="Initializes the LTE Shield and enables AT interface and Timezone update.">initModule()</a> to initialize the module and enable AT interface and Timezone update</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90" title="Sets APN on LTE module.">setAPN()</a> to set the operator APN</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#aa6f75e9b70b0ada28fb438225a155bbb" title="Displays the network aquisition status.">getNetwork()</a> to get status of network aquisition</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2" title="Prints the IP address of the LTE module. The returned pointer must be freed by the caller.">printInfo()</a> to print connection information (TODO)</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3" title="Transmit certificate data to the LTE shield.">setCertMQTT()</a> to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce" title="Configures MQTT broker hostname and port.">setMQTT()</a> to set broker hostname and port</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a05ff32195e69fc3d74b5bcd78781c5df" title="Configures MQTT Will topic.">willconfigMQTT()</a> to set Last Will topic</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#adad4ab35b4d191aaed39087329867277" title="Configures MQTT Will message.">willmsgMQTT()</a> to set Last Will message</li>
+</ol>
+<ol type="1">
+<li>Call setMQTTtimeout() to set MQTT timeout</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641" title="Sets the MQTT ping interval.">setMQTTping()</a> to set MQTT keepalive interval</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#ae3585e6376929a7f5de0b8243b313e98" title="Enables MQTT keepalive.">enableMQTTkeepalive()</a> to enable MQTT keepalive</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#ae0c1031eb25784bc3a5ab60e8f3981bf" title="Login to the MQTT broker.">loginMQTT()</a> to login to MQTT broker</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a92d55d9f690d1e2c337f035700ef5a4e" title="Publishes a message to the MQTT broker.">publishMessage()</a> to publish message to MQTT broker </li>
+</ol>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="ae3585e6376929a7f5de0b8243b313e98" name="ae3585e6376929a7f5de0b8243b313e98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae3585e6376929a7f5de0b8243b313e98">&#9670;&#160;</a></span>enableMQTTkeepalive()</h2>
 
@@ -228,6 +303,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 
 </div>
 </div>
+<a id="a66f862d5c7d16623b90ccf294c1cf055" name="a66f862d5c7d16623b90ccf294c1cf055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f862d5c7d16623b90ccf294c1cf055">&#9670;&#160;</a></span>initModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int initModule </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the LTE Shield and enables AT interface and Timezone update. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>Timeout in milliseconds </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+
+</div>
+</div>
 <a id="ae0c1031eb25784bc3a5ab60e8f3981bf" name="ae0c1031eb25784bc3a5ab60e8f3981bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae0c1031eb25784bc3a5ab60e8f3981bf">&#9670;&#160;</a></span>loginMQTT()</h2>
 
@@ -245,6 +347,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 
 <p>Login to the MQTT broker. </p>
 <dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+
+</div>
+</div>
+<a id="a59fb44183e4857c7b1fa0db81abe59f2" name="a59fb44183e4857c7b1fa0db81abe59f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59fb44183e4857c7b1fa0db81abe59f2">&#9670;&#160;</a></span>printInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * printInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the IP address of the LTE module. The returned pointer must be freed by the caller. </p>
+<dl class="section return"><dt>Returns</dt><dd>char pointer to the IP address, NULL if not found or error </dd></dl>
 
 </div>
 </div>
@@ -518,9 +640,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_n_b___r410_m_8h.html">NB_R410M.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
+  </ul>
+</div>
 </body>
 </html>
