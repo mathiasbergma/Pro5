@@ -5,6 +5,8 @@
  * @author Bergma (Mike & Anders)
  * @date 2022-11
  * @details Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.
+ * @details The function printToConsole() must be populated with the device specific implementation of Serial Print.
+ * @details This library is based on the u-blox SARA-R4 AT Commands Manual (UBX-17003787 - R09)
  * @details Steps to use this library:
  * @details 1. Call initModule() to initialize the module and enable AT interface and Timezone update
  * @details 2. Call setAPN() to set the operator APN
@@ -32,12 +34,21 @@ HardwareSerial lteSerial(2);
 #define LTEShieldSerial lteSerial
 
 /**
+ * @brief Use this function for your own port of UART print to console
+ * @param text Text to print
+ */
+void printToConsole(const char *text)
+{
+  SerialMonitor.print(text);
+}
+
+/**
  * @brief Empties the serial buffer and transmits the command
  * @param command The string command to be transmitted
  */
 void transmitCommand(const char *command)
 {
-  // SerialMonitor.printf("Command: %s\n", command);
+  // printToConsole("Command: %s\n", command);
   //  Empty the serial buffer
   while (LTEShieldSerial.available())
   {
@@ -91,17 +102,18 @@ int getResponse(const char *response, int timeout)
 
 /**
  * @brief Initializes the LTE Shield and enables AT interface and Timezone update
- * @param timeout Timeout in milliseconds
+ * @param timeout Timeout in milliseconds (30000 thousand is recommended)
  * @return 1 if successful, 0 if not
  */
 int initModule(int timeout)
 {
   LTEShieldSerial.begin(9600);
   unsigned long startTime = millis();
-  SerialMonitor.printf("Transmitting AT\n");
+  
+  printToConsole("Transmitting AT\n");
   while (!getResponse("OK", 500))
   {
-    SerialMonitor.printf(".");
+    printToConsole(".");
     transmitCommand("AT"); // Send AT command to enable the interface
     
     if (millis() - startTime > timeout)
@@ -109,27 +121,27 @@ int initModule(int timeout)
       return 0;
     }
   }
-  SerialMonitor.printf("Got OK\n");
+  printToConsole("Got OK\n");
 
-  SerialMonitor.printf("Disabling echo\n");
+  printToConsole("Disabling echo\n");
   transmitCommand("ATE0"); // Disable echo
   if (getResponse("OK", 200))
   {
-    SerialMonitor.println("Echo disabled");
+    printToConsole("Echo disabled");
   }
   else
   {
-    SerialMonitor.println("Echo not disabled");
+    printToConsole("Echo not disabled");
   }
 
   transmitCommand("AT+CTZU=1"); // Enable automatic time zone update
   if (getResponse("OK", 5000))
   {
-    SerialMonitor.println("Automatic time zone update enabled");
+    printToConsole("Automatic time zone update enabled");
   }
   else
   {
-    SerialMonitor.println("Automatic time zone update not enabled");
+    printToConsole("Automatic time zone update not enabled");
   }
   return 1;
 }
@@ -144,7 +156,7 @@ int enableSSL(int profile)
   command = (char *)malloc(strlen(AT) + strlen(SARA_MQTT_SECURE) + 5);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed");
     return 0;
   }
 
@@ -152,12 +164,12 @@ int enableSSL(int profile)
   transmitCommand(command);
   if (getResponse(SARA_MQTT_SECURE_SET_RESPONSE, 5000))
   {
-    SerialMonitor.println("SSL enabled");
+    printToConsole("SSL enabled");
     return 1;
   }
   else
   {
-    SerialMonitor.println("SSL not enabled");
+    printToConsole("SSL not enabled");
     return 0;
   }
 }
@@ -193,7 +205,7 @@ void getNetwork()
         c = (char)LTEShieldSerial.read();
         // Serial.print(c);
         ret[index++] = c;
-        // SerialMonitor.printf("index: %d\n", index);
+        // printToConsole("index: %d\n", index);
         if (index > size)
         {
           break;
@@ -201,88 +213,89 @@ void getNetwork()
       }
     }
     ret[++index] = 0;
-    // SerialMonitor.printf("ret: %s\n", ret);
+    // printToConsole("ret: %s\n", ret);
     sscanf(ret, " +CEREG: 0,%d", &retval);
     switch (retval)
     {
     case 0:
       if (last != retval)
       {
-        SerialMonitor.printf("Not registered, MT is not currently searching a new operator to register to\n");
+        printToConsole("Not registered, MT is not currently searching a new operator to register to\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     case 1:
       if (last != retval)
       {
-        SerialMonitor.printf("Registered, home network\n");
+        printToConsole("Registered, home network\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     case 2:
       if (last != retval)
       {
-        SerialMonitor.printf("Scanning for network\n");
+        printToConsole("Scanning for network\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     case 3:
       if (last != retval)
       {
-        SerialMonitor.printf("Registration denied\n");
+        printToConsole("Registration denied\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     case 4:
       if (last != retval)
       {
-        SerialMonitor.printf("Unknown\n");
+        printToConsole("Unknown\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     case 5:
       if (last != retval)
       {
-        SerialMonitor.printf("Registered, roaming\n");
+        printToConsole("Registered, roaming\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     default:
       if (last != retval)
       {
-        SerialMonitor.printf("Unknown\n");
+        printToConsole("Unknown\n");
         last = retval;
       }
       else
       {
-        SerialMonitor.printf(".");
+        printToConsole(".");
       }
       break;
     }
+    delay(500);
   }
 }
 
@@ -295,14 +308,14 @@ int setAPN(const char *apn)
 {
   int result = 0;
   char *command = NULL;
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SET_APN) + strlen(apn) + 5);
+  command = (char *)malloc(strlen(AT) + strlen(SARA_SET_APN) + strlen(apn) + 5);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed");
     return 0;
   }
 
-  sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_SET_APN, apn);
+  sprintf(command, "%s%s\"%s\"", AT, SARA_SET_APN, apn);
   transmitCommand(command);
   if (getResponse("OK", 1000))
   {
@@ -329,12 +342,12 @@ char *printInfo()
   ip = (char *)malloc(16);
   if (ip == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed");
     return NULL;
   }
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed");
     return NULL;
   }
   sprintf(command, "%s%s", AT, SARA_NETWORK_INFO_GET);
@@ -354,7 +367,7 @@ char *printInfo()
       c = (char)LTEShieldSerial.read();
       // Serial.print(c);
       ret[index] = c;
-      // SerialMonitor.printf("index: %d\n", index);
+      // printToConsole("index: %d\n", index);
       if (ret[index - 1] == OK[0] && ret[index] == OK[1])
       {
         break;
@@ -362,15 +375,12 @@ char *printInfo()
       index++;
     }
   }
-  /*
-  +CGDCONT: 1,"IP","web.omnitel.it","91.80.140.199",0,0
-  OK
-  */
+  
   ret[++index] = 0;
-  char * token = strtok(ret, ",");
+  char * token = strtok(ret, ",\"");
   for (int i = 0; i < 3; i++)
   {
-    token = strtok(NULL, ",");
+    token = strtok(NULL, "\",\"");
   }
   
   strcpy(ip, token);
@@ -390,47 +400,49 @@ int setCertMQTT(const char *cert, int type, const char *name)
   int result = 0;
   char *command = NULL;
   char *response = NULL;
-  response = (char *)malloc(strlen(LTE_SHIELD_IMPORT_CERT_OK) + 5);
+  response = (char *)malloc(strlen(SARA_IMPORT_CERT_OK) + 5);
   if (response == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-  command = (char *)malloc((strlen(AT) + strlen(LTE_SHIELD_IMPORT_CERT) + strlen(cert) + strlen(name) + 15));
+  command = (char *)malloc((strlen(AT) + strlen(SARA_IMPORT_CERT) + strlen(cert) + strlen(name) + 15));
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-  sprintf(command, "%s%s%d,\"%s\",%d", AT, LTE_SHIELD_IMPORT_CERT, type, name, strlen(cert));
-  SerialMonitor.printf("Importing certificate: %s\n", name);
-  // SerialMonitor.printf("Command: %s\n", command);
+  sprintf(command, "%s%s%d,\"%s\",%d", AT, SARA_IMPORT_CERT, type, name, strlen(cert));
+  printToConsole("Importing certificate: ");
+  printToConsole(name);
+  printToConsole("\n");
+  // printToConsole("Command: %s\n", command);
   //  Empties buffer and transmits the command
   transmitCommand(command);
 
-  if (getResponse(LTE_SHIELD_IMPORT_CERT_READY, 10000))
+  if (getResponse(SARA_IMPORT_CERT_READY, 10000))
   {
-    SerialMonitor.println("Ready to receive certificate:");
-    // SerialMonitor.printf("%s\n",cert);
+    printToConsole("Ready to receive certificate:\n");
+    // printToConsole("%s\n",cert);
 
-    sprintf(response, "%s%d", LTE_SHIELD_IMPORT_CERT_OK, type);
+    sprintf(response, "%s%d", SARA_IMPORT_CERT_OK, type);
 
     // Empties buffer and transmits the command
     transmitCommand(cert);
 
     if (getResponse(response, 10000))
     {
-      SerialMonitor.println("Certificate imported");
+      printToConsole("Certificate imported\n");
       result = 1;
     }
     else
     {
-      SerialMonitor.println("Certificate import failed");
+      printToConsole("Certificate import failed\n");
     }
   }
   else
   {
-    SerialMonitor.println("Failed to import certificate - not ready");
+    printToConsole("Failed to import certificate - not ready\n");
   }
   free(command);
   free(response);
@@ -447,26 +459,28 @@ int setMQTTping(int timeout)
   int result = 0;
   char *command = NULL;
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_TIMEOUT) + 5);
+  command = (char *)malloc(strlen(AT) + strlen(SARA_TIMEOUT) + 5);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-  sprintf(command, "%s%s%d", AT, LTE_SHIELD_TIMEOUT, timeout);
+  sprintf(command, "%s%s%d", AT, SARA_TIMEOUT, timeout);
 
   // Empties buffer and transmits the command
   transmitCommand(command);
 
   // Wait for the response
-  if (getResponse(LTE_SHIELD_TIMEOUT_SET_RESPONSE, 10000))
+  if (getResponse(SARA_TIMEOUT_SET_RESPONSE, 10000))
   {
-    SerialMonitor.println("MQTT ping timeout set to " + String(timeout));
+    char msgToPrint[50];
+    sprintf(msgToPrint, "MQTT ping interval set to %d seconds\n", timeout);
+    printToConsole(msgToPrint);
     result = 1;
   }
   else
   {
-    SerialMonitor.println("Error setting MQTT ping timeout");
+    printToConsole("Error setting MQTT ping timeout\n");
   }
   free(command);
   return result;
@@ -481,26 +495,26 @@ int enableMQTTkeepalive()
   int result = 0;
   char *command = NULL;
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_PING) + 5);
+  command = (char *)malloc(strlen(AT) + strlen(SARA_PING) + 5);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-  sprintf(command, "%s%s", AT, LTE_SHIELD_PING);
+  sprintf(command, "%s%s", AT, SARA_PING);
 
   // Empties buffer and transmits the command
   transmitCommand(command);
 
   // Wait for the response
-  if (getResponse(LTE_SHIELD_PING_OK, 10000))
+  if (getResponse(SARA_PING_OK, 10000))
   {
-    SerialMonitor.println("MQTT keepalive enabled");
+    printToConsole("MQTT keepalive enabled\n");
     result = 1;
   }
   else
   {
-    SerialMonitor.println("Error enabling MQTT keepalive");
+    printToConsole("Error enabling MQTT keepalive\n");
   }
   free(command);
   return result;
@@ -519,32 +533,32 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
   int result = 0;
   char *command = NULL;
 
-  unsigned long LTE_SHIELD_SEND_TIMEOUT = 60000;
+  unsigned long SARA_SEND_TIMEOUT = 60000;
 
-  // SerialMonitor.printf("Allocating memory for command\n");
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_SEND_MQTT) + strlen(message) + strlen(topic) + 8);
+  // printToConsole("Allocating memory for command\n");
+  command = (char *)malloc(strlen(AT) + strlen(SARA_SEND_MQTT) + strlen(message) + strlen(topic) + 8);
   if (command == NULL)
   {
-    SerialMonitor.printf("Memory allocation failed\n");
+    printToConsole("Memory allocation failed\n");
     return -1;
   }
-  // SerialMonitor.printf("Building command\n");
-  sprintf(command, "%s%s,%d,%d,%s,%s", AT, LTE_SHIELD_SEND_MQTT, QoS, retain, topic, message);
+  // printToConsole("Building command\n");
+  sprintf(command, "%s%s,%d,%d,%s,%s", AT, SARA_SEND_MQTT, QoS, retain, topic, message);
 
-  // SerialMonitor.printf("Command built....Sending\n");
+  // printToConsole("Command built....Sending\n");
 
   // Empties buffer and transmits the command
   transmitCommand(command);
 
-  // SerialMonitor.printf("Command sent....Waiting for response\n");
-  if (getResponse(LTE_SHIELD_SEND_OK, LTE_SHIELD_SEND_TIMEOUT))
+  // printToConsole("Command sent....Waiting for response\n");
+  if (getResponse(SARA_SEND_OK, SARA_SEND_TIMEOUT))
   {
-    SerialMonitor.println("Message sent");
+    printToConsole("Message sent\n");
     result = 1;
   }
   else
   {
-    SerialMonitor.println("Error sending message");
+    printToConsole("Error sending message\n");
   }
 
   free(command);
@@ -558,20 +572,19 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
 int loginMQTT()
 {
   int result = 0;
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 60000;
+  unsigned long SARA_IP_CONNECT_TIMEOUT = 60000;
 
-  SerialMonitor.printf("Sending login command: %s\n", LTE_SHIELD_LOGIN);
   // Empties buffer and transmits the command
-  transmitCommand(LTE_SHIELD_LOGIN);
+  transmitCommand(SARA_LOGIN);
 
-  if (getResponse(LTE_SHIELD_LOGIN_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
+  if (getResponse(SARA_LOGIN_OK, SARA_IP_CONNECT_TIMEOUT))
   {
-    SerialMonitor.println("MQTT login successful");
+    printToConsole("MQTT login successfull\n");
     result = 1;
   }
   else
   {
-    SerialMonitor.println("Error logging in to MQTT");
+    printToConsole("Error logging in to MQTT\n");
   }
   return result;
 }
@@ -585,28 +598,27 @@ int willconfigMQTT(const char *topic)
 {
   int result = 0;
   char *command = NULL;
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
+  unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_TOPIC_MQTT) + strlen(topic) + 10);
+  command = (char *)malloc(strlen(AT) + strlen(SARA_WILL_TOPIC_MQTT) + strlen(topic) + 10);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed");
     return 0;
   }
-  sprintf(command, "%s%s%d,%d,\"%s\"", AT, LTE_SHIELD_WILL_TOPIC_MQTT, 0, 0, topic);
+  sprintf(command, "%s%s%d,%d,\"%s\"", AT, SARA_WILL_TOPIC_MQTT, 0, 0, topic);
 
-  SerialMonitor.printf("Sending will topic command: %s\n", command);
   // Empties buffer and transmits the command
   transmitCommand(command);
 
-  if (getResponse(LTE_SHIELD_TOPIC_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
+  if (getResponse(SARA_TOPIC_OK, SARA_IP_CONNECT_TIMEOUT))
   {
-    Serial.println("Will topic set");
+    Serial.println("Will topic set\n");
     result = 1;
   }
   else
   {
-    Serial.println("Will topic not set");
+    Serial.println("Will topic not set\n");
   }
 
   free(command);
@@ -624,28 +636,27 @@ int willmsgMQTT(const char *message)
   int result = 0;
   char *command = NULL;
 
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
+  unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
 
-  command = (char *)malloc(strlen(AT) + strlen(LTE_SHIELD_WILL_MESSAGE_MQTT) + strlen(message) + 10);
+  command = (char *)malloc(strlen(AT) + strlen(SARA_WILL_MESSAGE_MQTT) + strlen(message) + 10);
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-  sprintf(command, "%s%s\"%s\"", AT, LTE_SHIELD_WILL_MESSAGE_MQTT, message);
+  sprintf(command, "%s%s\"%s\"", AT, SARA_WILL_MESSAGE_MQTT, message);
 
-  SerialMonitor.printf("Sending will message command: %s\n", command);
   // Empties buffer and transmits the command
   transmitCommand(command);
 
-  if (getResponse(LTE_SHIELD_MESSAGE_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
+  if (getResponse(SARA_MESSAGE_OK, SARA_IP_CONNECT_TIMEOUT))
   {
-    Serial.println("Will message set");
+    Serial.println("Will message set\n");
     result = 1;
   }
   else
   {
-    Serial.println("Will message not set");
+    Serial.println("Will message not set\n");
   }
   free(command);
   return result;
@@ -661,33 +672,31 @@ int setMQTT(const char *host, int port)
 {
   int result = 0;
   char *command = NULL;
+  unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
 
-  unsigned long LTE_SHIELD_IP_CONNECT_TIMEOUT = 10000;
-
-  command = (char *)malloc(sizeof(char) * (strlen(LTE_SHIELD_CONNECT_MQTT) + strlen(host) + 15));
+  command = (char *)malloc(sizeof(char) * (strlen(SARA_CONNECT_MQTT) + strlen(host) + 15));
   if (command == NULL)
   {
-    SerialMonitor.println("Malloc failed");
+    printToConsole("Malloc failed\n");
     return 0;
   }
-
   // Create the command
-  sprintf(command, "AT%s=%d,\"%s\",%d", LTE_SHIELD_CONNECT_MQTT, 2, host, port);
+  sprintf(command, "AT%s=%d,\"%s\",%d", SARA_CONNECT_MQTT, 2, host, port);
   // Send the command
-  SerialMonitor.println("Setting MQTT hostname & port");
+  printToConsole("Setting MQTT hostname & port\n");
 
   // Empties buffer and transmits the command
   transmitCommand(command);
 
   // Wait for the response
-  if (getResponse(LTE_SHIELD_RESPONSE_OK, LTE_SHIELD_IP_CONNECT_TIMEOUT))
+  if (getResponse(SARA_RESPONSE_OK, SARA_IP_CONNECT_TIMEOUT))
   {
-    Serial.println("MQTT hostname & port set");
+    printToConsole("MQTT hostname & port set\n");
     result = 1;
   }
   else
   {
-    Serial.println("MQTT hostname & port not set");
+    printToConsole("MQTT hostname & port not set\n");
   }
 
   free(command);

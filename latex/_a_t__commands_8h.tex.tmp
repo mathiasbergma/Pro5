@@ -1,0 +1,95 @@
+\hypertarget{_a_t__commands_8h}{}\doxysection{src/\+AT\+\_\+commands.h File Reference}
+\label{_a_t__commands_8h}\index{src/AT\_commands.h@{src/AT\_commands.h}}
+
+
+.h file containing constants with AT commands for U-\/\+Blox R410\+M-\/02B  
+
+
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a750b42c63ac770cf957f0a1bc88501c5}\label{_a_t__commands_8h_a750b42c63ac770cf957f0a1bc88501c5}} 
+const char {\bfseries AT} \mbox{[}$\,$\mbox{]} = \char`\"{}AT\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aef126f286a868926e55ae9b4d447f9cd}\label{_a_t__commands_8h_aef126f286a868926e55ae9b4d447f9cd}} 
+const char {\bfseries SARA\+\_\+\+TIMEOUT} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT=10,\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a0fff163a0211bb248bc3a8a779e9bb7b}\label{_a_t__commands_8h_a0fff163a0211bb248bc3a8a779e9bb7b}} 
+const char {\bfseries SARA\+\_\+\+TIMEOUT\+\_\+\+SET\+\_\+\+RESPONSE} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\+: 10,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a4c8025ccc0bf68a21fbd8464efdea1c8}\label{_a_t__commands_8h_a4c8025ccc0bf68a21fbd8464efdea1c8}} 
+const char {\bfseries SARA\+\_\+\+PING} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTC=8,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a6f77837dc25bde36e835c86b7a9c4cab}\label{_a_t__commands_8h_a6f77837dc25bde36e835c86b7a9c4cab}} 
+const char {\bfseries SARA\+\_\+\+PING\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTC\+: 8,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a169bd68626dfce54980573918db4a764}\label{_a_t__commands_8h_a169bd68626dfce54980573918db4a764}} 
+const char {\bfseries SARA\+\_\+\+SEND\+\_\+\+MQTT} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTC=2\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_afc927c18c515b02d52052645bbfb6bb5}\label{_a_t__commands_8h_afc927c18c515b02d52052645bbfb6bb5}} 
+const char {\bfseries SARA\+\_\+\+SEND\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTC\+: 2,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a5adaba1567850c5e3c7cf6e702295090}\label{_a_t__commands_8h_a5adaba1567850c5e3c7cf6e702295090}} 
+const char {\bfseries SARA\+\_\+\+LOGIN} \mbox{[}$\,$\mbox{]} = \char`\"{}AT+UMQTTC=1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a633b1c9306d64f14f08b092a40efc16c}\label{_a_t__commands_8h_a633b1c9306d64f14f08b092a40efc16c}} 
+const char {\bfseries SARA\+\_\+\+LOGIN\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UUMQTTC\+: 1,0\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aad18d2281196a4cdddac95e2ec2b277f}\label{_a_t__commands_8h_aad18d2281196a4cdddac95e2ec2b277f}} 
+const char {\bfseries SARA\+\_\+\+WILL\+\_\+\+TOPIC\+\_\+\+MQTT} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTWTOPIC=\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a8de7d1e07e5a9ebce0f996a62218dc30}\label{_a_t__commands_8h_a8de7d1e07e5a9ebce0f996a62218dc30}} 
+const char {\bfseries SARA\+\_\+\+TOPIC\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTWTOPIC\+: 1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a632f4c809501f360b86c440c7c579fa3}\label{_a_t__commands_8h_a632f4c809501f360b86c440c7c579fa3}} 
+const char {\bfseries SARA\+\_\+\+WILL\+\_\+\+MESSAGE\+\_\+\+MQTT} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTWMSG=\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a58694fd7fd23eccd6aa7fb8e15e74319}\label{_a_t__commands_8h_a58694fd7fd23eccd6aa7fb8e15e74319}} 
+const char {\bfseries SARA\+\_\+\+MESSAGE\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTTWMSG\+: 1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aa27e3183e3bc6577e48ae9cc572fa1bf}\label{_a_t__commands_8h_aa27e3183e3bc6577e48ae9cc572fa1bf}} 
+const char {\bfseries SARA\+\_\+\+CONNECT\+\_\+\+MQTT} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_ae645e1b9e45b3d6b474398dba2da7148}\label{_a_t__commands_8h_ae645e1b9e45b3d6b474398dba2da7148}} 
+const char {\bfseries SARA\+\_\+\+RESPONSE\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\+: 2,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a9f8960c1e941ae4047e33032551c9950}\label{_a_t__commands_8h_a9f8960c1e941ae4047e33032551c9950}} 
+const char {\bfseries SARA\+\_\+\+IMPORT\+\_\+\+CERT} \mbox{[}$\,$\mbox{]} = \char`\"{}+USECMNG=0,\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aacab333d790ee9f860317d88512fd206}\label{_a_t__commands_8h_aacab333d790ee9f860317d88512fd206}} 
+const char {\bfseries SARA\+\_\+\+IMPORT\+\_\+\+CERT\+\_\+\+READY} \mbox{[}$\,$\mbox{]} = \char`\"{}$>$\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_ad7f40a84a9e6fbf56dc1427ac8b2c2e6}\label{_a_t__commands_8h_ad7f40a84a9e6fbf56dc1427ac8b2c2e6}} 
+const char {\bfseries SARA\+\_\+\+IMPORT\+\_\+\+CERT\+\_\+\+OK} \mbox{[}$\,$\mbox{]} = \char`\"{}+USECMNG\+: 0,\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a4b9bd52a2bad3204fad051bf47a5ab7a}\label{_a_t__commands_8h_a4b9bd52a2bad3204fad051bf47a5ab7a}} 
+const char {\bfseries SARA\+\_\+\+SET\+\_\+\+APN} \mbox{[}$\,$\mbox{]} = \char`\"{}+CGDCONT=1,\textbackslash{}\char`\"{}IP\textbackslash{}\char`\"{},\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aab5925e880cfc533ebc5e9b9d04f8773}\label{_a_t__commands_8h_aab5925e880cfc533ebc5e9b9d04f8773}} 
+const char {\bfseries SARA\+\_\+\+NETWORK\+\_\+\+INFO\+\_\+\+GET} \mbox{[}$\,$\mbox{]} = \char`\"{}+CGDCONT?\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_aff992c733201c26fc44956d139c868f2}\label{_a_t__commands_8h_aff992c733201c26fc44956d139c868f2}} 
+const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+SECURE} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT=11,1,\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_ae46acf7b4f582fccb8c2cb419048e2ad}\label{_a_t__commands_8h_ae46acf7b4f582fccb8c2cb419048e2ad}} 
+const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+SECURE\+\_\+\+SET\+\_\+\+RESPONSE} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\+: 11,1\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+.h file containing constants with AT commands for U-\/\+Blox R410\+M-\/02B 
+
+\begin{DoxyAuthor}{Author}
+Mathias 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/11-\/28
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 
+\end{DoxyCopyright}

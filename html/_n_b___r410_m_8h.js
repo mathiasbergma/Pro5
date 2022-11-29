@@ -7,6 +7,7 @@ var _n_b___r410_m_8h =
     [ "initModule", "_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055", null ],
     [ "loginMQTT", "_n_b___r410_m_8h.html#ae0c1031eb25784bc3a5ab60e8f3981bf", null ],
     [ "printInfo", "_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2", null ],
+    [ "printToConsole", "_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1", null ],
     [ "publishMessage", "_n_b___r410_m_8h.html#a92d55d9f690d1e2c337f035700ef5a4e", null ],
     [ "setAPN", "_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90", null ],
     [ "setCertMQTT", "_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3", null ],

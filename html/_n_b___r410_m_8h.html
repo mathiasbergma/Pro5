@@ -99,7 +99,7 @@ $(document).ready(function(){initNavTree('_n_b___r410_m_8h.html',''); initResiza
 <p>Library for uBlox SARA R410M LTE Cat M1/NB1 module.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
-<code>#include &quot;AT_commands.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_a_t__commands_8h_source.html">AT_commands.h</a>&quot;</code><br />
 <code>#include &lt;HardwareSerial.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for NB_R410M.h:</div>
@@ -123,6 +123,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6ee158a0ec346b92282bebb6c762259b"><td class="memItemLeft" align="right" valign="top"><a id="a6ee158a0ec346b92282bebb6c762259b" name="a6ee158a0ec346b92282bebb6c762259b"></a>
 HardwareSerial&#160;</td><td class="memItemRight" valign="bottom"><b>lteSerial</b> (2)</td></tr>
 <tr class="separator:a6ee158a0ec346b92282bebb6c762259b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46a4e6cfc8eae8ca667e05b6b55f97c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1">printToConsole</a> (const char *text)</td></tr>
+<tr class="memdesc:a46a4e6cfc8eae8ca667e05b6b55f97c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this function for your own port of UART print to console.  <a href="_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1">More...</a><br /></td></tr>
+<tr class="separator:a46a4e6cfc8eae8ca667e05b6b55f97c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a301d0294e9c5137ccbc922d3bf7831aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a301d0294e9c5137ccbc922d3bf7831aa">transmitCommand</a> (const char *command)</td></tr>
 <tr class="memdesc:a301d0294e9c5137ccbc922d3bf7831aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empties the serial buffer and transmits the command.  <a href="_n_b___r410_m_8h.html#a301d0294e9c5137ccbc922d3bf7831aa">More...</a><br /></td></tr>
 <tr class="separator:a301d0294e9c5137ccbc922d3bf7831aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +178,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <dl class="section author"><dt>Author</dt><dd>Bergma (Mike &amp; Anders) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2022-11</dd></dl>
 <p>Use this library to initialize the module, setup the APN, connect to the network, and communicate via MQTT.</p>
+<p >The function <a class="el" href="_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1" title="Use this function for your own port of UART print to console.">printToConsole()</a> must be populated with the device specific implementation of Serial Print.</p>
+<p >This library is based on the u-blox SARA-R4 AT Commands Manual (UBX-17003787 - R09)</p>
 <p >Steps to use this library:</p>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055" title="Initializes the LTE Shield and enables AT interface and Timezone update.">initModule()</a> to initialize the module and enable AT interface and Timezone update</li>
@@ -322,7 +327,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <p>Initializes the LTE Shield and enables AT interface and Timezone update. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">timeout</td><td>Timeout in milliseconds </td></tr>
+    <tr><td class="paramname">timeout</td><td>Timeout in milliseconds (30000 thousand is recommended) </td></tr>
   </table>
   </dd>
 </dl>
@@ -367,6 +372,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 
 <p>Prints the IP address of the LTE module. The returned pointer must be freed by the caller. </p>
 <dl class="section return"><dt>Returns</dt><dd>char pointer to the IP address, NULL if not found or error </dd></dl>
+
+</div>
+</div>
+<a id="a46a4e6cfc8eae8ca667e05b6b55f97c1" name="a46a4e6cfc8eae8ca667e05b6b55f97c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46a4e6cfc8eae8ca667e05b6b55f97c1">&#9670;&#160;</a></span>printToConsole()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printToConsole </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use this function for your own port of UART print to console. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>Text to print </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

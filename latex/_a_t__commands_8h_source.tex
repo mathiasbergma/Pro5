@@ -1,45 +1,47 @@
 \hypertarget{_a_t__commands_8h_source}{}\doxysection{AT\+\_\+commands.\+h}
 \label{_a_t__commands_8h_source}\index{src/AT\_commands.h@{src/AT\_commands.h}}
-
+\mbox{\hyperlink{_a_t__commands_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef AT\_COMMANDS\_H}}
-\DoxyCodeLine{2 \textcolor{preprocessor}{\#define AT\_COMMANDS\_H}}
-\DoxyCodeLine{3 }
-\DoxyCodeLine{4 \textcolor{keyword}{const} \textcolor{keywordtype}{char} AT[] = \textcolor{stringliteral}{"{}AT"{}};}
-\DoxyCodeLine{5 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_TIMEOUT[] = \textcolor{stringliteral}{"{}+UMQTT=10,"{}}; \textcolor{comment}{// 10 is the timeout command}}
-\DoxyCodeLine{6 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_TIMEOUT\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 10,1"{}};}
-\DoxyCodeLine{7 }
-\DoxyCodeLine{8 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_PING[] = \textcolor{stringliteral}{"{}+UMQTTC=8,1"{}};}
-\DoxyCodeLine{9 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_PING\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 8,1"{}};}
-\DoxyCodeLine{10 }
-\DoxyCodeLine{11 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SEND\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTC=2"{}};}
-\DoxyCodeLine{12 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SEND\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 2,1"{}};}
-\DoxyCodeLine{13 }
-\DoxyCodeLine{14 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_LOGIN[] = \textcolor{stringliteral}{"{}AT+UMQTTC=1"{}};}
-\DoxyCodeLine{15 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_LOGIN\_OK[] = \textcolor{stringliteral}{"{}+UUMQTTC: 1,0"{}};}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef AT\_COMMANDS\_H}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define AT\_COMMANDS\_H}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{const} \textcolor{keywordtype}{char} AT[] = \textcolor{stringliteral}{"{}AT"{}};}
 \DoxyCodeLine{16 }
-\DoxyCodeLine{17 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_WILL\_TOPIC\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTWTOPIC="{}};}
-\DoxyCodeLine{18 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_TOPIC\_OK[] = \textcolor{stringliteral}{"{}+UMQTTWTOPIC: 1"{}};}
+\DoxyCodeLine{17 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_TIMEOUT[] = \textcolor{stringliteral}{"{}+UMQTT=10,"{}}; \textcolor{comment}{// 10 is the timeout command}}
+\DoxyCodeLine{18 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_TIMEOUT\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 10,1"{}};}
 \DoxyCodeLine{19 }
-\DoxyCodeLine{20 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_WILL\_MESSAGE\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTWMSG="{}};}
-\DoxyCodeLine{21 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_MESSAGE\_OK[] = \textcolor{stringliteral}{"{}+UMQTTWMSG: 1"{}};}
+\DoxyCodeLine{20 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_PING[] = \textcolor{stringliteral}{"{}+UMQTTC=8,1"{}};}
+\DoxyCodeLine{21 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_PING\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 8,1"{}};}
 \DoxyCodeLine{22 }
-\DoxyCodeLine{23 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_CONNECT\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTT"{}};}
-\DoxyCodeLine{24 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_RESPONSE\_OK[] = \textcolor{stringliteral}{"{}+UMQTT: 2,1"{}};}
+\DoxyCodeLine{23 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_SEND\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTC=2"{}};}
+\DoxyCodeLine{24 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_SEND\_OK[] = \textcolor{stringliteral}{"{}+UMQTTC: 2,1"{}};}
 \DoxyCodeLine{25 }
-\DoxyCodeLine{26 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT[] = \textcolor{stringliteral}{"{}+USECMNG=0,"{}}; \textcolor{comment}{// 0 is the import command}}
-\DoxyCodeLine{27 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT\_READY[] = \textcolor{stringliteral}{"{}>"{}};}
-\DoxyCodeLine{28 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_IMPORT\_CERT\_OK[] = \textcolor{stringliteral}{"{}+USECMNG: 0,"{}};}
-\DoxyCodeLine{29 }
-\DoxyCodeLine{30 \textcolor{keyword}{const} \textcolor{keywordtype}{char} LTE\_SHIELD\_SET\_APN[] = \textcolor{stringliteral}{"{}+CGDCONT=1,\(\backslash\)"{}IP\(\backslash\)"{},"{}};}
+\DoxyCodeLine{26 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_LOGIN[] = \textcolor{stringliteral}{"{}AT+UMQTTC=1"{}};}
+\DoxyCodeLine{27 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_LOGIN\_OK[] = \textcolor{stringliteral}{"{}+UUMQTTC: 1,0"{}};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_WILL\_TOPIC\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTWTOPIC="{}};}
+\DoxyCodeLine{30 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_TOPIC\_OK[] = \textcolor{stringliteral}{"{}+UMQTTWTOPIC: 1"{}};}
 \DoxyCodeLine{31 }
-\DoxyCodeLine{32 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_NETWORK\_INFO\_GET[] = \textcolor{stringliteral}{"{}+CGDCONT?"{}};}
-\DoxyCodeLine{33 }
-\DoxyCodeLine{34 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE[] = \textcolor{stringliteral}{"{}+UMQTT=11,1,"{}}; \textcolor{comment}{// 11 is the secure command}}
-\DoxyCodeLine{35 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 11,1"{}};}
-\DoxyCodeLine{36 }
+\DoxyCodeLine{32 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_WILL\_MESSAGE\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTTWMSG="{}};}
+\DoxyCodeLine{33 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MESSAGE\_OK[] = \textcolor{stringliteral}{"{}+UMQTTWMSG: 1"{}};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_CONNECT\_MQTT[] = \textcolor{stringliteral}{"{}+UMQTT"{}};}
+\DoxyCodeLine{36 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_RESPONSE\_OK[] = \textcolor{stringliteral}{"{}+UMQTT: 2,1"{}};}
 \DoxyCodeLine{37 }
-\DoxyCodeLine{38 }
-\DoxyCodeLine{39 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//AT\_COMMANDS\_H}}
+\DoxyCodeLine{38 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_IMPORT\_CERT[] = \textcolor{stringliteral}{"{}+USECMNG=0,"{}}; \textcolor{comment}{// 0 is the import command}}
+\DoxyCodeLine{39 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_IMPORT\_CERT\_READY[] = \textcolor{stringliteral}{"{}>"{}};}
+\DoxyCodeLine{40 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_IMPORT\_CERT\_OK[] = \textcolor{stringliteral}{"{}+USECMNG: 0,"{}};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_SET\_APN[] = \textcolor{stringliteral}{"{}+CGDCONT=1,\(\backslash\)"{}IP\(\backslash\)"{},"{}};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_NETWORK\_INFO\_GET[] = \textcolor{stringliteral}{"{}+CGDCONT?"{}};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE[] = \textcolor{stringliteral}{"{}+UMQTT=11,1,"{}}; \textcolor{comment}{// 11 is the secure command}}
+\DoxyCodeLine{47 \textcolor{keyword}{const} \textcolor{keywordtype}{char} SARA\_MQTT\_SECURE\_SET\_RESPONSE[] = \textcolor{stringliteral}{"{}+UMQTT: 11,1"{}};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//AT\_COMMANDS\_H}}
 
 \end{DoxyCode}

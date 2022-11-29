@@ -1,0 +1,10 @@
+digraph "src/AT_commands.h"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [label="src/AT_commands.h",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=".h file containing constants with AT commands for U-Blox R410M-02B"];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="src/NB_R410M.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_n_b___r410_m_8h.html",tooltip="Library for uBlox SARA R410M LTE Cat M1/NB1 module."];
+}
