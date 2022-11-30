@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "certs.h"
+//#include "certs.h"
 #include "AT_commands.h"
 #include "NB_R410M.h"
 
@@ -35,14 +35,15 @@ char *IP = NULL;
 
 void setup()
 {
-  // int opsAvailable;
-  // struct operator_stats ops[MAX_OPERATORS];
-  // String currentOperator = "";
-  // bool newConnection = true;
-
   SerialMonitor.begin(9600);
   while (!SerialMonitor)
     ; // For boards with built-in USB
+
+  if (!SPIFFS.begin(true))
+  {
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
 
   SerialMonitor.println(F("Initializing the LTE Shield..."));
   SerialMonitor.println(F("...this may take ~25 seconds if the shield is off."));
@@ -56,11 +57,20 @@ void setup()
   pinMode(POWERPIN, INPUT); // Return to high-impedance, rely on SARA module internal pull-up
 
   // Initialize the LTE Shield and enable AT interface and Timezone update
-  if (!initModule(30000))
+  if (!initModule(60000))
   {
     SerialMonitor.println(F("Failed to initialize the LTE Shield!"));
     while (1)
-      ;
+    {
+      if (LTEShieldSerial.available())
+      {
+        SerialMonitor.write((char)LTEShieldSerial.read());
+      }
+      if (SerialMonitor.available())
+      {
+        LTEShieldSerial.write((char)SerialMonitor.read());
+      }
+    }
   }
 
   // Set the operator APN
@@ -81,13 +91,13 @@ void setup()
   }
 
   // Import CA certificate
-  setCertMQTT(CA, 0, "CA");
+  loadCertMQTT("/ca.pem", 0, "CA");
 
   // Import client certificate
-  setCertMQTT(CERT, 1, "CERT");
+  loadCertMQTT("/certificate.der", 1, "CERT");
 
   // import client private key
-  setCertMQTT(KEY, 2, "KEY");
+  loadCertMQTT("/key.der", 2, "KEY");
 
   // Set broker hostname and port
   setMQTT(connection_info.HostName, connection_info.Port);

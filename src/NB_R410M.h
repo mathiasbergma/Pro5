@@ -8,27 +8,36 @@
  * @details The function printToConsole() must be populated with the device specific implementation of Serial Print.
  * @details This library is based on the u-blox SARA-R4 AT Commands Manual (UBX-17003787 - R09)
  * @details Steps to use this library:
- * @details 1. Call initModule() to initialize the module and enable AT interface and Timezone update
- * @details 2. Call setAPN() to set the operator APN
- * @details 3. Call getNetwork() to get status of network aquisition
- * @details 4. Call printInfo() to print connection information (TODO)
- * @details 5. Call setCertMQTT() to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
- * @details 6. Call enableSSL() to enable SSL/TLS
- * @details 7. Call setMQTT() to set broker hostname and port
- * @details 8. Call willconfigMQTT() to set Last Will topic
- * @details 9. Call willmsgMQTT() to set Last Will message
- * @details 10. Call setMQTTtimeout() to set MQTT timeout
- * @details 11. Call setMQTTping() to set MQTT keepalive interval
- * @details 12. Call enableMQTTkeepalive() to enable MQTT keepalive
- * @details 13. Call loginMQTT() to login to MQTT broker
- * @details 14. Call publishMessage() to publish message to MQTT broker
+ * @details   1. Call initModule() to initialize the module and enable AT interface and Timezone update
+ * @details   2. Call setAPN() to set the operator APN
+ * @details   3. Call getNetwork() to get status of network aquisition
+ * @details   4. Call printInfo() to print connection information (TODO)
+ * @details   5. Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
+ *                    This function is called 3 times, once for each certificate (CA, CERT, KEY)
+ * @details   6. Call enableSSL() to enable SSL/TLS
+ * @details   7. Call setMQTT() to set broker hostname and port
+ * @details   8. Call willconfigMQTT() to set Last Will topic
+ * @details   9. Call willmsgMQTT() to set Last Will message
+ * @details   10. Call setMQTTtimeout() to set MQTT timeout
+ * @details   11. Call setMQTTping() to set MQTT keepalive interval
+ * @details   12. Call enableMQTTkeepalive() to enable MQTT keepalive
+ * @details   13. Call loginMQTT() to login to MQTT broker
+ * @details   14. Call publishMessage() to publish message to MQTT broker
  */
 
 #include <Arduino.h>
 #include "AT_commands.h"
 #include <HardwareSerial.h>
+#include "SPIFFS.h"
 
 HardwareSerial lteSerial(2);
+
+uint8_t * CA = NULL;
+uint8_t * CERT = NULL;
+uint8_t * KEY = NULL;
+unsigned int fileCA_size;
+unsigned int fileCERT_size;
+unsigned int fileKEY_size;
 
 #define SerialMonitor Serial
 #define LTEShieldSerial lteSerial
@@ -395,7 +404,7 @@ char *printInfo()
  * @param name Certificate name. Can be any name, but must be unique
  * @return 1 if successful, 0 if not
  */
-int setCertMQTT(const char *cert, int type, const char *name)
+int setCertMQTT(const byte *cert, int size, int type, const char *name)
 {
   int result = 0;
   char *command = NULL;
@@ -406,13 +415,13 @@ int setCertMQTT(const char *cert, int type, const char *name)
     printToConsole("Malloc failed\n");
     return 0;
   }
-  command = (char *)malloc((strlen(AT) + strlen(SARA_IMPORT_CERT) + strlen(cert) + strlen(name) + 15));
+  command = (char *)malloc((strlen(AT) + strlen(SARA_IMPORT_CERT) + strlen(name) + 15));
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
     return 0;
   }
-  sprintf(command, "%s%s%d,\"%s\",%d", AT, SARA_IMPORT_CERT, type, name, strlen(cert));
+  sprintf(command, "%s%s%d,\"%s\",%d", AT, SARA_IMPORT_CERT, type, name, size);
   printToConsole("Importing certificate: ");
   printToConsole(name);
   printToConsole("\n");
@@ -428,7 +437,12 @@ int setCertMQTT(const char *cert, int type, const char *name)
     sprintf(response, "%s%d", SARA_IMPORT_CERT_OK, type);
 
     // Empties buffer and transmits the command
-    transmitCommand(cert);
+    //transmitCommand(cert);
+    while (LTEShieldSerial.available())
+    {
+      LTEShieldSerial.read();
+    }
+    LTEShieldSerial.write(cert, size);
 
     if (getResponse(response, 10000))
     {
@@ -446,6 +460,36 @@ int setCertMQTT(const char *cert, int type, const char *name)
   }
   free(command);
   free(response);
+  return result;
+}
+
+/**
+ * @brief Reads certificates from filesystem and loads into module
+ * @param filename Name of the file to read
+ * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
+ * @param name Certificate name. Can be any name, but must be unique
+ * @return 1 if successful, 0 if not
+ */
+int loadCertMQTT(const char *filename, int type, const char *name)
+{
+  int result = 0;
+  File certFile = SPIFFS.open(filename, "r");
+  if (!certFile)
+  {
+    printToConsole("Failed to open file for reading\n");
+    return 0;
+  }
+  int size = certFile.size();
+  byte *cert = (byte *)malloc(size);
+  if (cert == NULL)
+  {
+    printToConsole("Malloc failed\n");
+    return 0;
+  }
+  certFile.read(cert, size);
+  certFile.close();
+  result = setCertMQTT(cert, size, type, name);
+  free(cert);
   return result;
 }
 
