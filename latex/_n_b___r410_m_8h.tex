@@ -8,6 +8,7 @@ Library for u\+Blox SARA R410M LTE Cat M1/\+NB1 module.
 {\ttfamily \#include $<$Arduino.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}AT\+\_\+commands.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$Hardware\+Serial.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}SPIFFS.\+h\char`\"{}}\newline
 Include dependency graph for NB\+\_\+\+R410\+M.\+h\+:
 % FIG 0
 \doxysubsection*{Macros}
@@ -42,8 +43,10 @@ int \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{set\+AP
 \begin{DoxyCompactList}\small\item\em Sets APN on LTE module. \end{DoxyCompactList}\item 
 char $\ast$ \mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{print\+Info}} ()
 \begin{DoxyCompactList}\small\item\em Prints the IP address of the LTE module. The returned pointer must be freed by the caller. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}{set\+Cert\+MQTT}} (const char $\ast$cert, int type, const char $\ast$name)
+int \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{set\+Cert\+MQTT}} (const byte $\ast$cert, int size, int type, const char $\ast$name)
 \begin{DoxyCompactList}\small\item\em Transmit certificate data to the LTE shield. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{load\+Cert\+MQTT}} (const char $\ast$filename, int type, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Reads certificates from filesystem and loads into module. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{set\+MQTTping}} (int timeout)
 \begin{DoxyCompactList}\small\item\em Sets the MQTT ping interval. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enable\+MQTTkeepalive}} ()
@@ -58,6 +61,27 @@ int \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsg
 \begin{DoxyCompactList}\small\item\em Configures MQTT Will message. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT}} (const char $\ast$host, int port)
 \begin{DoxyCompactList}\small\item\em Configures MQTT broker hostname and port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a3b21e252aa5887ffdb5e43f525cd379d}\label{_n_b___r410_m_8h_a3b21e252aa5887ffdb5e43f525cd379d}} 
+uint8\+\_\+t $\ast$ {\bfseries CA} = NULL
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a36ba9e7aa1bc73193f5e424addd22f12}\label{_n_b___r410_m_8h_a36ba9e7aa1bc73193f5e424addd22f12}} 
+uint8\+\_\+t $\ast$ {\bfseries CERT} = NULL
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a1b8f73595deed0de67b2fec4fc786662}\label{_n_b___r410_m_8h_a1b8f73595deed0de67b2fec4fc786662}} 
+uint8\+\_\+t $\ast$ {\bfseries KEY} = NULL
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a31269fcd0f1c8ecc6f0d0a9277f6adae}\label{_n_b___r410_m_8h_a31269fcd0f1c8ecc6f0d0a9277f6adae}} 
+unsigned int {\bfseries file\+CA\+\_\+size}
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a2ff005236804fe7640d7fcab797a2c8b}\label{_n_b___r410_m_8h_a2ff005236804fe7640d7fcab797a2c8b}} 
+unsigned int {\bfseries file\+CERT\+\_\+size}
+\item 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a9b8aad12db63b2162aee9ebbd15a0f7f}\label{_n_b___r410_m_8h_a9b8aad12db63b2162aee9ebbd15a0f7f}} 
+unsigned int {\bfseries file\+KEY\+\_\+size}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -99,7 +123,7 @@ Steps to use this library\+:
 
 
 \begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}{set\+Cert\+MQTT()}} to import certificates (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+\item Call load\+Cert() to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
 \end{DoxyEnumerate}
 
 
@@ -214,6 +238,28 @@ Initializes the LTE Shield and enables AT interface and Timezone update.
 \begin{DoxyReturn}{Returns}
 1 if successful, 0 if not 
 \end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}\label{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!loadCertMQTT@{loadCertMQTT}}
+\index{loadCertMQTT@{loadCertMQTT}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{loadCertMQTT()}{loadCertMQTT()}}
+{\footnotesize\ttfamily int load\+Cert\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename,  }\item[{int}]{type,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+Reads certificates from filesystem and loads into module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Name of the file to read \\
+\hline
+{\em type} & Certificate type. 0 = CA, 1 = client certificate, 2 = client key \\
+\hline
+{\em name} & Certificate name. Can be any name, but must be unique \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if successful, 0 if not 
+\end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}\label{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!loginMQTT@{loginMQTT}}
 \index{loginMQTT@{loginMQTT}!NB\_R410M.h@{NB\_R410M.h}}
@@ -297,11 +343,11 @@ Sets APN on LTE module.
 \begin{DoxyReturn}{Returns}
 1 if successful, 0 if not 
 \end{DoxyReturn}
-\mbox{\Hypertarget{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}\label{_n_b___r410_m_8h_ab8d8e04df5c4414751d4b1187175cdb3}} 
+\mbox{\Hypertarget{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}\label{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setCertMQTT@{setCertMQTT}}
 \index{setCertMQTT@{setCertMQTT}!NB\_R410M.h@{NB\_R410M.h}}
 \doxysubsubsection{\texorpdfstring{setCertMQTT()}{setCertMQTT()}}
-{\footnotesize\ttfamily int set\+Cert\+MQTT (\begin{DoxyParamCaption}\item[{const char $\ast$}]{cert,  }\item[{int}]{type,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int set\+Cert\+MQTT (\begin{DoxyParamCaption}\item[{const byte $\ast$}]{cert,  }\item[{int}]{size,  }\item[{int}]{type,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
 
 
 

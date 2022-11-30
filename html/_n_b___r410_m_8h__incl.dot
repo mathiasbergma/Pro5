@@ -11,4 +11,6 @@ digraph "src/NB_R410M.h"
   Node3 [label="AT_commands.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_a_t__commands_8h.html",tooltip=".h file containing constants with AT commands for U-Blox R410M-02B"];
   Node1 -> Node4 [color="steelblue1",style="solid"];
   Node4 [label="HardwareSerial.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="SPIFFS.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

@@ -91,7 +91,8 @@ $(document).ready(function(){initNavTree('_n_b___r410_m_8h.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">NB_R410M.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -101,6 +102,7 @@ $(document).ready(function(){initNavTree('_n_b___r410_m_8h.html',''); initResiza
 <div class="textblock"><code>#include &lt;Arduino.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_a_t__commands_8h_source.html">AT_commands.h</a>&quot;</code><br />
 <code>#include &lt;HardwareSerial.h&gt;</code><br />
+<code>#include &quot;SPIFFS.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for NB_R410M.h:</div>
 <div class="dyncontent">
@@ -148,9 +150,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memitem:a59fb44183e4857c7b1fa0db81abe59f2"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2">printInfo</a> ()</td></tr>
 <tr class="memdesc:a59fb44183e4857c7b1fa0db81abe59f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the IP address of the LTE module. The returned pointer must be freed by the caller.  <a href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2">More...</a><br /></td></tr>
 <tr class="separator:a59fb44183e4857c7b1fa0db81abe59f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8d8e04df5c4414751d4b1187175cdb3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3">setCertMQTT</a> (const char *cert, int type, const char *name)</td></tr>
-<tr class="memdesc:ab8d8e04df5c4414751d4b1187175cdb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit certificate data to the LTE shield.  <a href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3">More...</a><br /></td></tr>
-<tr class="separator:ab8d8e04df5c4414751d4b1187175cdb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a2a52cca4c1a1964aa1bd6cb7ddd14b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a1a2a52cca4c1a1964aa1bd6cb7ddd14b">setCertMQTT</a> (const byte *cert, int size, int type, const char *name)</td></tr>
+<tr class="memdesc:a1a2a52cca4c1a1964aa1bd6cb7ddd14b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit certificate data to the LTE shield.  <a href="_n_b___r410_m_8h.html#a1a2a52cca4c1a1964aa1bd6cb7ddd14b">More...</a><br /></td></tr>
+<tr class="separator:a1a2a52cca4c1a1964aa1bd6cb7ddd14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2822bc89b1ea866056eb4683255223c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c">loadCertMQTT</a> (const char *filename, int type, const char *name)</td></tr>
+<tr class="memdesc:af2822bc89b1ea866056eb4683255223c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads certificates from filesystem and loads into module.  <a href="_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c">More...</a><br /></td></tr>
+<tr class="separator:af2822bc89b1ea866056eb4683255223c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c739d69e197ff1a6d151e981a268641"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641">setMQTTping</a> (int timeout)</td></tr>
 <tr class="memdesc:a8c739d69e197ff1a6d151e981a268641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the MQTT ping interval.  <a href="_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641">More...</a><br /></td></tr>
 <tr class="separator:a8c739d69e197ff1a6d151e981a268641"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,6 +177,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memitem:ac0f44c06684338d6571b119289066fce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce">setMQTT</a> (const char *host, int port)</td></tr>
 <tr class="memdesc:ac0f44c06684338d6571b119289066fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures MQTT broker hostname and port.  <a href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce">More...</a><br /></td></tr>
 <tr class="separator:ac0f44c06684338d6571b119289066fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a3b21e252aa5887ffdb5e43f525cd379d"><td class="memItemLeft" align="right" valign="top"><a id="a3b21e252aa5887ffdb5e43f525cd379d" name="a3b21e252aa5887ffdb5e43f525cd379d"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>CA</b> = NULL</td></tr>
+<tr class="separator:a3b21e252aa5887ffdb5e43f525cd379d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ba9e7aa1bc73193f5e424addd22f12"><td class="memItemLeft" align="right" valign="top"><a id="a36ba9e7aa1bc73193f5e424addd22f12" name="a36ba9e7aa1bc73193f5e424addd22f12"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>CERT</b> = NULL</td></tr>
+<tr class="separator:a36ba9e7aa1bc73193f5e424addd22f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b8f73595deed0de67b2fec4fc786662"><td class="memItemLeft" align="right" valign="top"><a id="a1b8f73595deed0de67b2fec4fc786662" name="a1b8f73595deed0de67b2fec4fc786662"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>KEY</b> = NULL</td></tr>
+<tr class="separator:a1b8f73595deed0de67b2fec4fc786662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31269fcd0f1c8ecc6f0d0a9277f6adae"><td class="memItemLeft" align="right" valign="top"><a id="a31269fcd0f1c8ecc6f0d0a9277f6adae" name="a31269fcd0f1c8ecc6f0d0a9277f6adae"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileCA_size</b></td></tr>
+<tr class="separator:a31269fcd0f1c8ecc6f0d0a9277f6adae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ff005236804fe7640d7fcab797a2c8b"><td class="memItemLeft" align="right" valign="top"><a id="a2ff005236804fe7640d7fcab797a2c8b" name="a2ff005236804fe7640d7fcab797a2c8b"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileCERT_size</b></td></tr>
+<tr class="separator:a2ff005236804fe7640d7fcab797a2c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b8aad12db63b2162aee9ebbd15a0f7f"><td class="memItemLeft" align="right" valign="top"><a id="a9b8aad12db63b2162aee9ebbd15a0f7f" name="a9b8aad12db63b2162aee9ebbd15a0f7f"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size</b></td></tr>
+<tr class="separator:a9b8aad12db63b2162aee9ebbd15a0f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Library for uBlox SARA R410M LTE Cat M1/NB1 module. </p>
@@ -194,7 +220,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2" title="Prints the IP address of the LTE module. The returned pointer must be freed by the caller.">printInfo()</a> to print connection information (TODO)</li>
 </ol>
 <ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#ab8d8e04df5c4414751d4b1187175cdb3" title="Transmit certificate data to the LTE shield.">setCertMQTT()</a> to import certificates (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
+<li>Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
 </ol>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</li>
@@ -328,6 +354,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timeout</td><td>Timeout in milliseconds (30000 thousand is recommended) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+
+</div>
+</div>
+<a id="af2822bc89b1ea866056eb4683255223c" name="af2822bc89b1ea866056eb4683255223c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2822bc89b1ea866056eb4683255223c">&#9670;&#160;</a></span>loadCertMQTT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int loadCertMQTT </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads certificates from filesystem and loads into module. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>Name of the file to read </td></tr>
+    <tr><td class="paramname">type</td><td>Certificate type. 0 = CA, 1 = client certificate, 2 = client key </td></tr>
+    <tr><td class="paramname">name</td><td>Certificate name. Can be any name, but must be unique </td></tr>
   </table>
   </dd>
 </dl>
@@ -480,8 +551,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 
 </div>
 </div>
-<a id="ab8d8e04df5c4414751d4b1187175cdb3" name="ab8d8e04df5c4414751d4b1187175cdb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8d8e04df5c4414751d4b1187175cdb3">&#9670;&#160;</a></span>setCertMQTT()</h2>
+<a id="a1a2a52cca4c1a1964aa1bd6cb7ddd14b" name="a1a2a52cca4c1a1964aa1bd6cb7ddd14b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a2a52cca4c1a1964aa1bd6cb7ddd14b">&#9670;&#160;</a></span>setCertMQTT()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -489,8 +560,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
         <tr>
           <td class="memname">int setCertMQTT </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype">const byte *&#160;</td>
           <td class="paramname"><em>cert</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
