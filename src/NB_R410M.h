@@ -14,15 +14,16 @@
  * @details   4. Call printInfo() to print connection information (TODO)
  * @details   5. Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
  *                    This function is called 3 times, once for each certificate (CA, CERT, KEY)
- * @details   6. Call enableSSL() to enable SSL/TLS
- * @details   7. Call setMQTT() to set broker hostname and port
- * @details   8. Call willconfigMQTT() to set Last Will topic
- * @details   9. Call willmsgMQTT() to set Last Will message
- * @details   10. Call setMQTTtimeout() to set MQTT timeout
- * @details   11. Call setMQTTping() to set MQTT keepalive interval
- * @details   12. Call enableMQTTkeepalive() to enable MQTT keepalive
- * @details   13. Call loginMQTT() to login to MQTT broker
- * @details   14. Call publishMessage() to publish message to MQTT broker
+ * @details   6. Call assignCert() to assign the certificates to a security profile (If using SSL/TLS)
+ * @details   7. Call enableSSL() to enable SSL/TLS
+ * @details   8. Call setMQTT() to set broker hostname and port
+ * @details   9. Call willconfigMQTT() to set Last Will topic
+ * @details   10. Call willmsgMQTT() to set Last Will message
+ * @details   11. Call setMQTTtimeout() to set MQTT timeout
+ * @details   12. Call setMQTTping() to set MQTT keepalive interval
+ * @details   13. Call enableMQTTkeepalive() to enable MQTT keepalive
+ * @details   14. Call loginMQTT() to login to MQTT broker
+ * @details   15. Call publishMessage() to publish message to MQTT broker
  */
 
 #include <Arduino.h>
