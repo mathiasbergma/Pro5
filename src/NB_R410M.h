@@ -197,6 +197,7 @@ int enableSSL(int profile)
  */
 int assignCert(int profile, const char *certName, int certType)
 {
+  int returnVal = 1;
   char *command = NULL;
   command = (char *)malloc(strlen(AT) + strlen(SARA_SECURITY_PROFILE) + strlen(certName) + 10);
   if (command == NULL)
@@ -211,15 +212,17 @@ int assignCert(int profile, const char *certName, int certType)
     printToConsole("Certificate [");
     printToConsole(certName);
     printToConsole("] assigned\n");
-    return 0;
+    returnVal = 0;
   }
   else
   {
     printToConsole("Certificate [");
     printToConsole(certName);
     printToConsole("] not assigned\n");
-    return 1;
+    returnVal = 1;
   }
+  free(command);
+  return returnVal;
 }
 
 /**
