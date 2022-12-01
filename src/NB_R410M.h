@@ -32,13 +32,6 @@
 
 HardwareSerial lteSerial(2);
 
-uint8_t * CA = NULL;
-uint8_t * CERT = NULL;
-uint8_t * KEY = NULL;
-unsigned int fileCA_size;
-unsigned int fileCERT_size;
-unsigned int fileKEY_size;
-
 #define SerialMonitor Serial
 #define LTEShieldSerial lteSerial
 
@@ -72,6 +65,7 @@ void transmitCommand(const char *command)
  * @brief gets response from the LTE shield and compares it to the expected response
  * @param response Expected response
  * @param timeout Timeout in milliseconds
+ * @return 1 if response is as expected, 0 if not
  */
 int getResponse(const char *response, int timeout)
 {
@@ -112,11 +106,11 @@ int getResponse(const char *response, int timeout)
 /**
  * @brief Initializes the LTE Shield and enables AT interface and Timezone update
  * @param timeout Timeout in milliseconds (30000 thousand is recommended)
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int initModule(int timeout)
 {
-  LTEShieldSerial.begin(9600);
+  LTEShieldSerial.begin(115200);
   unsigned long startTime = millis();
   
   printToConsole("Transmitting AT\n");
@@ -127,7 +121,7 @@ int initModule(int timeout)
     
     if (millis() - startTime > timeout)
     {
-      return 0;
+      return 1;
     }
   }
   printToConsole("Got OK\n");
@@ -136,28 +130,39 @@ int initModule(int timeout)
   transmitCommand("ATE0"); // Disable echo
   if (getResponse("OK", 200))
   {
-    printToConsole("Echo disabled");
+    printToConsole("Echo disabled\n");
   }
   else
   {
-    printToConsole("Echo not disabled");
+    printToConsole("Echo not disabled\n");
   }
 
   transmitCommand("AT+CTZU=1"); // Enable automatic time zone update
   if (getResponse("OK", 5000))
   {
-    printToConsole("Automatic time zone update enabled");
+    printToConsole("Automatic time zone update enabled\n");
   }
   else
   {
-    printToConsole("Automatic time zone update not enabled");
+    printToConsole("Automatic time zone update not enabled\n");
   }
-  return 1;
+
+  transmitCommand("AT+UGPIOC=16,2"); // Set GPIO16 to indicate network status
+  if (getResponse("OK", 5000))
+  {
+    printToConsole("GPIO16 set to indicate network status\n");
+  }
+  else
+  {
+    printToConsole("GPIO16 not set to indicate network status\n");
+  }
+
+  return 0;
 }
 /**
  * @brief Enables SSL/TLS for mqtt connection
  * @param profile SSL profile number
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int enableSSL(int profile)
 {
@@ -166,7 +171,7 @@ int enableSSL(int profile)
   if (command == NULL)
   {
     printToConsole("Malloc failed");
-    return 0;
+    return 1;
   }
 
   sprintf(command, "%s%s%d", AT, SARA_MQTT_SECURE, profile);
@@ -174,12 +179,46 @@ int enableSSL(int profile)
   if (getResponse(SARA_MQTT_SECURE_SET_RESPONSE, 5000))
   {
     printToConsole("SSL enabled");
-    return 1;
+    return 0;
   }
   else
   {
     printToConsole("SSL not enabled");
+    return 1;
+  }
+}
+
+/**
+ * @brief Assigns loaded certificates to a profile
+ * @param profile SSL profile number
+ * @param certName Certificate name assigned when loading certificate
+ * @param certType Certificate type, 3 for CA, 5 for CERT, 6 for KEY
+ * @return 0 if successful, 1 if not, 2 if malloc failed
+ */
+int assignCert(int profile, const char *certName, int certType)
+{
+  char *command = NULL;
+  command = (char *)malloc(strlen(AT) + strlen(SARA_SECURITY_PROFILE) + strlen(certName) + 10);
+  if (command == NULL)
+  {
+    printToConsole("Malloc failed");
+    return 2;
+  }
+  sprintf(command, "%s%s%d,%d,\"%s\"", AT, SARA_SECURITY_PROFILE, profile, certType, certName);
+  transmitCommand(command);
+  if (getResponse("OK",1000))
+  {
+    printToConsole("Certificate [");
+    printToConsole(certName);
+    printToConsole("] assigned\n");
     return 0;
+  }
+  else
+  {
+    printToConsole("Certificate [");
+    printToConsole(certName);
+    printToConsole("] not assigned\n");
+    return 1;
   }
 }
 
@@ -311,7 +350,7 @@ void getNetwork()
 /**
  * @brief Sets APN on LTE module
  * @param apn The APN to be set
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int setAPN(const char *apn)
 {
@@ -321,7 +360,7 @@ int setAPN(const char *apn)
   if (command == NULL)
   {
     printToConsole("Malloc failed");
-    return 0;
+    return 1;
   }
 
   sprintf(command, "%s%s\"%s\"", AT, SARA_SET_APN, apn);
@@ -329,7 +368,7 @@ int setAPN(const char *apn)
   if (getResponse("OK", 1000))
   {
     Serial.println("APN set");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -402,24 +441,24 @@ char *printInfo()
  * @param cert Certificate data. Can be CA, client certificate or client key
  * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
  * @param name Certificate name. Can be any name, but must be unique
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int setCertMQTT(const byte *cert, int size, int type, const char *name)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
   char *response = NULL;
   response = (char *)malloc(strlen(SARA_IMPORT_CERT_OK) + 5);
   if (response == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   command = (char *)malloc((strlen(AT) + strlen(SARA_IMPORT_CERT) + strlen(name) + 15));
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   sprintf(command, "%s%s%d,\"%s\",%d", AT, SARA_IMPORT_CERT, type, name, size);
   printToConsole("Importing certificate: ");
@@ -447,7 +486,7 @@ int setCertMQTT(const byte *cert, int size, int type, const char *name)
     if (getResponse(response, 10000))
     {
       printToConsole("Certificate imported\n");
-      result = 1;
+      result = 0;
     }
     else
     {
@@ -468,7 +507,7 @@ int setCertMQTT(const byte *cert, int size, int type, const char *name)
  * @param filename Name of the file to read
  * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
  * @param name Certificate name. Can be any name, but must be unique
- * @return 1 if successful, 0 if not
+ * @return -1 if load file fails, return value from setCertMQTT if successful
  */
 int loadCertMQTT(const char *filename, int type, const char *name)
 {
@@ -477,14 +516,14 @@ int loadCertMQTT(const char *filename, int type, const char *name)
   if (!certFile)
   {
     printToConsole("Failed to open file for reading\n");
-    return 0;
+    return -1;
   }
   int size = certFile.size();
   byte *cert = (byte *)malloc(size);
   if (cert == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return -1;
   }
   certFile.read(cert, size);
   certFile.close();
@@ -496,18 +535,18 @@ int loadCertMQTT(const char *filename, int type, const char *name)
 /**
  * @brief Sets the MQTT ping interval
  * @param timeout Timeout in seconds
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int setMQTTping(int timeout)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
 
   command = (char *)malloc(strlen(AT) + strlen(SARA_TIMEOUT) + 5);
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   sprintf(command, "%s%s%d", AT, SARA_TIMEOUT, timeout);
 
@@ -520,7 +559,7 @@ int setMQTTping(int timeout)
     char msgToPrint[50];
     sprintf(msgToPrint, "MQTT ping interval set to %d seconds\n", timeout);
     printToConsole(msgToPrint);
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -532,18 +571,18 @@ int setMQTTping(int timeout)
 
 /**
  * @brief Enables MQTT keepalive
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int enableMQTTkeepalive()
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
 
   command = (char *)malloc(strlen(AT) + strlen(SARA_PING) + 5);
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   sprintf(command, "%s%s", AT, SARA_PING);
 
@@ -554,7 +593,7 @@ int enableMQTTkeepalive()
   if (getResponse(SARA_PING_OK, 10000))
   {
     printToConsole("MQTT keepalive enabled\n");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -570,11 +609,11 @@ int enableMQTTkeepalive()
  * @param message The message to publish
  * @param qos The QoS level to publish at
  * @param retain Whether to retain the message
- * @return 1 if successful, 0 if not, -1 if memory allocation failed
+ * @return 0 if successful, 1 if not, -1 if memory allocation failed
  */
 int publishMessage(const char *topic, const char *message, int QoS, int retain)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
 
   unsigned long SARA_SEND_TIMEOUT = 60000;
@@ -598,7 +637,7 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
   if (getResponse(SARA_SEND_OK, SARA_SEND_TIMEOUT))
   {
     printToConsole("Message sent\n");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -611,11 +650,11 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
 
 /**
  * @brief Login to the MQTT broker
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int loginMQTT()
 {
-  int result = 0;
+  int result = 1;
   unsigned long SARA_IP_CONNECT_TIMEOUT = 60000;
 
   // Empties buffer and transmits the command
@@ -624,7 +663,7 @@ int loginMQTT()
   if (getResponse(SARA_LOGIN_OK, SARA_IP_CONNECT_TIMEOUT))
   {
     printToConsole("MQTT login successfull\n");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -636,11 +675,11 @@ int loginMQTT()
 /**
  * @brief Configures MQTT Will topic
  * @param topic The topic to publish to
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int willconfigMQTT(const char *topic)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
   unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
 
@@ -648,7 +687,7 @@ int willconfigMQTT(const char *topic)
   if (command == NULL)
   {
     printToConsole("Malloc failed");
-    return 0;
+    return 1;
   }
   sprintf(command, "%s%s%d,%d,\"%s\"", AT, SARA_WILL_TOPIC_MQTT, 0, 0, topic);
 
@@ -658,7 +697,7 @@ int willconfigMQTT(const char *topic)
   if (getResponse(SARA_TOPIC_OK, SARA_IP_CONNECT_TIMEOUT))
   {
     Serial.println("Will topic set\n");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -673,11 +712,11 @@ int willconfigMQTT(const char *topic)
 /**
  * @brief Configures MQTT Will message
  * @param message The message to publish
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int willmsgMQTT(const char *message)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
 
   unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
@@ -686,7 +725,7 @@ int willmsgMQTT(const char *message)
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   sprintf(command, "%s%s\"%s\"", AT, SARA_WILL_MESSAGE_MQTT, message);
 
@@ -696,7 +735,7 @@ int willmsgMQTT(const char *message)
   if (getResponse(SARA_MESSAGE_OK, SARA_IP_CONNECT_TIMEOUT))
   {
     Serial.println("Will message set\n");
-    result = 1;
+    result = 0;
   }
   else
   {
@@ -710,11 +749,11 @@ int willmsgMQTT(const char *message)
  * @brief Configures MQTT broker hostname and port
  * @param hostname The hostname of the MQTT broker
  * @param port The port of the MQTT broker
- * @return 1 if successful, 0 if not
+ * @return 0 if successful, 1 if not
  */
 int setMQTT(const char *host, int port)
 {
-  int result = 0;
+  int result = 1;
   char *command = NULL;
   unsigned long SARA_IP_CONNECT_TIMEOUT = 10000;
 
@@ -722,7 +761,7 @@ int setMQTT(const char *host, int port)
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 0;
+    return 1;
   }
   // Create the command
   sprintf(command, "AT%s=%d,\"%s\",%d", SARA_CONNECT_MQTT, 2, host, port);
@@ -736,7 +775,7 @@ int setMQTT(const char *host, int port)
   if (getResponse(SARA_RESPONSE_OK, SARA_IP_CONNECT_TIMEOUT))
   {
     printToConsole("MQTT hostname & port set\n");
-    result = 1;
+    result = 0;
   }
   else
   {

@@ -6,6 +6,14 @@
 // LTE_Shield lte;
 
 #define SerialMonitor Serial
+#define CA_FILE "/ca.pem"
+#define CERT_FILE "/cert.der"
+#define KEY_FILE "/key.der"
+
+#define CA_NAME "ca"
+#define CERT_NAME "cert"
+#define KEY_NAME "key"
+#define SEC_PROFILE 0
 
 const struct connection_info_t
 {
@@ -57,7 +65,7 @@ void setup()
   pinMode(POWERPIN, INPUT); // Return to high-impedance, rely on SARA module internal pull-up
 
   // Initialize the LTE Shield and enable AT interface and Timezone update
-  if (!initModule(60000))
+  if (!initModule(120000))
   {
     SerialMonitor.println(F("Failed to initialize the LTE Shield!"));
     while (1)
@@ -91,13 +99,21 @@ void setup()
   }
 
   // Import CA certificate
-  loadCertMQTT("/ca.pem", 0, "CA");
+  loadCertMQTT(CA_FILE, 0, CA_NAME);
 
   // Import client certificate
-  loadCertMQTT("/certificate.der", 1, "CERT");
+  loadCertMQTT(CERT_FILE, 1, CERT_NAME);
 
   // import client private key
-  loadCertMQTT("/key.der", 2, "KEY");
+  loadCertMQTT(KEY_FILE, 2, KEY_NAME);
+
+  // Assign the certificates to a security profile
+  assignCert(SEC_PROFILE, CA_NAME, 3);
+  assignCert(SEC_PROFILE, CERT_NAME, 5);
+  assignCert(SEC_PROFILE, KEY_NAME, 6);
+
+  // Set the security profile to be used by MQTT
+  enableSSL(SEC_PROFILE);
 
   // Set broker hostname and port
   setMQTT(connection_info.HostName, connection_info.Port);
@@ -119,29 +135,10 @@ void setup()
   // Publish message to MQTT broker
   publishMessage(connection_info.topic, msg, 0, 0);
 }
-char message[100];
-int i = 0;
+
 void loop()
 {
-  char c;
-  if (SerialMonitor.available())
-  {
-    while ((c = SerialMonitor.read()) != '\n')
-    {
-      message[i++] = c;
-    }
-    message[i] = '\0';
-    if (publishMessage(connection_info.topic, message, 0, 0))
-    {
-      SerialMonitor.printf("Message sent to MQTT broker\n");
-    }
-    else
-    {
-      SerialMonitor.printf("Message not sent to MQTT broker\n");
-    }
-  }
-  i = 0;
-  /*
+  
 #ifdef DEBUG_PASSTHROUGH_ENABLED
   if (LTEShieldSerial.available())
   {
@@ -152,5 +149,5 @@ void loop()
     LTEShieldSerial.write((char)SerialMonitor.read());
   }
 #endif
-*/
+
 }

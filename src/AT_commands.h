@@ -46,6 +46,8 @@ const char SARA_NETWORK_INFO_GET[] = "+CGDCONT?";
 const char SARA_MQTT_SECURE[] = "+UMQTT=11,1,"; // 11 is the secure command
 const char SARA_MQTT_SECURE_SET_RESPONSE[] = "+UMQTT: 11,1";
 
+const char SARA_SECURITY_PROFILE[] = "+USECPRF=";
+
 
 
 #endif //AT_COMMANDS_H
