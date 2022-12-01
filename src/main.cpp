@@ -107,6 +107,7 @@ void setup()
   // import client private key
   loadCertMQTT(KEY_FILE, 2, KEY_NAME);
 
+
   // Assign the certificates to a security profile
   assignCert(SEC_PROFILE, CA_NAME, 3);
   assignCert(SEC_PROFILE, CERT_NAME, 5);

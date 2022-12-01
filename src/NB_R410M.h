@@ -163,16 +163,17 @@ int initModule(int timeout)
 /**
  * @brief Enables SSL/TLS for mqtt connection
  * @param profile SSL profile number
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if malloc failed
  */
 int enableSSL(int profile)
 {
+  int returnVal = 1;
   char *command = NULL;
   command = (char *)malloc(strlen(AT) + strlen(SARA_MQTT_SECURE) + 5);
   if (command == NULL)
   {
     printToConsole("Malloc failed");
-    return 1;
+    return 2;
   }
 
   sprintf(command, "%s%s%d", AT, SARA_MQTT_SECURE, profile);
@@ -180,13 +181,15 @@ int enableSSL(int profile)
   if (getResponse(SARA_MQTT_SECURE_SET_RESPONSE, 5000))
   {
     printToConsole("SSL enabled");
-    return 0;
+    returnVal = 0;
   }
   else
   {
     printToConsole("SSL not enabled");
-    return 1;
+    returnVal = 1;
   }
+  free(command);
+  return returnVal;
 }
 
 /**
@@ -436,7 +439,7 @@ char *printInfo()
   }
   
   strcpy(ip, token);
-  
+  free(command);
   return ip;
 }
 
@@ -445,7 +448,7 @@ char *printInfo()
  * @param cert Certificate data. Can be CA, client certificate or client key
  * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
  * @param name Certificate name. Can be any name, but must be unique
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if malloc failed
  */
 int setCertMQTT(const byte *cert, int size, int type, const char *name)
 {
@@ -456,13 +459,14 @@ int setCertMQTT(const byte *cert, int size, int type, const char *name)
   if (response == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    return 2;
   }
   command = (char *)malloc((strlen(AT) + strlen(SARA_IMPORT_CERT) + strlen(name) + 15));
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    free(response);
+    return 2;
   }
   sprintf(command, "%s%s%d,\"%s\",%d", AT, SARA_IMPORT_CERT, type, name, size);
   printToConsole("Importing certificate: ");
@@ -539,7 +543,7 @@ int loadCertMQTT(const char *filename, int type, const char *name)
 /**
  * @brief Sets the MQTT ping interval
  * @param timeout Timeout in seconds
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if malloc failed
  */
 int setMQTTping(int timeout)
 {
@@ -550,7 +554,7 @@ int setMQTTping(int timeout)
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    return 2;
   }
   sprintf(command, "%s%s%d", AT, SARA_TIMEOUT, timeout);
 
@@ -575,7 +579,7 @@ int setMQTTping(int timeout)
 
 /**
  * @brief Enables MQTT keepalive
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if malloc failed
  */
 int enableMQTTkeepalive()
 {
@@ -586,7 +590,7 @@ int enableMQTTkeepalive()
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    return 2;
   }
   sprintf(command, "%s%s", AT, SARA_PING);
 
@@ -613,7 +617,7 @@ int enableMQTTkeepalive()
  * @param message The message to publish
  * @param qos The QoS level to publish at
  * @param retain Whether to retain the message
- * @return 0 if successful, 1 if not, -1 if memory allocation failed
+ * @return 0 if successful, 1 if not, 2 if memory allocation failed
  */
 int publishMessage(const char *topic, const char *message, int QoS, int retain)
 {
@@ -627,7 +631,7 @@ int publishMessage(const char *topic, const char *message, int QoS, int retain)
   if (command == NULL)
   {
     printToConsole("Memory allocation failed\n");
-    return -1;
+    return 2;
   }
   // printToConsole("Building command\n");
   sprintf(command, "%s%s,%d,%d,%s,%s", AT, SARA_SEND_MQTT, QoS, retain, topic, message);
@@ -679,7 +683,7 @@ int loginMQTT()
 /**
  * @brief Configures MQTT Will topic
  * @param topic The topic to publish to
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if memory allocation failed
  */
 int willconfigMQTT(const char *topic)
 {
@@ -691,7 +695,7 @@ int willconfigMQTT(const char *topic)
   if (command == NULL)
   {
     printToConsole("Malloc failed");
-    return 1;
+    return 2;
   }
   sprintf(command, "%s%s%d,%d,\"%s\"", AT, SARA_WILL_TOPIC_MQTT, 0, 0, topic);
 
@@ -716,7 +720,7 @@ int willconfigMQTT(const char *topic)
 /**
  * @brief Configures MQTT Will message
  * @param message The message to publish
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if memory allocation failed
  */
 int willmsgMQTT(const char *message)
 {
@@ -729,7 +733,7 @@ int willmsgMQTT(const char *message)
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    return 2;
   }
   sprintf(command, "%s%s\"%s\"", AT, SARA_WILL_MESSAGE_MQTT, message);
 
@@ -753,7 +757,7 @@ int willmsgMQTT(const char *message)
  * @brief Configures MQTT broker hostname and port
  * @param hostname The hostname of the MQTT broker
  * @param port The port of the MQTT broker
- * @return 0 if successful, 1 if not
+ * @return 0 if successful, 1 if not, 2 if memory allocation failed
  */
 int setMQTT(const char *host, int port)
 {
@@ -765,7 +769,7 @@ int setMQTT(const char *host, int port)
   if (command == NULL)
   {
     printToConsole("Malloc failed\n");
-    return 1;
+    return 2;
   }
   // Create the command
   sprintf(command, "AT%s=%d,\"%s\",%d", SARA_CONNECT_MQTT, 2, host, port);

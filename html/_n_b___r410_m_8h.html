@@ -91,8 +91,7 @@ $(document).ready(function(){initNavTree('_n_b___r410_m_8h.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">NB_R410M.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -140,6 +139,9 @@ HardwareSerial&#160;</td><td class="memItemRight" valign="bottom"><b>lteSerial</
 <tr class="memitem:a45ea19fd14a7f7c3d7803940c809dec8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8">enableSSL</a> (int profile)</td></tr>
 <tr class="memdesc:a45ea19fd14a7f7c3d7803940c809dec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables SSL/TLS for mqtt connection.  <a href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8">More...</a><br /></td></tr>
 <tr class="separator:a45ea19fd14a7f7c3d7803940c809dec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b3052c267ca2e25a73b972c5dead26b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b">assignCert</a> (int profile, const char *certName, int certType)</td></tr>
+<tr class="memdesc:a2b3052c267ca2e25a73b972c5dead26b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns loaded certificates to a profile.  <a href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b">More...</a><br /></td></tr>
+<tr class="separator:a2b3052c267ca2e25a73b972c5dead26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6f75e9b70b0ada28fb438225a155bbb"><td class="memItemLeft" align="right" valign="top"><a id="aa6f75e9b70b0ada28fb438225a155bbb" name="aa6f75e9b70b0ada28fb438225a155bbb"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td></tr>
 <tr class="memdesc:aa6f75e9b70b0ada28fb438225a155bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the network aquisition status. <br /></td></tr>
@@ -177,27 +179,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memitem:ac0f44c06684338d6571b119289066fce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce">setMQTT</a> (const char *host, int port)</td></tr>
 <tr class="memdesc:ac0f44c06684338d6571b119289066fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures MQTT broker hostname and port.  <a href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce">More...</a><br /></td></tr>
 <tr class="separator:ac0f44c06684338d6571b119289066fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a3b21e252aa5887ffdb5e43f525cd379d"><td class="memItemLeft" align="right" valign="top"><a id="a3b21e252aa5887ffdb5e43f525cd379d" name="a3b21e252aa5887ffdb5e43f525cd379d"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>CA</b> = NULL</td></tr>
-<tr class="separator:a3b21e252aa5887ffdb5e43f525cd379d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36ba9e7aa1bc73193f5e424addd22f12"><td class="memItemLeft" align="right" valign="top"><a id="a36ba9e7aa1bc73193f5e424addd22f12" name="a36ba9e7aa1bc73193f5e424addd22f12"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>CERT</b> = NULL</td></tr>
-<tr class="separator:a36ba9e7aa1bc73193f5e424addd22f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b8f73595deed0de67b2fec4fc786662"><td class="memItemLeft" align="right" valign="top"><a id="a1b8f73595deed0de67b2fec4fc786662" name="a1b8f73595deed0de67b2fec4fc786662"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>KEY</b> = NULL</td></tr>
-<tr class="separator:a1b8f73595deed0de67b2fec4fc786662"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31269fcd0f1c8ecc6f0d0a9277f6adae"><td class="memItemLeft" align="right" valign="top"><a id="a31269fcd0f1c8ecc6f0d0a9277f6adae" name="a31269fcd0f1c8ecc6f0d0a9277f6adae"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileCA_size</b></td></tr>
-<tr class="separator:a31269fcd0f1c8ecc6f0d0a9277f6adae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ff005236804fe7640d7fcab797a2c8b"><td class="memItemLeft" align="right" valign="top"><a id="a2ff005236804fe7640d7fcab797a2c8b" name="a2ff005236804fe7640d7fcab797a2c8b"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileCERT_size</b></td></tr>
-<tr class="separator:a2ff005236804fe7640d7fcab797a2c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b8aad12db63b2162aee9ebbd15a0f7f"><td class="memItemLeft" align="right" valign="top"><a id="a9b8aad12db63b2162aee9ebbd15a0f7f" name="a9b8aad12db63b2162aee9ebbd15a0f7f"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size</b></td></tr>
-<tr class="separator:a9b8aad12db63b2162aee9ebbd15a0f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Library for uBlox SARA R410M LTE Cat M1/NB1 module. </p>
@@ -221,6 +202,9 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
 </ol>
 <ol type="1">
 <li>Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
+</ol>
+<ol type="1">
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b" title="Assigns loaded certificates to a profile.">assignCert()</a> to assign the certificates to a security profile (If using SSL/TLS)</li>
 </ol>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</li>
@@ -250,6 +234,51 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a92d55d9f690d1e2c337f035700ef5a4e" title="Publishes a message to the MQTT broker.">publishMessage()</a> to publish message to MQTT broker </li>
 </ol>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2b3052c267ca2e25a73b972c5dead26b" name="a2b3052c267ca2e25a73b972c5dead26b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b3052c267ca2e25a73b972c5dead26b">&#9670;&#160;</a></span>assignCert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int assignCert </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>profile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>certName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>certType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Assigns loaded certificates to a profile. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">profile</td><td>SSL profile number </td></tr>
+    <tr><td class="paramname">certName</td><td>Certificate name assigned when loading certificate </td></tr>
+    <tr><td class="paramname">certType</td><td>Certificate type, 3 for CA, 5 for CERT, 6 for KEY </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
+
+</div>
+</div>
 <a id="ae3585e6376929a7f5de0b8243b313e98" name="ae3585e6376929a7f5de0b8243b313e98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae3585e6376929a7f5de0b8243b313e98">&#9670;&#160;</a></span>enableMQTTkeepalive()</h2>
 
@@ -266,7 +295,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
 </div><div class="memdoc">
 
 <p>Enables MQTT keepalive. </p>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -293,7 +322,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -331,6 +360,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if response is as expected, 0 if not </dd></dl>
 
 </div>
 </div>
@@ -357,7 +387,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -402,7 +432,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>-1 if load file fails, return value from setCertMQTT if successful </dd></dl>
 
 </div>
 </div>
@@ -422,7 +452,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
 </div><div class="memdoc">
 
 <p>Login to the MQTT broker. </p>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -520,7 +550,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not, -1 if memory allocation failed </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, -1 if memory allocation failed </dd></dl>
 
 </div>
 </div>
@@ -547,7 +577,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -598,7 +628,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -636,7 +666,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -663,7 +693,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -716,7 +746,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>
@@ -743,7 +773,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fileKEY_size<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if successful, 0 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
 
 </div>
 </div>

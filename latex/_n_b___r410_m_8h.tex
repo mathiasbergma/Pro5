@@ -36,6 +36,8 @@ int \mbox{\hyperlink{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}{init\+M
 \begin{DoxyCompactList}\small\item\em Initializes the LTE Shield and enables AT interface and Timezone update. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enable\+SSL}} (int profile)
 \begin{DoxyCompactList}\small\item\em Enables SSL/\+TLS for mqtt connection. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assign\+Cert}} (int profile, const char $\ast$cert\+Name, int cert\+Type)
+\begin{DoxyCompactList}\small\item\em Assigns loaded certificates to a profile. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}\label{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}} 
 void {\bfseries get\+Network} ()
 \begin{DoxyCompactList}\small\item\em Displays the network aquisition status. \end{DoxyCompactList}\item 
@@ -61,27 +63,6 @@ int \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsg
 \begin{DoxyCompactList}\small\item\em Configures MQTT Will message. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT}} (const char $\ast$host, int port)
 \begin{DoxyCompactList}\small\item\em Configures MQTT broker hostname and port. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a3b21e252aa5887ffdb5e43f525cd379d}\label{_n_b___r410_m_8h_a3b21e252aa5887ffdb5e43f525cd379d}} 
-uint8\+\_\+t $\ast$ {\bfseries CA} = NULL
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a36ba9e7aa1bc73193f5e424addd22f12}\label{_n_b___r410_m_8h_a36ba9e7aa1bc73193f5e424addd22f12}} 
-uint8\+\_\+t $\ast$ {\bfseries CERT} = NULL
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a1b8f73595deed0de67b2fec4fc786662}\label{_n_b___r410_m_8h_a1b8f73595deed0de67b2fec4fc786662}} 
-uint8\+\_\+t $\ast$ {\bfseries KEY} = NULL
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a31269fcd0f1c8ecc6f0d0a9277f6adae}\label{_n_b___r410_m_8h_a31269fcd0f1c8ecc6f0d0a9277f6adae}} 
-unsigned int {\bfseries file\+CA\+\_\+size}
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a2ff005236804fe7640d7fcab797a2c8b}\label{_n_b___r410_m_8h_a2ff005236804fe7640d7fcab797a2c8b}} 
-unsigned int {\bfseries file\+CERT\+\_\+size}
-\item 
-\mbox{\Hypertarget{_n_b___r410_m_8h_a9b8aad12db63b2162aee9ebbd15a0f7f}\label{_n_b___r410_m_8h_a9b8aad12db63b2162aee9ebbd15a0f7f}} 
-unsigned int {\bfseries file\+KEY\+\_\+size}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -124,6 +105,11 @@ Steps to use this library\+:
 
 \begin{DoxyEnumerate}
 \item Call load\+Cert() to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+\end{DoxyEnumerate}
+
+
+\begin{DoxyEnumerate}
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assign\+Cert()}} to assign the certificates to a security profile (If using SSL/\+TLS)
 \end{DoxyEnumerate}
 
 
@@ -172,6 +158,28 @@ Steps to use this library\+:
 \end{DoxyEnumerate}
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}\label{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!assignCert@{assignCert}}
+\index{assignCert@{assignCert}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{assignCert()}{assignCert()}}
+{\footnotesize\ttfamily int assign\+Cert (\begin{DoxyParamCaption}\item[{int}]{profile,  }\item[{const char $\ast$}]{cert\+Name,  }\item[{int}]{cert\+Type }\end{DoxyParamCaption})}
+
+
+
+Assigns loaded certificates to a profile. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em profile} & SSL profile number \\
+\hline
+{\em cert\+Name} & Certificate name assigned when loading certificate \\
+\hline
+{\em cert\+Type} & Certificate type, 3 for CA, 5 for CERT, 6 for KEY \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if successful, 1 if not, 2 if malloc failed 
+\end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}\label{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!enableMQTTkeepalive@{enableMQTTkeepalive}}
 \index{enableMQTTkeepalive@{enableMQTTkeepalive}!NB\_R410M.h@{NB\_R410M.h}}
@@ -183,7 +191,7 @@ Steps to use this library\+:
 Enables MQTT keepalive. 
 
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}\label{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!enableSSL@{enableSSL}}
@@ -201,7 +209,7 @@ Enables SSL/\+TLS for mqtt connection.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}\label{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!getResponse@{getResponse}}
@@ -220,6 +228,9 @@ gets response from the LTE shield and compares it to the expected response
 {\em timeout} & Timeout in milliseconds \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if response is as expected, 0 if not 
+\end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}\label{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!initModule@{initModule}}
 \index{initModule@{initModule}!NB\_R410M.h@{NB\_R410M.h}}
@@ -236,7 +247,7 @@ Initializes the LTE Shield and enables AT interface and Timezone update.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}\label{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!loadCertMQTT@{loadCertMQTT}}
@@ -258,7 +269,7 @@ Reads certificates from filesystem and loads into module.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+-\/1 if load file fails, return value from set\+Cert\+MQTT if successful 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}\label{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!loginMQTT@{loginMQTT}}
@@ -271,7 +282,7 @@ Reads certificates from filesystem and loads into module.
 Login to the MQTT broker. 
 
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}\label{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!printInfo@{printInfo}}
@@ -323,7 +334,7 @@ Publishes a message to the MQTT broker.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not, -\/1 if memory allocation failed 
+0 if successful, 1 if not, -\/1 if memory allocation failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}\label{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setAPN@{setAPN}}
@@ -341,7 +352,7 @@ Sets APN on LTE module.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}\label{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setCertMQTT@{setCertMQTT}}
@@ -363,7 +374,7 @@ Transmit certificate data to the LTE shield.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}\label{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setMQTT@{setMQTT}}
@@ -383,7 +394,7 @@ Configures MQTT broker hostname and port.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}\label{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setMQTTping@{setMQTTping}}
@@ -401,7 +412,7 @@ Sets the MQTT ping interval.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}\label{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!transmitCommand@{transmitCommand}}
@@ -434,7 +445,7 @@ Configures MQTT Will topic.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}\label{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!willmsgMQTT@{willmsgMQTT}}
@@ -452,5 +463,5 @@ Configures MQTT Will message.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 if successful, 0 if not 
+0 if successful, 1 if not 
 \end{DoxyReturn}

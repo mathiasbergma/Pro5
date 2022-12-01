@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['printinfo_0',['printInfo',['../_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2',1,'NB_R410M.h']]],
-  ['printtoconsole_1',['printToConsole',['../_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1',1,'NB_R410M.h']]],
-  ['publishmessage_2',['publishMessage',['../_n_b___r410_m_8h.html#a92d55d9f690d1e2c337f035700ef5a4e',1,'NB_R410M.h']]]
+  ['loadcertmqtt_0',['loadCertMQTT',['../_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c',1,'NB_R410M.h']]],
+  ['loginmqtt_1',['loginMQTT',['../_n_b___r410_m_8h.html#ae0c1031eb25784bc3a5ab60e8f3981bf',1,'NB_R410M.h']]]
 ];

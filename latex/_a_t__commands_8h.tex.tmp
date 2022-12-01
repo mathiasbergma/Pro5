@@ -75,6 +75,9 @@ const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+SECURE} \mbox{[}$\,$\mbox{]} = \ch
 \item 
 \mbox{\Hypertarget{_a_t__commands_8h_ae46acf7b4f582fccb8c2cb419048e2ad}\label{_a_t__commands_8h_ae46acf7b4f582fccb8c2cb419048e2ad}} 
 const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+SECURE\+\_\+\+SET\+\_\+\+RESPONSE} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\+: 11,1\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a48cdcccd9d6a34a096696e7e8d12da29}\label{_a_t__commands_8h_a48cdcccd9d6a34a096696e7e8d12da29}} 
+const char {\bfseries SARA\+\_\+\+SECURITY\+\_\+\+PROFILE} \mbox{[}$\,$\mbox{]} = \char`\"{}+USECPRF=\char`\"{}
 \end{DoxyCompactItemize}
 
 
