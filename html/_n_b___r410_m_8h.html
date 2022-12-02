@@ -201,7 +201,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2" title="Prints the IP address of the LTE module. The returned pointer must be freed by the caller.">printInfo()</a> to print connection information (TODO)</li>
 </ol>
 <ol type="1">
-<li>Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c" title="Reads certificates from filesystem and loads into module.">loadCertMQTT()</a> to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
 </ol>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b" title="Assigns loaded certificates to a profile.">assignCert()</a> to assign the certificates to a security profile (If using SSL/TLS)</li>
@@ -295,7 +295,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 </div><div class="memdoc">
 
 <p>Enables MQTT keepalive. </p>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
 
 </div>
 </div>
@@ -432,7 +432,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>-1 if load file fails, return value from setCertMQTT if successful </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>-1 if load file fails, return value from <a class="el" href="_n_b___r410_m_8h.html#a1a2a52cca4c1a1964aa1bd6cb7ddd14b" title="Transmit certificate data to the LTE shield.">setCertMQTT()</a> if successful </dd></dl>
 
 </div>
 </div>
@@ -550,7 +550,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, -1 if memory allocation failed </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if memory allocation failed </dd></dl>
 
 </div>
 </div>
@@ -628,7 +628,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
 
 </div>
 </div>
@@ -666,7 +666,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if memory allocation failed </dd></dl>
 
 </div>
 </div>
@@ -693,7 +693,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
 
 </div>
 </div>
@@ -746,7 +746,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if memory allocation failed </dd></dl>
 
 </div>
 </div>
@@ -773,7 +773,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if memory allocation failed </dd></dl>
 
 </div>
 </div>

@@ -120,557 +120,561 @@
 \DoxyCodeLine{162 \}}
 \DoxyCodeLine{168 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enableSSL}}(\textcolor{keywordtype}{int} profile)}
 \DoxyCodeLine{169 \{}
-\DoxyCodeLine{170   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{171   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_MQTT\_SECURE) + 5);}
-\DoxyCodeLine{172   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{173   \{}
-\DoxyCodeLine{174     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{175     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{176   \}}
-\DoxyCodeLine{177 }
-\DoxyCodeLine{178   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, SARA\_MQTT\_SECURE, profile);}
-\DoxyCodeLine{179   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{180   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MQTT\_SECURE\_SET\_RESPONSE, 5000))}
-\DoxyCodeLine{181   \{}
-\DoxyCodeLine{182     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL enabled"{}});}
-\DoxyCodeLine{183     \textcolor{keywordflow}{return} 0;}
-\DoxyCodeLine{184   \}}
-\DoxyCodeLine{185   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{186   \{}
-\DoxyCodeLine{187     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL not enabled"{}});}
-\DoxyCodeLine{188     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{189   \}}
-\DoxyCodeLine{190 \}}
-\DoxyCodeLine{191 }
-\DoxyCodeLine{199 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assignCert}}(\textcolor{keywordtype}{int} profile, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *certName, \textcolor{keywordtype}{int} certType)}
-\DoxyCodeLine{200 \{}
-\DoxyCodeLine{201   \textcolor{keywordtype}{int} returnVal = 1;}
-\DoxyCodeLine{202   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{203   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SECURITY\_PROFILE) + strlen(certName) + 10);}
-\DoxyCodeLine{204   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{205   \{}
-\DoxyCodeLine{206     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{207     \textcolor{keywordflow}{return} 2;}
-\DoxyCodeLine{208   \}}
-\DoxyCodeLine{209   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\%d,\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_SECURITY\_PROFILE, profile, certType, certName);}
-\DoxyCodeLine{210   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{211   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}},1000))}
-\DoxyCodeLine{212   \{}
-\DoxyCodeLine{213     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate ["{}});}
-\DoxyCodeLine{214     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(certName);}
-\DoxyCodeLine{215     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}] assigned\(\backslash\)n"{}});}
-\DoxyCodeLine{216     returnVal = 0;}
-\DoxyCodeLine{217   \}}
-\DoxyCodeLine{218   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{219   \{}
-\DoxyCodeLine{220     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate ["{}});}
-\DoxyCodeLine{221     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(certName);}
-\DoxyCodeLine{222     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}] not assigned\(\backslash\)n"{}});}
-\DoxyCodeLine{223     returnVal = 1;}
-\DoxyCodeLine{224   \}}
-\DoxyCodeLine{225   free(command);}
-\DoxyCodeLine{226   \textcolor{keywordflow}{return} returnVal;}
-\DoxyCodeLine{227 \}}
-\DoxyCodeLine{228 }
-\DoxyCodeLine{232 \textcolor{keywordtype}{void} \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{getNetwork}}()}
-\DoxyCodeLine{233 \{}
-\DoxyCodeLine{234   \textcolor{keywordtype}{int} retval;}
-\DoxyCodeLine{235   \textcolor{keywordtype}{int} last = 99;}
-\DoxyCodeLine{236   \textcolor{keywordflow}{while} (retval != 1)}
-\DoxyCodeLine{237   \{}
-\DoxyCodeLine{238 }
-\DoxyCodeLine{239     \textcolor{comment}{// Empty the serial buffer}}
-\DoxyCodeLine{240     \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
-\DoxyCodeLine{241     \{}
-\DoxyCodeLine{242       LTEShieldSerial.read();}
-\DoxyCodeLine{243     \}}
-\DoxyCodeLine{244     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT+CEREG?"{}});}
-\DoxyCodeLine{245     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
-\DoxyCodeLine{246     \textcolor{keywordtype}{char} ret[128];}
-\DoxyCodeLine{247     \textcolor{keywordtype}{int} destIndex = 0;}
-\DoxyCodeLine{248     \textcolor{keywordtype}{int} index = 0;}
-\DoxyCodeLine{249     \textcolor{keywordtype}{char} c;}
-\DoxyCodeLine{250     \textcolor{keywordtype}{int} size = 12;}
-\DoxyCodeLine{251     retval = 4;}
-\DoxyCodeLine{252 }
-\DoxyCodeLine{253     \textcolor{keywordflow}{while} (millis() -\/ timeIn < 1000)}
-\DoxyCodeLine{254     \{}
-\DoxyCodeLine{255       \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
-\DoxyCodeLine{256       \{}
-\DoxyCodeLine{257         c = (char)LTEShieldSerial.read();}
-\DoxyCodeLine{258         \textcolor{comment}{// Serial.print(c);}}
-\DoxyCodeLine{259         ret[index++] = c;}
-\DoxyCodeLine{260         \textcolor{comment}{// printToConsole("{}index: \%d\(\backslash\)n"{}, index);}}
-\DoxyCodeLine{261         \textcolor{keywordflow}{if} (index > size)}
-\DoxyCodeLine{262         \{}
-\DoxyCodeLine{263           \textcolor{keywordflow}{break};}
-\DoxyCodeLine{264         \}}
-\DoxyCodeLine{265       \}}
-\DoxyCodeLine{266     \}}
-\DoxyCodeLine{267     ret[++index] = 0;}
-\DoxyCodeLine{268     \textcolor{comment}{// printToConsole("{}ret: \%s\(\backslash\)n"{}, ret);}}
-\DoxyCodeLine{269     sscanf(ret, \textcolor{stringliteral}{"{} +CEREG: 0,\%d"{}}, \&retval);}
-\DoxyCodeLine{270     \textcolor{keywordflow}{switch} (retval)}
-\DoxyCodeLine{271     \{}
-\DoxyCodeLine{272     \textcolor{keywordflow}{case} 0:}
-\DoxyCodeLine{273       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{274       \{}
-\DoxyCodeLine{275         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Not registered, MT is not currently searching a new operator to register to\(\backslash\)n"{}});}
-\DoxyCodeLine{276         last = retval;}
-\DoxyCodeLine{277       \}}
-\DoxyCodeLine{278       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{279       \{}
-\DoxyCodeLine{280         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{281       \}}
-\DoxyCodeLine{282       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{283     \textcolor{keywordflow}{case} 1:}
-\DoxyCodeLine{284       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{285       \{}
-\DoxyCodeLine{286         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registered, home network\(\backslash\)n"{}});}
-\DoxyCodeLine{287         last = retval;}
-\DoxyCodeLine{288       \}}
-\DoxyCodeLine{289       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{290       \{}
-\DoxyCodeLine{291         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{292       \}}
-\DoxyCodeLine{293       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{294     \textcolor{keywordflow}{case} 2:}
-\DoxyCodeLine{295       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{296       \{}
-\DoxyCodeLine{297         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Scanning for network\(\backslash\)n"{}});}
-\DoxyCodeLine{298         last = retval;}
-\DoxyCodeLine{299       \}}
-\DoxyCodeLine{300       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{301       \{}
-\DoxyCodeLine{302         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{303       \}}
-\DoxyCodeLine{304       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{305     \textcolor{keywordflow}{case} 3:}
-\DoxyCodeLine{306       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{307       \{}
-\DoxyCodeLine{308         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registration denied\(\backslash\)n"{}});}
-\DoxyCodeLine{309         last = retval;}
-\DoxyCodeLine{310       \}}
-\DoxyCodeLine{311       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{312       \{}
-\DoxyCodeLine{313         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{314       \}}
-\DoxyCodeLine{315       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{316     \textcolor{keywordflow}{case} 4:}
-\DoxyCodeLine{317       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{318       \{}
-\DoxyCodeLine{319         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
-\DoxyCodeLine{320         last = retval;}
-\DoxyCodeLine{321       \}}
-\DoxyCodeLine{322       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{323       \{}
-\DoxyCodeLine{324         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{325       \}}
-\DoxyCodeLine{326       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{327     \textcolor{keywordflow}{case} 5:}
-\DoxyCodeLine{328       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{329       \{}
-\DoxyCodeLine{330         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registered, roaming\(\backslash\)n"{}});}
-\DoxyCodeLine{331         last = retval;}
-\DoxyCodeLine{332       \}}
-\DoxyCodeLine{333       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{334       \{}
-\DoxyCodeLine{335         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{336       \}}
-\DoxyCodeLine{337       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{338     \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{339       \textcolor{keywordflow}{if} (last != retval)}
-\DoxyCodeLine{340       \{}
-\DoxyCodeLine{341         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
-\DoxyCodeLine{342         last = retval;}
-\DoxyCodeLine{343       \}}
-\DoxyCodeLine{344       \textcolor{keywordflow}{else}}
-\DoxyCodeLine{345       \{}
-\DoxyCodeLine{346         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{347       \}}
-\DoxyCodeLine{348       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{349     \}}
-\DoxyCodeLine{350     delay(500);}
-\DoxyCodeLine{351   \}}
-\DoxyCodeLine{352 \}}
-\DoxyCodeLine{353 }
-\DoxyCodeLine{359 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{setAPN}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *apn)}
-\DoxyCodeLine{360 \{}
-\DoxyCodeLine{361   \textcolor{keywordtype}{int} result = 0;}
-\DoxyCodeLine{362   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{363   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SET\_APN) + strlen(apn) + 5);}
-\DoxyCodeLine{364   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{365   \{}
-\DoxyCodeLine{366     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{367     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{368   \}}
-\DoxyCodeLine{369 }
-\DoxyCodeLine{370   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_SET\_APN, apn);}
-\DoxyCodeLine{371   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{372   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 1000))}
-\DoxyCodeLine{373   \{}
-\DoxyCodeLine{374     Serial.println(\textcolor{stringliteral}{"{}APN set"{}});}
-\DoxyCodeLine{375     result = 0;}
-\DoxyCodeLine{376   \}}
-\DoxyCodeLine{377   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{378   \{}
-\DoxyCodeLine{379     Serial.println(\textcolor{stringliteral}{"{}APN not set"{}});}
-\DoxyCodeLine{380   \}}
-\DoxyCodeLine{381   free(command);}
-\DoxyCodeLine{382   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{383 \}}
-\DoxyCodeLine{384 }
-\DoxyCodeLine{389 \textcolor{keywordtype}{char} *\mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{printInfo}}()}
-\DoxyCodeLine{390 \{}
-\DoxyCodeLine{391   \textcolor{keywordtype}{char} *ip = NULL;}
-\DoxyCodeLine{392   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{393   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_NETWORK\_INFO\_GET) + 5);}
-\DoxyCodeLine{394   ip = (\textcolor{keywordtype}{char} *)malloc(16);}
-\DoxyCodeLine{395   \textcolor{keywordflow}{if} (ip == NULL)}
-\DoxyCodeLine{396   \{}
-\DoxyCodeLine{397     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{398     \textcolor{keywordflow}{return} NULL;}
-\DoxyCodeLine{399   \}}
-\DoxyCodeLine{400   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{401   \{}
-\DoxyCodeLine{402     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{403     \textcolor{keywordflow}{return} NULL;}
-\DoxyCodeLine{404   \}}
-\DoxyCodeLine{405   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s"{}}, AT, SARA\_NETWORK\_INFO\_GET);}
-\DoxyCodeLine{406   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{407 }
-\DoxyCodeLine{408   \textcolor{keywordtype}{char} ret[128];}
-\DoxyCodeLine{409   \textcolor{keywordtype}{int} destIndex = 0;}
-\DoxyCodeLine{410   \textcolor{keywordtype}{int} index = 0;}
-\DoxyCodeLine{411   \textcolor{keywordtype}{char} c;}
-\DoxyCodeLine{412   \textcolor{keywordtype}{char} OK[] = \textcolor{stringliteral}{"{}OK"{}};}
-\DoxyCodeLine{413   \textcolor{keywordtype}{int} size = 12;}
-\DoxyCodeLine{414   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
-\DoxyCodeLine{415   \textcolor{keywordflow}{while} (millis() -\/ timeIn < 1000)}
-\DoxyCodeLine{416   \{}
-\DoxyCodeLine{417     \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
-\DoxyCodeLine{418     \{}
-\DoxyCodeLine{419       c = (char)LTEShieldSerial.read();}
-\DoxyCodeLine{420       \textcolor{comment}{// Serial.print(c);}}
-\DoxyCodeLine{421       ret[index] = c;}
-\DoxyCodeLine{422       \textcolor{comment}{// printToConsole("{}index: \%d\(\backslash\)n"{}, index);}}
-\DoxyCodeLine{423       \textcolor{keywordflow}{if} (ret[index -\/ 1] == OK[0] \&\& ret[index] == OK[1])}
-\DoxyCodeLine{424       \{}
-\DoxyCodeLine{425         \textcolor{keywordflow}{break};}
-\DoxyCodeLine{426       \}}
-\DoxyCodeLine{427       index++;}
-\DoxyCodeLine{428     \}}
-\DoxyCodeLine{429   \}}
-\DoxyCodeLine{430   }
-\DoxyCodeLine{431   ret[++index] = 0;}
-\DoxyCodeLine{432   \textcolor{keywordtype}{char} * token = strtok(ret, \textcolor{stringliteral}{"{},\(\backslash\)"{}"{}});}
-\DoxyCodeLine{433   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
-\DoxyCodeLine{434   \{}
-\DoxyCodeLine{435     token = strtok(NULL, \textcolor{stringliteral}{"{}\(\backslash\)"{},\(\backslash\)"{}"{}});}
-\DoxyCodeLine{436   \}}
-\DoxyCodeLine{437   }
-\DoxyCodeLine{438   strcpy(ip, token);}
-\DoxyCodeLine{439   }
-\DoxyCodeLine{440   \textcolor{keywordflow}{return} ip;}
-\DoxyCodeLine{441 \}}
-\DoxyCodeLine{442 }
-\DoxyCodeLine{450 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{setCertMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{byte} *cert, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{int} type, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *name)}
-\DoxyCodeLine{451 \{}
-\DoxyCodeLine{452   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{453   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{454   \textcolor{keywordtype}{char} *response = NULL;}
-\DoxyCodeLine{455   response = (\textcolor{keywordtype}{char} *)malloc(strlen(SARA\_IMPORT\_CERT\_OK) + 5);}
-\DoxyCodeLine{456   \textcolor{keywordflow}{if} (response == NULL)}
-\DoxyCodeLine{457   \{}
-\DoxyCodeLine{458     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{459     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{460   \}}
-\DoxyCodeLine{461   command = (\textcolor{keywordtype}{char} *)malloc((strlen(AT) + strlen(SARA\_IMPORT\_CERT) + strlen(name) + 15));}
-\DoxyCodeLine{462   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{463   \{}
-\DoxyCodeLine{464     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{465     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{466   \}}
-\DoxyCodeLine{467   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, AT, SARA\_IMPORT\_CERT, type, name, size);}
-\DoxyCodeLine{468   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Importing certificate: "{}});}
-\DoxyCodeLine{469   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(name);}
-\DoxyCodeLine{470   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
-\DoxyCodeLine{471   \textcolor{comment}{// printToConsole("{}Command: \%s\(\backslash\)n"{}, command);}}
-\DoxyCodeLine{472   \textcolor{comment}{//  Empties buffer and transmits the command}}
-\DoxyCodeLine{473   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{474 }
-\DoxyCodeLine{475   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_IMPORT\_CERT\_READY, 10000))}
-\DoxyCodeLine{476   \{}
-\DoxyCodeLine{477     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Ready to receive certificate:\(\backslash\)n"{}});}
-\DoxyCodeLine{478     \textcolor{comment}{// printToConsole("{}\%s\(\backslash\)n"{},cert);}}
-\DoxyCodeLine{479 }
-\DoxyCodeLine{480     sprintf(response, \textcolor{stringliteral}{"{}\%s\%d"{}}, SARA\_IMPORT\_CERT\_OK, type);}
-\DoxyCodeLine{481 }
-\DoxyCodeLine{482     \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{483     \textcolor{comment}{//transmitCommand(cert);}}
-\DoxyCodeLine{484     \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
-\DoxyCodeLine{485     \{}
-\DoxyCodeLine{486       LTEShieldSerial.read();}
-\DoxyCodeLine{487     \}}
-\DoxyCodeLine{488     LTEShieldSerial.write(cert, size);}
-\DoxyCodeLine{489 }
-\DoxyCodeLine{490     \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(response, 10000))}
-\DoxyCodeLine{491     \{}
-\DoxyCodeLine{492       \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate imported\(\backslash\)n"{}});}
-\DoxyCodeLine{493       result = 0;}
-\DoxyCodeLine{494     \}}
-\DoxyCodeLine{495     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{496     \{}
-\DoxyCodeLine{497       \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate import failed\(\backslash\)n"{}});}
+\DoxyCodeLine{170   \textcolor{keywordtype}{int} returnVal = 1;}
+\DoxyCodeLine{171   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{172   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_MQTT\_SECURE) + 5);}
+\DoxyCodeLine{173   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{174   \{}
+\DoxyCodeLine{175     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{176     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{177   \}}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, SARA\_MQTT\_SECURE, profile);}
+\DoxyCodeLine{180   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{181   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MQTT\_SECURE\_SET\_RESPONSE, 5000))}
+\DoxyCodeLine{182   \{}
+\DoxyCodeLine{183     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL enabled"{}});}
+\DoxyCodeLine{184     returnVal = 0;}
+\DoxyCodeLine{185   \}}
+\DoxyCodeLine{186   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{187   \{}
+\DoxyCodeLine{188     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL not enabled"{}});}
+\DoxyCodeLine{189     returnVal = 1;}
+\DoxyCodeLine{190   \}}
+\DoxyCodeLine{191   free(command);}
+\DoxyCodeLine{192   \textcolor{keywordflow}{return} returnVal;}
+\DoxyCodeLine{193 \}}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{202 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assignCert}}(\textcolor{keywordtype}{int} profile, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *certName, \textcolor{keywordtype}{int} certType)}
+\DoxyCodeLine{203 \{}
+\DoxyCodeLine{204   \textcolor{keywordtype}{int} returnVal = 1;}
+\DoxyCodeLine{205   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{206   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SECURITY\_PROFILE) + strlen(certName) + 10);}
+\DoxyCodeLine{207   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{208   \{}
+\DoxyCodeLine{209     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{210     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{211   \}}
+\DoxyCodeLine{212   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\%d,\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_SECURITY\_PROFILE, profile, certType, certName);}
+\DoxyCodeLine{213   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{214   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}},1000))}
+\DoxyCodeLine{215   \{}
+\DoxyCodeLine{216     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate ["{}});}
+\DoxyCodeLine{217     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(certName);}
+\DoxyCodeLine{218     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}] assigned\(\backslash\)n"{}});}
+\DoxyCodeLine{219     returnVal = 0;}
+\DoxyCodeLine{220   \}}
+\DoxyCodeLine{221   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{222   \{}
+\DoxyCodeLine{223     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate ["{}});}
+\DoxyCodeLine{224     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(certName);}
+\DoxyCodeLine{225     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}] not assigned\(\backslash\)n"{}});}
+\DoxyCodeLine{226     returnVal = 1;}
+\DoxyCodeLine{227   \}}
+\DoxyCodeLine{228   free(command);}
+\DoxyCodeLine{229   \textcolor{keywordflow}{return} returnVal;}
+\DoxyCodeLine{230 \}}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{235 \textcolor{keywordtype}{void} \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{getNetwork}}()}
+\DoxyCodeLine{236 \{}
+\DoxyCodeLine{237   \textcolor{keywordtype}{int} retval;}
+\DoxyCodeLine{238   \textcolor{keywordtype}{int} last = 99;}
+\DoxyCodeLine{239   \textcolor{keywordflow}{while} (retval != 1)}
+\DoxyCodeLine{240   \{}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242     \textcolor{comment}{// Empty the serial buffer}}
+\DoxyCodeLine{243     \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
+\DoxyCodeLine{244     \{}
+\DoxyCodeLine{245       LTEShieldSerial.read();}
+\DoxyCodeLine{246     \}}
+\DoxyCodeLine{247     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT+CEREG?"{}});}
+\DoxyCodeLine{248     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
+\DoxyCodeLine{249     \textcolor{keywordtype}{char} ret[128];}
+\DoxyCodeLine{250     \textcolor{keywordtype}{int} destIndex = 0;}
+\DoxyCodeLine{251     \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{252     \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{253     \textcolor{keywordtype}{int} size = 12;}
+\DoxyCodeLine{254     retval = 4;}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256     \textcolor{keywordflow}{while} (millis() -\/ timeIn < 1000)}
+\DoxyCodeLine{257     \{}
+\DoxyCodeLine{258       \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
+\DoxyCodeLine{259       \{}
+\DoxyCodeLine{260         c = (char)LTEShieldSerial.read();}
+\DoxyCodeLine{261         \textcolor{comment}{// Serial.print(c);}}
+\DoxyCodeLine{262         ret[index++] = c;}
+\DoxyCodeLine{263         \textcolor{comment}{// printToConsole("{}index: \%d\(\backslash\)n"{}, index);}}
+\DoxyCodeLine{264         \textcolor{keywordflow}{if} (index > size)}
+\DoxyCodeLine{265         \{}
+\DoxyCodeLine{266           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{267         \}}
+\DoxyCodeLine{268       \}}
+\DoxyCodeLine{269     \}}
+\DoxyCodeLine{270     ret[++index] = 0;}
+\DoxyCodeLine{271     \textcolor{comment}{// printToConsole("{}ret: \%s\(\backslash\)n"{}, ret);}}
+\DoxyCodeLine{272     sscanf(ret, \textcolor{stringliteral}{"{} +CEREG: 0,\%d"{}}, \&retval);}
+\DoxyCodeLine{273     \textcolor{keywordflow}{switch} (retval)}
+\DoxyCodeLine{274     \{}
+\DoxyCodeLine{275     \textcolor{keywordflow}{case} 0:}
+\DoxyCodeLine{276       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{277       \{}
+\DoxyCodeLine{278         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Not registered, MT is not currently searching a new operator to register to\(\backslash\)n"{}});}
+\DoxyCodeLine{279         last = retval;}
+\DoxyCodeLine{280       \}}
+\DoxyCodeLine{281       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{282       \{}
+\DoxyCodeLine{283         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{284       \}}
+\DoxyCodeLine{285       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{286     \textcolor{keywordflow}{case} 1:}
+\DoxyCodeLine{287       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{288       \{}
+\DoxyCodeLine{289         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registered, home network\(\backslash\)n"{}});}
+\DoxyCodeLine{290         last = retval;}
+\DoxyCodeLine{291       \}}
+\DoxyCodeLine{292       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{293       \{}
+\DoxyCodeLine{294         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{295       \}}
+\DoxyCodeLine{296       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{297     \textcolor{keywordflow}{case} 2:}
+\DoxyCodeLine{298       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{299       \{}
+\DoxyCodeLine{300         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Scanning for network\(\backslash\)n"{}});}
+\DoxyCodeLine{301         last = retval;}
+\DoxyCodeLine{302       \}}
+\DoxyCodeLine{303       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{304       \{}
+\DoxyCodeLine{305         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{306       \}}
+\DoxyCodeLine{307       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{308     \textcolor{keywordflow}{case} 3:}
+\DoxyCodeLine{309       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{310       \{}
+\DoxyCodeLine{311         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registration denied\(\backslash\)n"{}});}
+\DoxyCodeLine{312         last = retval;}
+\DoxyCodeLine{313       \}}
+\DoxyCodeLine{314       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{315       \{}
+\DoxyCodeLine{316         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{317       \}}
+\DoxyCodeLine{318       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{319     \textcolor{keywordflow}{case} 4:}
+\DoxyCodeLine{320       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{321       \{}
+\DoxyCodeLine{322         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
+\DoxyCodeLine{323         last = retval;}
+\DoxyCodeLine{324       \}}
+\DoxyCodeLine{325       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{326       \{}
+\DoxyCodeLine{327         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{328       \}}
+\DoxyCodeLine{329       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{330     \textcolor{keywordflow}{case} 5:}
+\DoxyCodeLine{331       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{332       \{}
+\DoxyCodeLine{333         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Registered, roaming\(\backslash\)n"{}});}
+\DoxyCodeLine{334         last = retval;}
+\DoxyCodeLine{335       \}}
+\DoxyCodeLine{336       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{337       \{}
+\DoxyCodeLine{338         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{339       \}}
+\DoxyCodeLine{340       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{341     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{342       \textcolor{keywordflow}{if} (last != retval)}
+\DoxyCodeLine{343       \{}
+\DoxyCodeLine{344         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Unknown\(\backslash\)n"{}});}
+\DoxyCodeLine{345         last = retval;}
+\DoxyCodeLine{346       \}}
+\DoxyCodeLine{347       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{348       \{}
+\DoxyCodeLine{349         \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{350       \}}
+\DoxyCodeLine{351       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{352     \}}
+\DoxyCodeLine{353     delay(500);}
+\DoxyCodeLine{354   \}}
+\DoxyCodeLine{355 \}}
+\DoxyCodeLine{356 }
+\DoxyCodeLine{362 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{setAPN}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *apn)}
+\DoxyCodeLine{363 \{}
+\DoxyCodeLine{364   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{365   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{366   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SET\_APN) + strlen(apn) + 5);}
+\DoxyCodeLine{367   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{368   \{}
+\DoxyCodeLine{369     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{370     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{371   \}}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_SET\_APN, apn);}
+\DoxyCodeLine{374   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{375   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 1000))}
+\DoxyCodeLine{376   \{}
+\DoxyCodeLine{377     Serial.println(\textcolor{stringliteral}{"{}APN set"{}});}
+\DoxyCodeLine{378     result = 0;}
+\DoxyCodeLine{379   \}}
+\DoxyCodeLine{380   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{381   \{}
+\DoxyCodeLine{382     Serial.println(\textcolor{stringliteral}{"{}APN not set"{}});}
+\DoxyCodeLine{383   \}}
+\DoxyCodeLine{384   free(command);}
+\DoxyCodeLine{385   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{386 \}}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{392 \textcolor{keywordtype}{char} *\mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{printInfo}}()}
+\DoxyCodeLine{393 \{}
+\DoxyCodeLine{394   \textcolor{keywordtype}{char} *ip = NULL;}
+\DoxyCodeLine{395   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{396   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_NETWORK\_INFO\_GET) + 5);}
+\DoxyCodeLine{397   ip = (\textcolor{keywordtype}{char} *)malloc(16);}
+\DoxyCodeLine{398   \textcolor{keywordflow}{if} (ip == NULL)}
+\DoxyCodeLine{399   \{}
+\DoxyCodeLine{400     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{401     \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{402   \}}
+\DoxyCodeLine{403   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{404   \{}
+\DoxyCodeLine{405     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{406     \textcolor{keywordflow}{return} NULL;}
+\DoxyCodeLine{407   \}}
+\DoxyCodeLine{408   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s"{}}, AT, SARA\_NETWORK\_INFO\_GET);}
+\DoxyCodeLine{409   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{410 }
+\DoxyCodeLine{411   \textcolor{keywordtype}{char} ret[128];}
+\DoxyCodeLine{412   \textcolor{keywordtype}{int} destIndex = 0;}
+\DoxyCodeLine{413   \textcolor{keywordtype}{int} index = 0;}
+\DoxyCodeLine{414   \textcolor{keywordtype}{char} c;}
+\DoxyCodeLine{415   \textcolor{keywordtype}{char} OK[] = \textcolor{stringliteral}{"{}OK"{}};}
+\DoxyCodeLine{416   \textcolor{keywordtype}{int} size = 12;}
+\DoxyCodeLine{417   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timeIn = millis();}
+\DoxyCodeLine{418   \textcolor{keywordflow}{while} (millis() -\/ timeIn < 1000)}
+\DoxyCodeLine{419   \{}
+\DoxyCodeLine{420     \textcolor{keywordflow}{if} (LTEShieldSerial.available())}
+\DoxyCodeLine{421     \{}
+\DoxyCodeLine{422       c = (char)LTEShieldSerial.read();}
+\DoxyCodeLine{423       \textcolor{comment}{// Serial.print(c);}}
+\DoxyCodeLine{424       ret[index] = c;}
+\DoxyCodeLine{425       \textcolor{comment}{// printToConsole("{}index: \%d\(\backslash\)n"{}, index);}}
+\DoxyCodeLine{426       \textcolor{keywordflow}{if} (ret[index -\/ 1] == OK[0] \&\& ret[index] == OK[1])}
+\DoxyCodeLine{427       \{}
+\DoxyCodeLine{428         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{429       \}}
+\DoxyCodeLine{430       index++;}
+\DoxyCodeLine{431     \}}
+\DoxyCodeLine{432   \}}
+\DoxyCodeLine{433   }
+\DoxyCodeLine{434   ret[++index] = 0;}
+\DoxyCodeLine{435   \textcolor{keywordtype}{char} * token = strtok(ret, \textcolor{stringliteral}{"{},\(\backslash\)"{}"{}});}
+\DoxyCodeLine{436   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
+\DoxyCodeLine{437   \{}
+\DoxyCodeLine{438     token = strtok(NULL, \textcolor{stringliteral}{"{}\(\backslash\)"{},\(\backslash\)"{}"{}});}
+\DoxyCodeLine{439   \}}
+\DoxyCodeLine{440   }
+\DoxyCodeLine{441   strcpy(ip, token);}
+\DoxyCodeLine{442   free(command);}
+\DoxyCodeLine{443   \textcolor{keywordflow}{return} ip;}
+\DoxyCodeLine{444 \}}
+\DoxyCodeLine{445 }
+\DoxyCodeLine{453 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{setCertMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{byte} *cert, \textcolor{keywordtype}{int} size, \textcolor{keywordtype}{int} type, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *name)}
+\DoxyCodeLine{454 \{}
+\DoxyCodeLine{455   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{456   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{457   \textcolor{keywordtype}{char} *response = NULL;}
+\DoxyCodeLine{458   response = (\textcolor{keywordtype}{char} *)malloc(strlen(SARA\_IMPORT\_CERT\_OK) + 5);}
+\DoxyCodeLine{459   \textcolor{keywordflow}{if} (response == NULL)}
+\DoxyCodeLine{460   \{}
+\DoxyCodeLine{461     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{462     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{463   \}}
+\DoxyCodeLine{464   command = (\textcolor{keywordtype}{char} *)malloc((strlen(AT) + strlen(SARA\_IMPORT\_CERT) + strlen(name) + 15));}
+\DoxyCodeLine{465   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{466   \{}
+\DoxyCodeLine{467     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{468     free(response);}
+\DoxyCodeLine{469     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{470   \}}
+\DoxyCodeLine{471   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, AT, SARA\_IMPORT\_CERT, type, name, size);}
+\DoxyCodeLine{472   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Importing certificate: "{}});}
+\DoxyCodeLine{473   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(name);}
+\DoxyCodeLine{474   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{475   \textcolor{comment}{// printToConsole("{}Command: \%s\(\backslash\)n"{}, command);}}
+\DoxyCodeLine{476   \textcolor{comment}{//  Empties buffer and transmits the command}}
+\DoxyCodeLine{477   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{478 }
+\DoxyCodeLine{479   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_IMPORT\_CERT\_READY, 10000))}
+\DoxyCodeLine{480   \{}
+\DoxyCodeLine{481     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Ready to receive certificate:\(\backslash\)n"{}});}
+\DoxyCodeLine{482     \textcolor{comment}{// printToConsole("{}\%s\(\backslash\)n"{},cert);}}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484     sprintf(response, \textcolor{stringliteral}{"{}\%s\%d"{}}, SARA\_IMPORT\_CERT\_OK, type);}
+\DoxyCodeLine{485 }
+\DoxyCodeLine{486     \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{487     \textcolor{comment}{//transmitCommand(cert);}}
+\DoxyCodeLine{488     \textcolor{keywordflow}{while} (LTEShieldSerial.available())}
+\DoxyCodeLine{489     \{}
+\DoxyCodeLine{490       LTEShieldSerial.read();}
+\DoxyCodeLine{491     \}}
+\DoxyCodeLine{492     LTEShieldSerial.write(cert, size);}
+\DoxyCodeLine{493 }
+\DoxyCodeLine{494     \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(response, 10000))}
+\DoxyCodeLine{495     \{}
+\DoxyCodeLine{496       \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate imported\(\backslash\)n"{}});}
+\DoxyCodeLine{497       result = 0;}
 \DoxyCodeLine{498     \}}
-\DoxyCodeLine{499   \}}
-\DoxyCodeLine{500   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{501   \{}
-\DoxyCodeLine{502     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Failed to import certificate -\/ not ready\(\backslash\)n"{}});}
+\DoxyCodeLine{499     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{500     \{}
+\DoxyCodeLine{501       \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Certificate import failed\(\backslash\)n"{}});}
+\DoxyCodeLine{502     \}}
 \DoxyCodeLine{503   \}}
-\DoxyCodeLine{504   free(command);}
-\DoxyCodeLine{505   free(response);}
-\DoxyCodeLine{506   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{507 \}}
-\DoxyCodeLine{508 }
-\DoxyCodeLine{516 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{loadCertMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{int} type, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *name)}
-\DoxyCodeLine{517 \{}
-\DoxyCodeLine{518   \textcolor{keywordtype}{int} result = 0;}
-\DoxyCodeLine{519   File certFile = SPIFFS.open(filename, \textcolor{stringliteral}{"{}r"{}});}
-\DoxyCodeLine{520   \textcolor{keywordflow}{if} (!certFile)}
-\DoxyCodeLine{521   \{}
-\DoxyCodeLine{522     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Failed to open file for reading\(\backslash\)n"{}});}
-\DoxyCodeLine{523     \textcolor{keywordflow}{return} -\/1;}
-\DoxyCodeLine{524   \}}
-\DoxyCodeLine{525   \textcolor{keywordtype}{int} size = certFile.size();}
-\DoxyCodeLine{526   \textcolor{keywordtype}{byte} *cert = (\textcolor{keywordtype}{byte} *)malloc(size);}
-\DoxyCodeLine{527   \textcolor{keywordflow}{if} (cert == NULL)}
-\DoxyCodeLine{528   \{}
-\DoxyCodeLine{529     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{530     \textcolor{keywordflow}{return} -\/1;}
-\DoxyCodeLine{531   \}}
-\DoxyCodeLine{532   certFile.read(cert, size);}
-\DoxyCodeLine{533   certFile.close();}
-\DoxyCodeLine{534   result = \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{setCertMQTT}}(cert, size, type, name);}
-\DoxyCodeLine{535   free(cert);}
-\DoxyCodeLine{536   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{537 \}}
-\DoxyCodeLine{538 }
-\DoxyCodeLine{544 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{setMQTTping}}(\textcolor{keywordtype}{int} timeout)}
-\DoxyCodeLine{545 \{}
-\DoxyCodeLine{546   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{547   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{548 }
-\DoxyCodeLine{549   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_TIMEOUT) + 5);}
-\DoxyCodeLine{550   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{551   \{}
-\DoxyCodeLine{552     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{553     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{554   \}}
-\DoxyCodeLine{555   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, SARA\_TIMEOUT, timeout);}
-\DoxyCodeLine{556 }
-\DoxyCodeLine{557   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{558   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{559 }
-\DoxyCodeLine{560   \textcolor{comment}{// Wait for the response}}
-\DoxyCodeLine{561   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_TIMEOUT\_SET\_RESPONSE, 10000))}
-\DoxyCodeLine{562   \{}
-\DoxyCodeLine{563     \textcolor{keywordtype}{char} msgToPrint[50];}
-\DoxyCodeLine{564     sprintf(msgToPrint, \textcolor{stringliteral}{"{}MQTT ping interval set to \%d seconds\(\backslash\)n"{}}, timeout);}
-\DoxyCodeLine{565     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(msgToPrint);}
-\DoxyCodeLine{566     result = 0;}
-\DoxyCodeLine{567   \}}
-\DoxyCodeLine{568   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{569   \{}
-\DoxyCodeLine{570     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error setting MQTT ping timeout\(\backslash\)n"{}});}
+\DoxyCodeLine{504   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{505   \{}
+\DoxyCodeLine{506     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Failed to import certificate -\/ not ready\(\backslash\)n"{}});}
+\DoxyCodeLine{507   \}}
+\DoxyCodeLine{508   free(command);}
+\DoxyCodeLine{509   free(response);}
+\DoxyCodeLine{510   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{511 \}}
+\DoxyCodeLine{512 }
+\DoxyCodeLine{520 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{loadCertMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename, \textcolor{keywordtype}{int} type, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *name)}
+\DoxyCodeLine{521 \{}
+\DoxyCodeLine{522   \textcolor{keywordtype}{int} result = 0;}
+\DoxyCodeLine{523   File certFile = SPIFFS.open(filename, \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{524   \textcolor{keywordflow}{if} (!certFile)}
+\DoxyCodeLine{525   \{}
+\DoxyCodeLine{526     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Failed to open file for reading\(\backslash\)n"{}});}
+\DoxyCodeLine{527     \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{528   \}}
+\DoxyCodeLine{529   \textcolor{keywordtype}{int} size = certFile.size();}
+\DoxyCodeLine{530   \textcolor{keywordtype}{byte} *cert = (\textcolor{keywordtype}{byte} *)malloc(size);}
+\DoxyCodeLine{531   \textcolor{keywordflow}{if} (cert == NULL)}
+\DoxyCodeLine{532   \{}
+\DoxyCodeLine{533     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{534     \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{535   \}}
+\DoxyCodeLine{536   certFile.read(cert, size);}
+\DoxyCodeLine{537   certFile.close();}
+\DoxyCodeLine{538   result = \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{setCertMQTT}}(cert, size, type, name);}
+\DoxyCodeLine{539   free(cert);}
+\DoxyCodeLine{540   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{541 \}}
+\DoxyCodeLine{542 }
+\DoxyCodeLine{548 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{setMQTTping}}(\textcolor{keywordtype}{int} timeout)}
+\DoxyCodeLine{549 \{}
+\DoxyCodeLine{550   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{551   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{552 }
+\DoxyCodeLine{553   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_TIMEOUT) + 5);}
+\DoxyCodeLine{554   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{555   \{}
+\DoxyCodeLine{556     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{557     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{558   \}}
+\DoxyCodeLine{559   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d"{}}, AT, SARA\_TIMEOUT, timeout);}
+\DoxyCodeLine{560 }
+\DoxyCodeLine{561   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{562   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{563 }
+\DoxyCodeLine{564   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{565   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_TIMEOUT\_SET\_RESPONSE, 10000))}
+\DoxyCodeLine{566   \{}
+\DoxyCodeLine{567     \textcolor{keywordtype}{char} msgToPrint[50];}
+\DoxyCodeLine{568     sprintf(msgToPrint, \textcolor{stringliteral}{"{}MQTT ping interval set to \%d seconds\(\backslash\)n"{}}, timeout);}
+\DoxyCodeLine{569     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(msgToPrint);}
+\DoxyCodeLine{570     result = 0;}
 \DoxyCodeLine{571   \}}
-\DoxyCodeLine{572   free(command);}
-\DoxyCodeLine{573   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{574 \}}
-\DoxyCodeLine{575 }
-\DoxyCodeLine{580 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enableMQTTkeepalive}}()}
-\DoxyCodeLine{581 \{}
-\DoxyCodeLine{582   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{583   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{584 }
-\DoxyCodeLine{585   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_PING) + 5);}
-\DoxyCodeLine{586   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{587   \{}
-\DoxyCodeLine{588     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{589     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{590   \}}
-\DoxyCodeLine{591   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s"{}}, AT, SARA\_PING);}
-\DoxyCodeLine{592 }
-\DoxyCodeLine{593   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{594   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{595 }
-\DoxyCodeLine{596   \textcolor{comment}{// Wait for the response}}
-\DoxyCodeLine{597   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_PING\_OK, 10000))}
-\DoxyCodeLine{598   \{}
-\DoxyCodeLine{599     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT keepalive enabled\(\backslash\)n"{}});}
-\DoxyCodeLine{600     result = 0;}
-\DoxyCodeLine{601   \}}
-\DoxyCodeLine{602   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{603   \{}
-\DoxyCodeLine{604     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error enabling MQTT keepalive\(\backslash\)n"{}});}
+\DoxyCodeLine{572   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{573   \{}
+\DoxyCodeLine{574     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error setting MQTT ping timeout\(\backslash\)n"{}});}
+\DoxyCodeLine{575   \}}
+\DoxyCodeLine{576   free(command);}
+\DoxyCodeLine{577   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{578 \}}
+\DoxyCodeLine{579 }
+\DoxyCodeLine{584 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enableMQTTkeepalive}}()}
+\DoxyCodeLine{585 \{}
+\DoxyCodeLine{586   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{587   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_PING) + 5);}
+\DoxyCodeLine{590   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{591   \{}
+\DoxyCodeLine{592     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{593     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{594   \}}
+\DoxyCodeLine{595   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s"{}}, AT, SARA\_PING);}
+\DoxyCodeLine{596 }
+\DoxyCodeLine{597   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{598   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{599 }
+\DoxyCodeLine{600   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{601   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_PING\_OK, 10000))}
+\DoxyCodeLine{602   \{}
+\DoxyCodeLine{603     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT keepalive enabled\(\backslash\)n"{}});}
+\DoxyCodeLine{604     result = 0;}
 \DoxyCodeLine{605   \}}
-\DoxyCodeLine{606   free(command);}
-\DoxyCodeLine{607   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{608 \}}
-\DoxyCodeLine{609 }
-\DoxyCodeLine{618 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publishMessage}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *topic, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *message, \textcolor{keywordtype}{int} QoS, \textcolor{keywordtype}{int} retain)}
-\DoxyCodeLine{619 \{}
-\DoxyCodeLine{620   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{621   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{622 }
-\DoxyCodeLine{623   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_SEND\_TIMEOUT = 60000;}
-\DoxyCodeLine{624 }
-\DoxyCodeLine{625   \textcolor{comment}{// printToConsole("{}Allocating memory for command\(\backslash\)n"{});}}
-\DoxyCodeLine{626   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SEND\_MQTT) + strlen(message) + strlen(topic) + 8);}
-\DoxyCodeLine{627   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{628   \{}
-\DoxyCodeLine{629     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Memory allocation failed\(\backslash\)n"{}});}
-\DoxyCodeLine{630     \textcolor{keywordflow}{return} -\/1;}
-\DoxyCodeLine{631   \}}
-\DoxyCodeLine{632   \textcolor{comment}{// printToConsole("{}Building command\(\backslash\)n"{});}}
-\DoxyCodeLine{633   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s,\%d,\%d,\%s,\%s"{}}, AT, SARA\_SEND\_MQTT, QoS, retain, topic, message);}
-\DoxyCodeLine{634 }
-\DoxyCodeLine{635   \textcolor{comment}{// printToConsole("{}Command built....Sending\(\backslash\)n"{});}}
-\DoxyCodeLine{636 }
-\DoxyCodeLine{637   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{638   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{639 }
-\DoxyCodeLine{640   \textcolor{comment}{// printToConsole("{}Command sent....Waiting for response\(\backslash\)n"{});}}
-\DoxyCodeLine{641   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_SEND\_OK, SARA\_SEND\_TIMEOUT))}
-\DoxyCodeLine{642   \{}
-\DoxyCodeLine{643     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Message sent\(\backslash\)n"{}});}
-\DoxyCodeLine{644     result = 0;}
-\DoxyCodeLine{645   \}}
-\DoxyCodeLine{646   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{647   \{}
-\DoxyCodeLine{648     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error sending message\(\backslash\)n"{}});}
+\DoxyCodeLine{606   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{607   \{}
+\DoxyCodeLine{608     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error enabling MQTT keepalive\(\backslash\)n"{}});}
+\DoxyCodeLine{609   \}}
+\DoxyCodeLine{610   free(command);}
+\DoxyCodeLine{611   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{612 \}}
+\DoxyCodeLine{613 }
+\DoxyCodeLine{622 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publishMessage}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *topic, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *message, \textcolor{keywordtype}{int} QoS, \textcolor{keywordtype}{int} retain)}
+\DoxyCodeLine{623 \{}
+\DoxyCodeLine{624   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{625   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{626 }
+\DoxyCodeLine{627   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_SEND\_TIMEOUT = 60000;}
+\DoxyCodeLine{628 }
+\DoxyCodeLine{629   \textcolor{comment}{// printToConsole("{}Allocating memory for command\(\backslash\)n"{});}}
+\DoxyCodeLine{630   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_SEND\_MQTT) + strlen(message) + strlen(topic) + 8);}
+\DoxyCodeLine{631   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{632   \{}
+\DoxyCodeLine{633     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Memory allocation failed\(\backslash\)n"{}});}
+\DoxyCodeLine{634     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{635   \}}
+\DoxyCodeLine{636   \textcolor{comment}{// printToConsole("{}Building command\(\backslash\)n"{});}}
+\DoxyCodeLine{637   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s,\%d,\%d,\%s,\%s"{}}, AT, SARA\_SEND\_MQTT, QoS, retain, topic, message);}
+\DoxyCodeLine{638 }
+\DoxyCodeLine{639   \textcolor{comment}{// printToConsole("{}Command built....Sending\(\backslash\)n"{});}}
+\DoxyCodeLine{640 }
+\DoxyCodeLine{641   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{642   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{643 }
+\DoxyCodeLine{644   \textcolor{comment}{// printToConsole("{}Command sent....Waiting for response\(\backslash\)n"{});}}
+\DoxyCodeLine{645   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_SEND\_OK, SARA\_SEND\_TIMEOUT))}
+\DoxyCodeLine{646   \{}
+\DoxyCodeLine{647     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Message sent\(\backslash\)n"{}});}
+\DoxyCodeLine{648     result = 0;}
 \DoxyCodeLine{649   \}}
-\DoxyCodeLine{650 }
-\DoxyCodeLine{651   free(command);}
-\DoxyCodeLine{652   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{653 \}}
+\DoxyCodeLine{650   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{651   \{}
+\DoxyCodeLine{652     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error sending message\(\backslash\)n"{}});}
+\DoxyCodeLine{653   \}}
 \DoxyCodeLine{654 }
-\DoxyCodeLine{659 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}{loginMQTT}}()}
-\DoxyCodeLine{660 \{}
-\DoxyCodeLine{661   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{662   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 60000;}
-\DoxyCodeLine{663 }
-\DoxyCodeLine{664   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{665   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(SARA\_LOGIN);}
-\DoxyCodeLine{666 }
-\DoxyCodeLine{667   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_LOGIN\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
-\DoxyCodeLine{668   \{}
-\DoxyCodeLine{669     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT login successfull\(\backslash\)n"{}});}
-\DoxyCodeLine{670     result = 0;}
-\DoxyCodeLine{671   \}}
-\DoxyCodeLine{672   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{673   \{}
-\DoxyCodeLine{674     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error logging in to MQTT\(\backslash\)n"{}});}
+\DoxyCodeLine{655   free(command);}
+\DoxyCodeLine{656   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{657 \}}
+\DoxyCodeLine{658 }
+\DoxyCodeLine{663 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}{loginMQTT}}()}
+\DoxyCodeLine{664 \{}
+\DoxyCodeLine{665   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{666   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 60000;}
+\DoxyCodeLine{667 }
+\DoxyCodeLine{668   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{669   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(SARA\_LOGIN);}
+\DoxyCodeLine{670 }
+\DoxyCodeLine{671   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_LOGIN\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{672   \{}
+\DoxyCodeLine{673     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT login successfull\(\backslash\)n"{}});}
+\DoxyCodeLine{674     result = 0;}
 \DoxyCodeLine{675   \}}
-\DoxyCodeLine{676   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{677 \}}
-\DoxyCodeLine{678 }
-\DoxyCodeLine{684 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}{willconfigMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *topic)}
-\DoxyCodeLine{685 \{}
-\DoxyCodeLine{686   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{687   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{688   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
-\DoxyCodeLine{689 }
-\DoxyCodeLine{690   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_WILL\_TOPIC\_MQTT) + strlen(topic) + 10);}
-\DoxyCodeLine{691   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{692   \{}
-\DoxyCodeLine{693     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
-\DoxyCodeLine{694     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{695   \}}
-\DoxyCodeLine{696   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\%d,\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_WILL\_TOPIC\_MQTT, 0, 0, topic);}
-\DoxyCodeLine{697 }
-\DoxyCodeLine{698   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{699   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{700 }
-\DoxyCodeLine{701   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_TOPIC\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
-\DoxyCodeLine{702   \{}
-\DoxyCodeLine{703     Serial.println(\textcolor{stringliteral}{"{}Will topic set\(\backslash\)n"{}});}
-\DoxyCodeLine{704     result = 0;}
-\DoxyCodeLine{705   \}}
-\DoxyCodeLine{706   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{707   \{}
-\DoxyCodeLine{708     Serial.println(\textcolor{stringliteral}{"{}Will topic not set\(\backslash\)n"{}});}
+\DoxyCodeLine{676   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{677   \{}
+\DoxyCodeLine{678     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Error logging in to MQTT\(\backslash\)n"{}});}
+\DoxyCodeLine{679   \}}
+\DoxyCodeLine{680   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{681 \}}
+\DoxyCodeLine{682 }
+\DoxyCodeLine{688 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_a05ff32195e69fc3d74b5bcd78781c5df}{willconfigMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *topic)}
+\DoxyCodeLine{689 \{}
+\DoxyCodeLine{690   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{691   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{692   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{693 }
+\DoxyCodeLine{694   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_WILL\_TOPIC\_MQTT) + strlen(topic) + 10);}
+\DoxyCodeLine{695   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{696   \{}
+\DoxyCodeLine{697     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed"{}});}
+\DoxyCodeLine{698     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{699   \}}
+\DoxyCodeLine{700   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\%d,\%d,\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_WILL\_TOPIC\_MQTT, 0, 0, topic);}
+\DoxyCodeLine{701 }
+\DoxyCodeLine{702   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{703   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{704 }
+\DoxyCodeLine{705   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_TOPIC\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{706   \{}
+\DoxyCodeLine{707     Serial.println(\textcolor{stringliteral}{"{}Will topic set\(\backslash\)n"{}});}
+\DoxyCodeLine{708     result = 0;}
 \DoxyCodeLine{709   \}}
-\DoxyCodeLine{710 }
-\DoxyCodeLine{711   free(command);}
-\DoxyCodeLine{712 }
-\DoxyCodeLine{713   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{714 \}}
-\DoxyCodeLine{715 }
-\DoxyCodeLine{721 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsgMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *message)}
-\DoxyCodeLine{722 \{}
-\DoxyCodeLine{723   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{724   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{725 }
-\DoxyCodeLine{726   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
-\DoxyCodeLine{727 }
-\DoxyCodeLine{728   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_WILL\_MESSAGE\_MQTT) + strlen(message) + 10);}
-\DoxyCodeLine{729   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{730   \{}
-\DoxyCodeLine{731     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{732     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{733   \}}
-\DoxyCodeLine{734   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_WILL\_MESSAGE\_MQTT, message);}
-\DoxyCodeLine{735 }
-\DoxyCodeLine{736   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{737   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{738 }
-\DoxyCodeLine{739   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MESSAGE\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
-\DoxyCodeLine{740   \{}
-\DoxyCodeLine{741     Serial.println(\textcolor{stringliteral}{"{}Will message set\(\backslash\)n"{}});}
-\DoxyCodeLine{742     result = 0;}
-\DoxyCodeLine{743   \}}
-\DoxyCodeLine{744   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{745   \{}
-\DoxyCodeLine{746     Serial.println(\textcolor{stringliteral}{"{}Will message not set\(\backslash\)n"{}});}
+\DoxyCodeLine{710   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{711   \{}
+\DoxyCodeLine{712     Serial.println(\textcolor{stringliteral}{"{}Will topic not set\(\backslash\)n"{}});}
+\DoxyCodeLine{713   \}}
+\DoxyCodeLine{714 }
+\DoxyCodeLine{715   free(command);}
+\DoxyCodeLine{716 }
+\DoxyCodeLine{717   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{718 \}}
+\DoxyCodeLine{719 }
+\DoxyCodeLine{725 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}{willmsgMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *message)}
+\DoxyCodeLine{726 \{}
+\DoxyCodeLine{727   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{728   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{729 }
+\DoxyCodeLine{730   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{731 }
+\DoxyCodeLine{732   command = (\textcolor{keywordtype}{char} *)malloc(strlen(AT) + strlen(SARA\_WILL\_MESSAGE\_MQTT) + strlen(message) + 10);}
+\DoxyCodeLine{733   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{734   \{}
+\DoxyCodeLine{735     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{736     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{737   \}}
+\DoxyCodeLine{738   sprintf(command, \textcolor{stringliteral}{"{}\%s\%s\(\backslash\)"{}\%s\(\backslash\)"{}"{}}, AT, SARA\_WILL\_MESSAGE\_MQTT, message);}
+\DoxyCodeLine{739 }
+\DoxyCodeLine{740   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{741   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{742 }
+\DoxyCodeLine{743   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MESSAGE\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{744   \{}
+\DoxyCodeLine{745     Serial.println(\textcolor{stringliteral}{"{}Will message set\(\backslash\)n"{}});}
+\DoxyCodeLine{746     result = 0;}
 \DoxyCodeLine{747   \}}
-\DoxyCodeLine{748   free(command);}
-\DoxyCodeLine{749   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{750 \}}
-\DoxyCodeLine{751 }
-\DoxyCodeLine{758 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{setMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *host, \textcolor{keywordtype}{int} port)}
-\DoxyCodeLine{759 \{}
-\DoxyCodeLine{760   \textcolor{keywordtype}{int} result = 1;}
-\DoxyCodeLine{761   \textcolor{keywordtype}{char} *command = NULL;}
-\DoxyCodeLine{762   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
-\DoxyCodeLine{763 }
-\DoxyCodeLine{764   command = (\textcolor{keywordtype}{char} *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}) * (strlen(SARA\_CONNECT\_MQTT) + strlen(host) + 15));}
-\DoxyCodeLine{765   \textcolor{keywordflow}{if} (command == NULL)}
-\DoxyCodeLine{766   \{}
-\DoxyCodeLine{767     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
-\DoxyCodeLine{768     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{769   \}}
-\DoxyCodeLine{770   \textcolor{comment}{// Create the command}}
-\DoxyCodeLine{771   sprintf(command, \textcolor{stringliteral}{"{}AT\%s=\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, SARA\_CONNECT\_MQTT, 2, host, port);}
-\DoxyCodeLine{772   \textcolor{comment}{// Send the command}}
-\DoxyCodeLine{773   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Setting MQTT hostname \& port\(\backslash\)n"{}});}
-\DoxyCodeLine{774 }
-\DoxyCodeLine{775   \textcolor{comment}{// Empties buffer and transmits the command}}
-\DoxyCodeLine{776   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
-\DoxyCodeLine{777 }
-\DoxyCodeLine{778   \textcolor{comment}{// Wait for the response}}
-\DoxyCodeLine{779   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_RESPONSE\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
-\DoxyCodeLine{780   \{}
-\DoxyCodeLine{781     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT hostname \& port set\(\backslash\)n"{}});}
-\DoxyCodeLine{782     result = 0;}
-\DoxyCodeLine{783   \}}
-\DoxyCodeLine{784   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{785   \{}
-\DoxyCodeLine{786     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT hostname \& port not set\(\backslash\)n"{}});}
+\DoxyCodeLine{748   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{749   \{}
+\DoxyCodeLine{750     Serial.println(\textcolor{stringliteral}{"{}Will message not set\(\backslash\)n"{}});}
+\DoxyCodeLine{751   \}}
+\DoxyCodeLine{752   free(command);}
+\DoxyCodeLine{753   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{754 \}}
+\DoxyCodeLine{755 }
+\DoxyCodeLine{762 \textcolor{keywordtype}{int} \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{setMQTT}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *host, \textcolor{keywordtype}{int} port)}
+\DoxyCodeLine{763 \{}
+\DoxyCodeLine{764   \textcolor{keywordtype}{int} result = 1;}
+\DoxyCodeLine{765   \textcolor{keywordtype}{char} *command = NULL;}
+\DoxyCodeLine{766   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} SARA\_IP\_CONNECT\_TIMEOUT = 10000;}
+\DoxyCodeLine{767 }
+\DoxyCodeLine{768   command = (\textcolor{keywordtype}{char} *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}) * (strlen(SARA\_CONNECT\_MQTT) + strlen(host) + 15));}
+\DoxyCodeLine{769   \textcolor{keywordflow}{if} (command == NULL)}
+\DoxyCodeLine{770   \{}
+\DoxyCodeLine{771     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Malloc failed\(\backslash\)n"{}});}
+\DoxyCodeLine{772     \textcolor{keywordflow}{return} 2;}
+\DoxyCodeLine{773   \}}
+\DoxyCodeLine{774   \textcolor{comment}{// Create the command}}
+\DoxyCodeLine{775   sprintf(command, \textcolor{stringliteral}{"{}AT\%s=\%d,\(\backslash\)"{}\%s\(\backslash\)"{},\%d"{}}, SARA\_CONNECT\_MQTT, 2, host, port);}
+\DoxyCodeLine{776   \textcolor{comment}{// Send the command}}
+\DoxyCodeLine{777   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Setting MQTT hostname \& port\(\backslash\)n"{}});}
+\DoxyCodeLine{778 }
+\DoxyCodeLine{779   \textcolor{comment}{// Empties buffer and transmits the command}}
+\DoxyCodeLine{780   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
+\DoxyCodeLine{781 }
+\DoxyCodeLine{782   \textcolor{comment}{// Wait for the response}}
+\DoxyCodeLine{783   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_RESPONSE\_OK, SARA\_IP\_CONNECT\_TIMEOUT))}
+\DoxyCodeLine{784   \{}
+\DoxyCodeLine{785     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT hostname \& port set\(\backslash\)n"{}});}
+\DoxyCodeLine{786     result = 0;}
 \DoxyCodeLine{787   \}}
-\DoxyCodeLine{788 }
-\DoxyCodeLine{789   free(command);}
-\DoxyCodeLine{790   \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{791 \}}
+\DoxyCodeLine{788   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{789   \{}
+\DoxyCodeLine{790     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}MQTT hostname \& port not set\(\backslash\)n"{}});}
+\DoxyCodeLine{791   \}}
+\DoxyCodeLine{792 }
+\DoxyCodeLine{793   free(command);}
+\DoxyCodeLine{794   \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{795 \}}
 
 \end{DoxyCode}

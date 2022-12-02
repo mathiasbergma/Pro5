@@ -12,18 +12,19 @@
  * @details   2. Call setAPN() to set the operator APN
  * @details   3. Call getNetwork() to get status of network aquisition
  * @details   4. Call printInfo() to print connection information (TODO)
- * @details   5. Call loadCert() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
+ * @details   5. Call loadCertMQTT() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
  *                    This function is called 3 times, once for each certificate (CA, CERT, KEY)
  * @details   6. Call assignCert() to assign the certificates to a security profile (If using SSL/TLS)
  * @details   7. Call enableSSL() to enable SSL/TLS
- * @details   8. Call setMQTT() to set broker hostname and port
- * @details   9. Call willconfigMQTT() to set Last Will topic
- * @details   10. Call willmsgMQTT() to set Last Will message
- * @details   11. Call setMQTTtimeout() to set MQTT timeout
- * @details   12. Call setMQTTping() to set MQTT keepalive interval
- * @details   13. Call enableMQTTkeepalive() to enable MQTT keepalive
- * @details   14. Call loginMQTT() to login to MQTT broker
- * @details   15. Call publishMessage() to publish message to MQTT broker
+ * @details   8. Call setMQTTid() to set the MQTT ID
+ * @details   8 Call setMQTT() to set broker hostname and port
+ * @details   10. Call willconfigMQTT() to set Last Will topic
+ * @details   11. Call willmsgMQTT() to set Last Will message
+ * @details   12. Call setMQTTtimeout() to set MQTT timeout
+ * @details   13. Call setMQTTping() to set MQTT keepalive interval
+ * @details   14. Call enableMQTTkeepalive() to enable MQTT keepalive
+ * @details   15. Call loginMQTT() to login to MQTT broker
+ * @details   16. Call publishMessage() to publish message to MQTT broker
  */
 
 #include <Arduino.h>
@@ -515,7 +516,7 @@ int setCertMQTT(const byte *cert, int size, int type, const char *name)
  * @param filename Name of the file to read
  * @param type Certificate type. 0 = CA, 1 = client certificate, 2 = client key
  * @param name Certificate name. Can be any name, but must be unique
- * @return -1 if load file fails, return value from setCertMQTT if successful
+ * @return -1 if load file fails, return value from setCertMQTT() if successful
  */
 int loadCertMQTT(const char *filename, int type, const char *name)
 {
@@ -572,6 +573,43 @@ int setMQTTping(int timeout)
   else
   {
     printToConsole("Error setting MQTT ping timeout\n");
+  }
+  free(command);
+  return result;
+}
+
+/**
+ * @brief Sets the MQTT Unique Client ID
+ * @param id Unique client ID
+ * @return 0 if successful, 1 if not, 2 if malloc failed
+ */
+int setMQTTid(const char *id)
+{
+  int result = 1;
+  char *command = NULL;
+
+  command = (char *)malloc(strlen(AT) + strlen(SARA_MQTT_ID) + strlen(id) + 5);
+  if (command == NULL)
+  {
+    printToConsole("Malloc failed\n");
+    return 2;
+  }
+  sprintf(command, "%s%s\"%s\"", AT, SARA_MQTT_ID, id);
+
+  // Empties buffer and transmits the command
+  transmitCommand(command);
+
+  // Wait for the response
+  if (getResponse(SARA_MQTT_ID_SET_RESPONSE, 10000))
+  {
+    char msgToPrint[50];
+    sprintf(msgToPrint, "MQTT client ID set to %s\n", id);
+    printToConsole(msgToPrint);
+    result = 0;
+  }
+  else
+  {
+    printToConsole("Error setting MQTT client ID\n");
   }
   free(command);
   return result;

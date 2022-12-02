@@ -104,7 +104,7 @@ Steps to use this library\+:
 
 
 \begin{DoxyEnumerate}
-\item Call load\+Cert() to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{load\+Cert\+MQTT()}} to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
 \end{DoxyEnumerate}
 
 
@@ -191,7 +191,7 @@ Assigns loaded certificates to a profile.
 Enables MQTT keepalive. 
 
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if malloc failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}\label{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!enableSSL@{enableSSL}}
@@ -209,7 +209,7 @@ Enables SSL/\+TLS for mqtt connection.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if malloc failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}\label{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!getResponse@{getResponse}}
@@ -269,7 +269,7 @@ Reads certificates from filesystem and loads into module.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
--\/1 if load file fails, return value from set\+Cert\+MQTT if successful 
+-\/1 if load file fails, return value from \mbox{\hyperlink{_n_b___r410_m_8h_a1a2a52cca4c1a1964aa1bd6cb7ddd14b}{set\+Cert\+MQTT()}} if successful 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}\label{_n_b___r410_m_8h_ae0c1031eb25784bc3a5ab60e8f3981bf}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!loginMQTT@{loginMQTT}}
@@ -334,7 +334,7 @@ Publishes a message to the MQTT broker.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not, -\/1 if memory allocation failed 
+0 if successful, 1 if not, 2 if memory allocation failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}\label{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setAPN@{setAPN}}
@@ -374,7 +374,7 @@ Transmit certificate data to the LTE shield.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if malloc failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}\label{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setMQTT@{setMQTT}}
@@ -394,7 +394,7 @@ Configures MQTT broker hostname and port.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if memory allocation failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}\label{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setMQTTping@{setMQTTping}}
@@ -412,7 +412,7 @@ Sets the MQTT ping interval.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if malloc failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}\label{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!transmitCommand@{transmitCommand}}
@@ -445,7 +445,7 @@ Configures MQTT Will topic.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if memory allocation failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}\label{_n_b___r410_m_8h_adad4ab35b4d191aaed39087329867277}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!willmsgMQTT@{willmsgMQTT}}
@@ -463,5 +463,5 @@ Configures MQTT Will message.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-0 if successful, 1 if not 
+0 if successful, 1 if not, 2 if memory allocation failed 
 \end{DoxyReturn}

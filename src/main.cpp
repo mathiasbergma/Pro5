@@ -17,14 +17,14 @@
 
 const struct connection_info_t
 {
-  const char *HostName = "bergma.westeurope.cloudapp.azure.com";
+  const char *HostName = "NBIoTLS.azure-devices.net";
   const char *identity = "subscriber";
   const char *username = "NBIoTLS.azure-devices.net/subscriber/?api-version=2021-04-12";
   const char *topic = "devices/subscriber/messages/events/";
   const char *subTopic = "devices/subscriber/inboundmessages/events/";
   const char *SharedAccessKeyName = "iothubowner";
   const char *SharedAccessKey = "iQJQVxmSHgOYmmq1lSHP9Uwpj0Hh+JHJcl0IpllDQLw=";
-  const int Port = 1883;
+  const int Port = 8883;
 } connection_info;
 
 #define POWERPIN 33
@@ -115,6 +115,9 @@ void setup()
 
   // Set the security profile to be used by MQTT
   enableSSL(SEC_PROFILE);
+
+  // Set MQTT ID
+  setMQTTid(connection_info.identity);
 
   // Set broker hostname and port
   setMQTT(connection_info.HostName, connection_info.Port);

@@ -48,6 +48,9 @@ const char SARA_MQTT_SECURE_SET_RESPONSE[] = "+UMQTT: 11,1";
 
 const char SARA_SECURITY_PROFILE[] = "+USECPRF=";
 
+const char SARA_MQTT_ID[] = "+UMQTT=0,"; // 0 is the identity command
+const char SARA_MQTT_ID_SET_RESPONSE[] = "+UMQTT: 0,1";
+
 
 
 #endif //AT_COMMANDS_H
