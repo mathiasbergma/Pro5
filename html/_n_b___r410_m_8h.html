@@ -161,6 +161,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <tr class="memitem:a8c739d69e197ff1a6d151e981a268641"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641">setMQTTping</a> (int timeout)</td></tr>
 <tr class="memdesc:a8c739d69e197ff1a6d151e981a268641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the MQTT ping interval.  <a href="_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641">More...</a><br /></td></tr>
 <tr class="separator:a8c739d69e197ff1a6d151e981a268641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3840813cd59414077f5262fdf13244"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244">setMQTTid</a> (const char *id)</td></tr>
+<tr class="memdesc:a1c3840813cd59414077f5262fdf13244"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the MQTT Unique Client ID.  <a href="_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244">More...</a><br /></td></tr>
+<tr class="separator:a1c3840813cd59414077f5262fdf13244"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3585e6376929a7f5de0b8243b313e98"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_n_b___r410_m_8h.html#ae3585e6376929a7f5de0b8243b313e98">enableMQTTkeepalive</a> ()</td></tr>
 <tr class="memdesc:ae3585e6376929a7f5de0b8243b313e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables MQTT keepalive.  <a href="_n_b___r410_m_8h.html#ae3585e6376929a7f5de0b8243b313e98">More...</a><br /></td></tr>
 <tr class="separator:ae3585e6376929a7f5de0b8243b313e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -210,8 +213,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</li>
 </ol>
 <ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce" title="Configures MQTT broker hostname and port.">setMQTT()</a> to set broker hostname and port</li>
+<li>Call <a class="el" href="_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244" title="Sets the MQTT Unique Client ID.">setMQTTid()</a> to set the MQTT ID</li>
 </ol>
+<p >8 Call <a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce" title="Configures MQTT broker hostname and port.">setMQTT()</a> to set broker hostname and port</p>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a05ff32195e69fc3d74b5bcd78781c5df" title="Configures MQTT Will topic.">willconfigMQTT()</a> to set Last Will topic</li>
 </ol>
@@ -667,6 +671,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if memory allocation failed </dd></dl>
+
+</div>
+</div>
+<a id="a1c3840813cd59414077f5262fdf13244" name="a1c3840813cd59414077f5262fdf13244"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c3840813cd59414077f5262fdf13244">&#9670;&#160;</a></span>setMQTTid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int setMQTTid </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the MQTT Unique Client ID. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>Unique client ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if successful, 1 if not, 2 if malloc failed </dd></dl>
 
 </div>
 </div>

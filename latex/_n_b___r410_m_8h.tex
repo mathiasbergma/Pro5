@@ -51,6 +51,8 @@ int \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{load\+C
 \begin{DoxyCompactList}\small\item\em Reads certificates from filesystem and loads into module. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}{set\+MQTTping}} (int timeout)
 \begin{DoxyCompactList}\small\item\em Sets the MQTT ping interval. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}{set\+MQTTid}} (const char $\ast$id)
+\begin{DoxyCompactList}\small\item\em Sets the MQTT Unique Client ID. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_ae3585e6376929a7f5de0b8243b313e98}{enable\+MQTTkeepalive}} ()
 \begin{DoxyCompactList}\small\item\em Enables MQTT keepalive. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_n_b___r410_m_8h_a92d55d9f690d1e2c337f035700ef5a4e}{publish\+Message}} (const char $\ast$topic, const char $\ast$message, int QoS, int retain)
@@ -119,8 +121,10 @@ Steps to use this library\+:
 
 
 \begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT()}} to set broker hostname and port
+\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}{set\+MQTTid()}} to set the MQTT ID
 \end{DoxyEnumerate}
+
+8 Call \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT()}} to set broker hostname and port
 
 
 \begin{DoxyEnumerate}
@@ -395,6 +399,24 @@ Configures MQTT broker hostname and port.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 0 if successful, 1 if not, 2 if memory allocation failed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}\label{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}} 
+\index{NB\_R410M.h@{NB\_R410M.h}!setMQTTid@{setMQTTid}}
+\index{setMQTTid@{setMQTTid}!NB\_R410M.h@{NB\_R410M.h}}
+\doxysubsubsection{\texorpdfstring{setMQTTid()}{setMQTTid()}}
+{\footnotesize\ttfamily int set\+MQTTid (\begin{DoxyParamCaption}\item[{const char $\ast$}]{id }\end{DoxyParamCaption})}
+
+
+
+Sets the MQTT Unique Client ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Unique client ID \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if successful, 1 if not, 2 if malloc failed 
 \end{DoxyReturn}
 \mbox{\Hypertarget{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}\label{_n_b___r410_m_8h_a8c739d69e197ff1a6d151e981a268641}} 
 \index{NB\_R410M.h@{NB\_R410M.h}!setMQTTping@{setMQTTping}}

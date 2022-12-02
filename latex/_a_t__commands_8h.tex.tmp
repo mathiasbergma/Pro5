@@ -78,6 +78,12 @@ const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+SECURE\+\_\+\+SET\+\_\+\+RESPONSE}
 \item 
 \mbox{\Hypertarget{_a_t__commands_8h_a48cdcccd9d6a34a096696e7e8d12da29}\label{_a_t__commands_8h_a48cdcccd9d6a34a096696e7e8d12da29}} 
 const char {\bfseries SARA\+\_\+\+SECURITY\+\_\+\+PROFILE} \mbox{[}$\,$\mbox{]} = \char`\"{}+USECPRF=\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_a5244a6090017c4cd3073772eb500eb70}\label{_a_t__commands_8h_a5244a6090017c4cd3073772eb500eb70}} 
+const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+ID} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT=0,\char`\"{}
+\item 
+\mbox{\Hypertarget{_a_t__commands_8h_ad4c709ae2893cc698aa58e5157f7ddea}\label{_a_t__commands_8h_ad4c709ae2893cc698aa58e5157f7ddea}} 
+const char {\bfseries SARA\+\_\+\+MQTT\+\_\+\+ID\+\_\+\+SET\+\_\+\+RESPONSE} \mbox{[}$\,$\mbox{]} = \char`\"{}+UMQTT\+: 0,1\char`\"{}
 \end{DoxyCompactItemize}
 
 

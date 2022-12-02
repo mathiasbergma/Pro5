@@ -14,6 +14,7 @@ var _n_b___r410_m_8h =
     [ "setAPN", "_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90", null ],
     [ "setCertMQTT", "_n_b___r410_m_8h.html#a1a2a52cca4c1a1964aa1bd6cb7ddd14b", null ],
     [ "setMQTT", "_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce", null ],
+    [ "setMQTTid", "_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244", null ],
     [ "setMQTTping", "_n_b___r410_m_8h.html#a8c739d69e197ff1a6d151e981a268641", null ],
     [ "transmitCommand", "_n_b___r410_m_8h.html#a301d0294e9c5137ccbc922d3bf7831aa", null ],
     [ "willconfigMQTT", "_n_b___r410_m_8h.html#a05ff32195e69fc3d74b5bcd78781c5df", null ],
