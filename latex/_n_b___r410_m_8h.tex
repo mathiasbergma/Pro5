@@ -84,47 +84,23 @@ This library is based on the u-\/blox SARA-\/\+R4 AT Commands Manual (UBX-\/1700
 
 Steps to use this library\+:
 
+1 Call \mbox{\hyperlink{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}{init\+Module()}} to initialize the module and enable AT interface and Timezone update
 
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a66f862d5c7d16623b90ccf294c1cf055}{init\+Module()}} to initialize the module and enable AT interface and Timezone update
-\end{DoxyEnumerate}
+2 Call \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{set\+APN()}} to set the operator APN
 
+3 Call \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{get\+Network()}} to get status of network aquisition
 
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a155d2d05c4cd7202d2ccec3c482f5e90}{set\+APN()}} to set the operator APN
-\end{DoxyEnumerate}
+4 Call \mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{print\+Info()}} to print connection information (TODO)
 
+5 Call \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{load\+Cert\+MQTT()}} to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
 
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_aa6f75e9b70b0ada28fb438225a155bbb}{get\+Network()}} to get status of network aquisition
-\end{DoxyEnumerate}
+6 Call \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assign\+Cert()}} to assign the certificates to a security profile (If using SSL/\+TLS)
 
+7 Call \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enable\+SSL()}} to enable SSL/\+TLS
 
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a59fb44183e4857c7b1fa0db81abe59f2}{print\+Info()}} to print connection information (TODO)
-\end{DoxyEnumerate}
+8 Call \mbox{\hyperlink{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}{set\+MQTTid()}} to set the MQTT ID
 
-
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_af2822bc89b1ea866056eb4683255223c}{load\+Cert\+MQTT()}} to loads certificates from filesystem and upload to module (If using SSL/\+TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)
-\end{DoxyEnumerate}
-
-
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a2b3052c267ca2e25a73b972c5dead26b}{assign\+Cert()}} to assign the certificates to a security profile (If using SSL/\+TLS)
-\end{DoxyEnumerate}
-
-
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a45ea19fd14a7f7c3d7803940c809dec8}{enable\+SSL()}} to enable SSL/\+TLS
-\end{DoxyEnumerate}
-
-
-\begin{DoxyEnumerate}
-\item Call \mbox{\hyperlink{_n_b___r410_m_8h_a1c3840813cd59414077f5262fdf13244}{set\+MQTTid()}} to set the MQTT ID
-\end{DoxyEnumerate}
-
-8 Call \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT()}} to set broker hostname and port
+9 Call \mbox{\hyperlink{_n_b___r410_m_8h_ac0f44c06684338d6571b119289066fce}{set\+MQTT()}} to set broker hostname and port
 
 
 \begin{DoxyEnumerate}

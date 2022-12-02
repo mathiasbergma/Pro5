@@ -8,16 +8,16 @@
  * @details The function printToConsole() must be populated with the device specific implementation of Serial Print.
  * @details This library is based on the u-blox SARA-R4 AT Commands Manual (UBX-17003787 - R09)
  * @details Steps to use this library:
- * @details   1. Call initModule() to initialize the module and enable AT interface and Timezone update
- * @details   2. Call setAPN() to set the operator APN
- * @details   3. Call getNetwork() to get status of network aquisition
- * @details   4. Call printInfo() to print connection information (TODO)
- * @details   5. Call loadCertMQTT() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
+ * @details   1 Call initModule() to initialize the module and enable AT interface and Timezone update
+ * @details   2 Call setAPN() to set the operator APN
+ * @details   3 Call getNetwork() to get status of network aquisition
+ * @details   4 Call printInfo() to print connection information (TODO)
+ * @details   5 Call loadCertMQTT() to loads certificates from filesystem and upload to module (If using SSL/TLS). 
  *                    This function is called 3 times, once for each certificate (CA, CERT, KEY)
- * @details   6. Call assignCert() to assign the certificates to a security profile (If using SSL/TLS)
- * @details   7. Call enableSSL() to enable SSL/TLS
- * @details   8. Call setMQTTid() to set the MQTT ID
- * @details   8 Call setMQTT() to set broker hostname and port
+ * @details   6 Call assignCert() to assign the certificates to a security profile (If using SSL/TLS)
+ * @details   7 Call enableSSL() to enable SSL/TLS
+ * @details   8 Call setMQTTid() to set the MQTT ID
+ * @details   9 Call setMQTT() to set broker hostname and port
  * @details   10. Call willconfigMQTT() to set Last Will topic
  * @details   11. Call willmsgMQTT() to set Last Will message
  * @details   12. Call setMQTTtimeout() to set MQTT timeout

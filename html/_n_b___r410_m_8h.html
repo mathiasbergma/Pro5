@@ -191,31 +191,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>getNetwork</b> ()</td
 <p >The function <a class="el" href="_n_b___r410_m_8h.html#a46a4e6cfc8eae8ca667e05b6b55f97c1" title="Use this function for your own port of UART print to console.">printToConsole()</a> must be populated with the device specific implementation of Serial Print.</p>
 <p >This library is based on the u-blox SARA-R4 AT Commands Manual (UBX-17003787 - R09)</p>
 <p >Steps to use this library:</p>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055" title="Initializes the LTE Shield and enables AT interface and Timezone update.">initModule()</a> to initialize the module and enable AT interface and Timezone update</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90" title="Sets APN on LTE module.">setAPN()</a> to set the operator APN</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#aa6f75e9b70b0ada28fb438225a155bbb" title="Displays the network aquisition status.">getNetwork()</a> to get status of network aquisition</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2" title="Prints the IP address of the LTE module. The returned pointer must be freed by the caller.">printInfo()</a> to print connection information (TODO)</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c" title="Reads certificates from filesystem and loads into module.">loadCertMQTT()</a> to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b" title="Assigns loaded certificates to a profile.">assignCert()</a> to assign the certificates to a security profile (If using SSL/TLS)</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</li>
-</ol>
-<ol type="1">
-<li>Call <a class="el" href="_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244" title="Sets the MQTT Unique Client ID.">setMQTTid()</a> to set the MQTT ID</li>
-</ol>
-<p >8 Call <a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce" title="Configures MQTT broker hostname and port.">setMQTT()</a> to set broker hostname and port</p>
+<p >1 Call <a class="el" href="_n_b___r410_m_8h.html#a66f862d5c7d16623b90ccf294c1cf055" title="Initializes the LTE Shield and enables AT interface and Timezone update.">initModule()</a> to initialize the module and enable AT interface and Timezone update</p>
+<p >2 Call <a class="el" href="_n_b___r410_m_8h.html#a155d2d05c4cd7202d2ccec3c482f5e90" title="Sets APN on LTE module.">setAPN()</a> to set the operator APN</p>
+<p >3 Call <a class="el" href="_n_b___r410_m_8h.html#aa6f75e9b70b0ada28fb438225a155bbb" title="Displays the network aquisition status.">getNetwork()</a> to get status of network aquisition</p>
+<p >4 Call <a class="el" href="_n_b___r410_m_8h.html#a59fb44183e4857c7b1fa0db81abe59f2" title="Prints the IP address of the LTE module. The returned pointer must be freed by the caller.">printInfo()</a> to print connection information (TODO)</p>
+<p >5 Call <a class="el" href="_n_b___r410_m_8h.html#af2822bc89b1ea866056eb4683255223c" title="Reads certificates from filesystem and loads into module.">loadCertMQTT()</a> to loads certificates from filesystem and upload to module (If using SSL/TLS). This function is called 3 times, once for each certificate (CA, CERT, KEY)</p>
+<p >6 Call <a class="el" href="_n_b___r410_m_8h.html#a2b3052c267ca2e25a73b972c5dead26b" title="Assigns loaded certificates to a profile.">assignCert()</a> to assign the certificates to a security profile (If using SSL/TLS)</p>
+<p >7 Call <a class="el" href="_n_b___r410_m_8h.html#a45ea19fd14a7f7c3d7803940c809dec8" title="Enables SSL/TLS for mqtt connection.">enableSSL()</a> to enable SSL/TLS</p>
+<p >8 Call <a class="el" href="_n_b___r410_m_8h.html#a1c3840813cd59414077f5262fdf13244" title="Sets the MQTT Unique Client ID.">setMQTTid()</a> to set the MQTT ID</p>
+<p >9 Call <a class="el" href="_n_b___r410_m_8h.html#ac0f44c06684338d6571b119289066fce" title="Configures MQTT broker hostname and port.">setMQTT()</a> to set broker hostname and port</p>
 <ol type="1">
 <li>Call <a class="el" href="_n_b___r410_m_8h.html#a05ff32195e69fc3d74b5bcd78781c5df" title="Configures MQTT Will topic.">willconfigMQTT()</a> to set Last Will topic</li>
 </ol>
