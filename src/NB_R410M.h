@@ -20,11 +20,10 @@
  * @details   9 Call setMQTT() to set broker hostname and port
  * @details   10 Call willconfigMQTT() to set Last Will topic
  * @details   11 Call willmsgMQTT() to set Last Will message
- * @details   12 Call setMQTTtimeout() to set MQTT timeout
- * @details   13 Call setMQTTping() to set MQTT keepalive interval
- * @details   14 Call enableMQTTkeepalive() to enable MQTT keepalive
- * @details   15 Call loginMQTT() to login to MQTT broker
- * @details   16 Call publishMessage() to publish message to MQTT broker
+ * @details   12 Call setMQTTping() to set MQTT keepalive interval
+ * @details   13 Call enableMQTTkeepalive() to enable MQTT keepalive
+ * @details   14 Call loginMQTT() to login to MQTT broker
+ * @details   15 Call publishMessage() to publish message to MQTT broker
  */
 
 #include <Arduino.h>

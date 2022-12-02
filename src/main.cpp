@@ -17,7 +17,7 @@
 
 const struct connection_info_t
 {
-  const char *HostName = "NBIoTLS.azure-devices.net";
+  const char *HostName = "NBIoTLS.azure-devices.net ";
   const char *identity = "subscriber";
   const char *username = "NBIoTLS.azure-devices.net/subscriber/?api-version=2021-04-12";
   const char *topic = "devices/subscriber/messages/events/";
