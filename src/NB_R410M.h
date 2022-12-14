@@ -196,7 +196,7 @@ int enableSSL(int profile)
  * @brief Assigns loaded certificates to a profile
  * @param profile SSL profile number
  * @param certName Certificate name assigned when loading certificate
- * @param certType Certificate type, 3 for CA, 5 for CERT, 6 for KEY
+ * @param certType Certificate type, 3 for CA, 4 for expected hostname, 5 for CERT, 6 for KEY
  * @return 0 if successful, 1 if not, 2 if malloc failed
  */
 int assignCert(int profile, const char *certName, int certType)

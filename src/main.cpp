@@ -6,7 +6,7 @@
 // LTE_Shield lte;
 
 #define SerialMonitor Serial
-#define CA_FILE "/ca.pem"
+#define CA_FILE "/MS.der"
 #define CERT_FILE "/nb1_cert.der"
 #define KEY_FILE "/nb1_key.der"
 
@@ -111,6 +111,7 @@ void setup()
 
 
   // Assign the certificates to a security profile
+  assignCert(SEC_PROFILE, connection_info.HostName, 4);
   assignCert(SEC_PROFILE, CA_NAME, 3);
   assignCert(SEC_PROFILE, CERT_NAME, 5);
   assignCert(SEC_PROFILE, KEY_NAME, 6);
