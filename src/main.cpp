@@ -7,7 +7,7 @@
 
 #define SerialMonitor Serial
 #define CA_FILE "/ca.pem"
-#define CERT_FILE "/cert.der"
+#define CERT_FILE "/certificate.der"
 #define KEY_FILE "/key.der"
 
 #define CA_NAME "ca"
@@ -17,11 +17,11 @@
 
 const struct connection_info_t
 {
-  const char *HostName = "NBIoTLS.azure-devices.net ";
+  const char *HostName = "NBIoTLS.azure-devices.net";
   const char *identity = "subscriber";
   const char *username = "NBIoTLS.azure-devices.net/subscriber/?api-version=2021-04-12";
   const char *topic = "devices/subscriber/messages/events/";
-  const char *subTopic = "devices/subscriber/inboundmessages/events/";
+  const char *subTopic = "devices/subscribe/messages/devicebound/#";
   const char *SharedAccessKeyName = "iothubowner";
   const char *SharedAccessKey = "iQJQVxmSHgOYmmq1lSHP9Uwpj0Hh+JHJcl0IpllDQLw=";
   const int Port = 8883;
@@ -63,9 +63,9 @@ void setup()
   digitalWrite(POWERPIN, LOW);
   delay(100);
   pinMode(POWERPIN, INPUT); // Return to high-impedance, rely on SARA module internal pull-up
-
+  delay(1000);
   // Initialize the LTE Shield and enable AT interface and Timezone update
-  if (!initModule(120000))
+  if (initModule(30000))
   {
     SerialMonitor.println(F("Failed to initialize the LTE Shield!"));
     while (1)
@@ -76,7 +76,9 @@ void setup()
       }
       if (SerialMonitor.available())
       {
-        LTEShieldSerial.write((char)SerialMonitor.read());
+        char c = SerialMonitor.read();
+        SerialMonitor.write(c);
+        LTEShieldSerial.write(c);
       }
     }
   }
@@ -150,7 +152,9 @@ void loop()
   }
   if (SerialMonitor.available())
   {
-    LTEShieldSerial.write((char)SerialMonitor.read());
+    char c = SerialMonitor.read();
+    SerialMonitor.write(c);
+    LTEShieldSerial.write(c);
   }
 #endif
 

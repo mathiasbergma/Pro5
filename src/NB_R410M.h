@@ -113,8 +113,7 @@ int initModule(int timeout)
 {
   LTEShieldSerial.begin(115200);
   unsigned long startTime = millis();
-  
-  printToConsole("Transmitting AT\n");
+  printToConsole("Transmitting AT\n"); 
   while (!getResponse("OK", 500))
   {
     printToConsole(".");
@@ -122,6 +121,7 @@ int initModule(int timeout)
     
     if (millis() - startTime > timeout)
     {
+      printToConsole("No response from module\n");
       return 1;
     }
   }
@@ -180,12 +180,12 @@ int enableSSL(int profile)
   transmitCommand(command);
   if (getResponse(SARA_MQTT_SECURE_SET_RESPONSE, 5000))
   {
-    printToConsole("SSL enabled");
+    printToConsole("SSL enabled\n");
     returnVal = 0;
   }
   else
   {
-    printToConsole("SSL not enabled");
+    printToConsole("SSL not enabled\n");
     returnVal = 1;
   }
   free(command);
