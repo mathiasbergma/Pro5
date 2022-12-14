@@ -7,8 +7,8 @@
 
 #define SerialMonitor Serial
 #define CA_FILE "/ca.pem"
-#define CERT_FILE "/certificate.der"
-#define KEY_FILE "/key.der"
+#define CERT_FILE "/nb1_cert.der"
+#define KEY_FILE "/nb1_key.der"
 
 #define CA_NAME "ca"
 #define CERT_NAME "cert"
@@ -18,10 +18,10 @@
 const struct connection_info_t
 {
   const char *HostName = "NBIoTLS.azure-devices.net";
-  const char *identity = "subscriber";
-  const char *username = "NBIoTLS.azure-devices.net/subscriber/?api-version=2021-04-12";
-  const char *topic = "devices/subscriber/messages/events/";
-  const char *subTopic = "devices/subscribe/messages/devicebound/#";
+  const char *identity = "nb1";
+  const char *username = "NBIoTLS.azure-devices.net/nb1/?api-version=2021-04-12";
+  const char *topic = "devices/nb1/messages/events/";
+  const char *subTopic = "devices/nb1/messages/devicebound/#";
   const char *SharedAccessKeyName = "iothubowner";
   const char *SharedAccessKey = "iQJQVxmSHgOYmmq1lSHP9Uwpj0Hh+JHJcl0IpllDQLw=";
   const int Port = 8883;
