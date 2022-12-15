@@ -71,15 +71,15 @@
 \DoxyCodeLine{113 \{}
 \DoxyCodeLine{114   LTEShieldSerial.begin(115200);}
 \DoxyCodeLine{115   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} startTime = millis();}
-\DoxyCodeLine{116   }
-\DoxyCodeLine{117   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Transmitting AT\(\backslash\)n"{}});}
-\DoxyCodeLine{118   \textcolor{keywordflow}{while} (!\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 500))}
-\DoxyCodeLine{119   \{}
-\DoxyCodeLine{120     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
-\DoxyCodeLine{121     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT"{}}); \textcolor{comment}{// Send AT command to enable the interface}}
-\DoxyCodeLine{122     }
-\DoxyCodeLine{123     \textcolor{keywordflow}{if} (millis() -\/ startTime > timeout)}
-\DoxyCodeLine{124     \{}
+\DoxyCodeLine{116   \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}Transmitting AT\(\backslash\)n"{}}); }
+\DoxyCodeLine{117   \textcolor{keywordflow}{while} (!\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(\textcolor{stringliteral}{"{}OK"{}}, 500))}
+\DoxyCodeLine{118   \{}
+\DoxyCodeLine{119     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{120     \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(\textcolor{stringliteral}{"{}AT"{}}); \textcolor{comment}{// Send AT command to enable the interface}}
+\DoxyCodeLine{121     }
+\DoxyCodeLine{122     \textcolor{keywordflow}{if} (millis() -\/ startTime > timeout)}
+\DoxyCodeLine{123     \{}
+\DoxyCodeLine{124       \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}No response from module\(\backslash\)n"{}});}
 \DoxyCodeLine{125       \textcolor{keywordflow}{return} 1;}
 \DoxyCodeLine{126     \}}
 \DoxyCodeLine{127   \}}
@@ -133,12 +133,12 @@
 \DoxyCodeLine{180   \mbox{\hyperlink{_n_b___r410_m_8h_a301d0294e9c5137ccbc922d3bf7831aa}{transmitCommand}}(command);}
 \DoxyCodeLine{181   \textcolor{keywordflow}{if} (\mbox{\hyperlink{_n_b___r410_m_8h_a2540498d294eca76534a8015310df26d}{getResponse}}(SARA\_MQTT\_SECURE\_SET\_RESPONSE, 5000))}
 \DoxyCodeLine{182   \{}
-\DoxyCodeLine{183     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL enabled"{}});}
+\DoxyCodeLine{183     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL enabled\(\backslash\)n"{}});}
 \DoxyCodeLine{184     returnVal = 0;}
 \DoxyCodeLine{185   \}}
 \DoxyCodeLine{186   \textcolor{keywordflow}{else}}
 \DoxyCodeLine{187   \{}
-\DoxyCodeLine{188     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL not enabled"{}});}
+\DoxyCodeLine{188     \mbox{\hyperlink{_n_b___r410_m_8h_a46a4e6cfc8eae8ca667e05b6b55f97c1}{printToConsole}}(\textcolor{stringliteral}{"{}SSL not enabled\(\backslash\)n"{}});}
 \DoxyCodeLine{189     returnVal = 1;}
 \DoxyCodeLine{190   \}}
 \DoxyCodeLine{191   free(command);}

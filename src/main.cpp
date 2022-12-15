@@ -1,9 +1,9 @@
 #include <Arduino.h>
-//#include "certs.h"
+
 #include "AT_commands.h"
 #include "NB_R410M.h"
 
-// LTE_Shield lte;
+
 
 #define SerialMonitor Serial
 #define CA_FILE "/MS.der"
@@ -13,7 +13,7 @@
 #define CA_NAME "ca"
 #define CERT_NAME "cert"
 #define KEY_NAME "key"
-#define SEC_PROFILE 0
+#define SEC_PROFILE 2
 
 const struct connection_info_t
 {
@@ -30,7 +30,6 @@ const struct connection_info_t
 #define POWERPIN 33
 
 // APN -- Access Point Name. Gateway between GPRS MNO
-// and another computer network. E.g. "hologram
 const char APN[] = "lpwa.telia.iot";
 
 #define DEBUG_PASSTHROUGH_ENABLED
